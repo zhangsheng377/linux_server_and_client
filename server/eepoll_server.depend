@@ -1,0 +1,19 @@
+# depslib dependency file v1.0
+1462424185 source:/home/zsd/桌面/epoll/server/server.cpp
+	"utility.h"
+
+1462424287 /home/zsd/桌面/epoll/server/utility.h
+	<iostream>
+	<list>
+	<sys/types.h>
+	<sys/socket.h>
+	<netinet/in.h>
+	<arpa/inet.h>
+	<sys/epoll.h>
+	<fcntl.h>
+	<errno.h>
+	<unistd.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
