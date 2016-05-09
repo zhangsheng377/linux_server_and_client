@@ -7,7 +7,7 @@ vector<int> sockets(CLIENTNUM);
 
 int main(int argc, char *argv[])
 {
-//用户连接的服务器 IP + port
+    //用户连接的服务器 IP + port
     struct sockaddr_in serverAddr;
     serverAddr.sin_family = PF_INET;
     serverAddr.sin_port = htons(SERVER_PORT);
@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
     if(epfd < 0)
     {
         perror("epfd error");
-        exit(-1);
+        return -1;
     }
     static struct epoll_event events[EPOLL_SIZE];
 
@@ -74,13 +74,19 @@ int main(int argc, char *argv[])
                 continue;
             }
 
-            printf("Please input the message: ");
+            printf("Please input the code: ");
             // 聊天信息缓冲区
             char message[BUF_SIZE];
             cin>>message;
-            cout<<"message = "<<message<<endl;
+            cout<<"code = "<<message<<endl;
+            CLIENT client;
+            client.ID=ID;
+            client.socketfd=sockets[ID];
+            strcpy(client.code,message);
             // 将信息发送给服务端
-            send(sockets[ID], message, BUF_SIZE, 0);
+            char client_msg[BUF_SIZE];
+            memcpy(client_msg,&client,sizeof(CLIENT));
+            send(sockets[ID],client_msg, BUF_SIZE, 0);
         }
     }
     else   //pid > 0 父进程

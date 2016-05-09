@@ -30,6 +30,23 @@ using namespace std;
 //message buffer size
 #define BUF_SIZE 0xFFFF
 
+class CLIENT
+{
+public:
+    int ID;
+    char code[128];
+    int action;
+    int type;
+    int socketfd;
+    CLIENT();
+};
+CLIENT::CLIENT()
+{
+    ID=-1;
+    action=1;
+    type=2;
+}
+
 /********************** some function **************************/
 /**
 * @param sockfd: socket descriptor

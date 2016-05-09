@@ -17,8 +17,25 @@
 
 using namespace std;
 
+class CLIENT
+{
+public:
+    int ID;
+    char code[128];
+    int action;
+    int type;
+    int socketfd;
+    CLIENT();
+};
+CLIENT::CLIENT()
+{
+    ID=-1;
+    action=1;
+    type=2;
+}
 // clients_list save all the clients's socket
 list<int> clients_list;
+list<CLIENT> client_list;
 
 /********************** macro defintion **************************/
 // server ip
@@ -29,11 +46,8 @@ list<int> clients_list;
 #define EPOLL_SIZE 5000
 //message buffer size
 #define BUF_SIZE 0xFFFF
-#define SERVER_WELCOME "Welcome you join to the chat room! Your chat ID is: Client #%d"
-#define SERVER_MESSAGE "ClientID %d say >> %s"
-// exit
-#define EXIT "EXIT"
-#define CAUTION "There is only one int the char room!"
+
+
 
 /********************** some function **************************/
 /**
@@ -66,7 +80,7 @@ void addfd( int epollfd, int fd, bool enable_et )
 * @param clientfd: socket descriptor
 * @return : len
 **/
-int sendBroadcastmessage(int clientfd)
+/*int sendBroadcastmessage(int clientfd)
 {
 // buf[BUF_SIZE] receive new chat message
 // message[BUF_SIZE] save format message
@@ -106,6 +120,9 @@ int sendBroadcastmessage(int clientfd)
         }
     }
     return len;
-}
+}*/
+
+
+
 #endif // UTILITY_H_INCLUDED
 
