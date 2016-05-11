@@ -29,6 +29,7 @@ using namespace std;
 #define EPOLL_SIZE 5000
 //message buffer size
 #define BUF_SIZE 0xFFFF
+const int ORDER_LEN=2;
 
 class CLIENT
 {

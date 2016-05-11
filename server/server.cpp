@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
             perror("epoll failure");
             break;
         }
-        printf("epoll_events_count = %d\n", epoll_events_count);
+        //printf("epoll_events_count = %d\n", epoll_events_count);
         //处理这epoll_events_count个就绪事件
         for(int i = 0; i < epoll_events_count; ++i)
         {
@@ -70,32 +70,30 @@ int main(int argc, char *argv[])
                 addfd(epfd, clientfd, true);
 
                 // 服务端用list保存用户连接
-                clients_list.push_back(clientfd);
+                //clients_list.push_back(clientfd);
                 CLIENT client;
                 client.socketfd=clientfd;
                 clients_map[clientfd]=client;
-                printf("Add new socketfd = %d to epoll\n", clientfd);
-                printf("Now there are %d clients int the chat room\n", (int)clients_list.size());
+                //printf("Add new socketfd = %d to epoll\n", clientfd);
+                printf("Now there are %d clients int the chat room\n\n", (int)clients_map.size());//zsd
             }
             //处理用户发来的消息
             else
             {
-                printf("start recv\n");
                 // buf[BUF_SIZE] receive new chat message
                 char buf[BUF_SIZE];
                 bzero(buf, BUF_SIZE);
                 // receive message
                 //printf("read from client(clientID = %d)\n", sockfd);
                 int len = recv(sockfd, buf, BUF_SIZE, 0);
-                printf("recv ok\n");
                 buf[len]='\0';
                 if(len == 0) // len = 0 means the client closed connection
                 {
                     close(sockfd);
-                    clients_list.remove(sockfd); //server remove the client
+                    //clients_list.remove(sockfd); //server remove the client
                     map<int,CLIENT>::iterator map_it;
                     map_it=clients_map.find(sockfd);
-                    printf("ClientID = %d closed.\n now there are %d client in the char room\n", clients_map[sockfd].ID, (int)clients_list.size());
+                    printf("ClientID = %d closed.\n now there are %d client in the char room\n", clients_map[sockfd].ID, (int)clients_map.size());//zsd
                     clients_map.erase(map_it);
                 }
                 else if(len < 0)
@@ -103,20 +101,49 @@ int main(int argc, char *argv[])
                     perror("error");
                     return -1;
                 }
-                printf("start memcpy\n");
-                CLIENT client;
-                memcpy(&client,buf,sizeof(buf));
-                clients_map[sockfd]=client;
-                printf("ClientID = %d comes.\n", clients_map[sockfd].ID);
-                //send back message
-                char message[BUF_SIZE];
-                bzero(message, BUF_SIZE);
-                // format message
-                sprintf(message, "Server received ClientID=%d 's message.\n",clients_map[sockfd].ID);
-                if( send(sockfd, message, BUF_SIZE, 0) < 0 )
+                else
                 {
-                    perror("error");
-                    return -1;
+                    char order[ORDER_LEN+1],message[BUF_SIZE];
+                    bzero(order, ORDER_LEN+1);
+                    bzero(message, BUF_SIZE);
+                    strncat(order,buf,ORDER_LEN);
+                    strcat(message,&buf[ORDER_LEN]);
+                    printf("order= %s\n",order);
+                    if(strcmp(order,"00")==0)//接收结构体
+                    {
+                        CLIENT client;
+                        memcpy(&client,message,sizeof(message));
+                        clients_map[sockfd]=client;
+                        printf("ClientID = %d comes.\n", clients_map[sockfd].ID);
+                        //send back message
+                        char message_send[BUF_SIZE];
+                        bzero(message_send, BUF_SIZE);
+                        // format message
+                        sprintf(message_send, "Server received ClientID=%d 's message.\n",clients_map[sockfd].ID);
+                        if( send(sockfd, message_send, BUF_SIZE, 0) < 0 )
+                        {
+                            perror("error");
+                            return -1;
+                        }
+                    }
+                    else
+                    {
+                        if(clients_map[sockfd].ID==-1)
+                        {
+                            char message_send[BUF_SIZE];
+                            bzero(message_send, BUF_SIZE);
+                            sprintf(message_send, "Server says: Please send the client's info first.\n");
+                            send(sockfd, message_send, BUF_SIZE, 0);
+                        }
+                        else
+                        {
+                            printf("ClientID = %d says: %s\n", clients_map[sockfd].ID,message);
+                            char message_send[BUF_SIZE];
+                            bzero(message_send, BUF_SIZE);
+                            sprintf(message_send, "Server received ClientID=%d 's message.\n",clients_map[sockfd].ID);
+                            send(sockfd, message_send, BUF_SIZE, 0);
+                        }
+                    }
                 }
             }
         }

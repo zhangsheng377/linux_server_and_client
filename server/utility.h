@@ -34,8 +34,7 @@ CLIENT::CLIENT()
     type=2;
 }
 // clients_list save all the clients's socket
-list<int> clients_list;
-list<CLIENT> client_list;
+//list<int> clients_list;
 
 /********************** macro defintion **************************/
 // server ip
@@ -46,6 +45,7 @@ list<CLIENT> client_list;
 #define EPOLL_SIZE 5000
 //message buffer size
 #define BUF_SIZE 0xFFFF
+const int ORDER_LEN=2;
 
 
 
@@ -73,7 +73,7 @@ void addfd( int epollfd, int fd, bool enable_et )
     if( enable_et ) ev.events = EPOLLIN | EPOLLET;
     epoll_ctl(epollfd, EPOLL_CTL_ADD, fd, &ev);
     setnonblocking(fd);
-    printf("fd added to epoll!\n\n");
+    //printf("fd added to epoll!\n");
 }
 
 /**

@@ -1,7 +1,7 @@
 #include "utility.h"
 #include<vector>
 
-const int CLIENTNUM=101;
+const int CLIENTNUM=1001;
 vector<int> sockets(CLIENTNUM);
 
 
@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
     }
     static struct epoll_event events[EPOLL_SIZE];
 
-    for(int c_i=1; c_i<CLIENTNUM+1; c_i++)//最后4个会创建不了，查查服务器代码
+    for(int c_i=1; c_i<CLIENTNUM+1; c_i++)//最后4个会创建不了，查查服务器代码。貌似解决了
     {
         // 创建socket
         sockets[c_i]= socket(PF_INET, SOCK_STREAM, 0);
@@ -74,19 +74,43 @@ int main(int argc, char *argv[])
                 continue;
             }
 
-            printf("Please input the code: ");
+            printf("Please input the order: ");
             // 聊天信息缓冲区
-            char message[BUF_SIZE];
-            cin>>message;
-            cout<<"code = "<<message<<endl;
-            CLIENT client;
-            client.ID=ID;
-            client.socketfd=sockets[ID];
-            strcpy(client.code,message);
-            // 将信息发送给服务端
-            char client_msg[BUF_SIZE];
-            memcpy(client_msg,&client,sizeof(CLIENT));
-            send(sockets[ID],client_msg, BUF_SIZE, 0);
+            char order[BUF_SIZE];
+            bzero(order, BUF_SIZE);
+            cin>>order;
+            //cout<<"code = "<<message<<endl;
+            if(strcmp(order,"00")==0)
+            {
+                CLIENT client;
+                client.ID=ID;
+                client.socketfd=sockets[ID];
+                //strcpy(client.code,message);
+                // 将信息发送给服务端
+                char client_info[BUF_SIZE];
+                bzero(client_info, BUF_SIZE);
+                memcpy(client_info,&client,sizeof(CLIENT));
+                char message[BUF_SIZE];
+                bzero(message, BUF_SIZE);
+                strcat(message,order);
+                strcat(&message[ORDER_LEN],client_info);
+                send(sockets[ID],message, BUF_SIZE, 0);
+                printf("send message: %s\n",message);
+            }
+            else
+            {
+                printf("Please input the message: ");
+                // 聊天信息缓冲区
+                char msg[BUF_SIZE];
+                bzero(msg, BUF_SIZE);
+                char message[BUF_SIZE];
+                bzero(message, BUF_SIZE);
+                cin>>msg;
+                strcat(message,order);
+                strcat(&message[ORDER_LEN],msg);
+                send(sockets[ID],message, BUF_SIZE, 0);
+                printf("send message: %s\n",message);
+            }
         }
     }
     else   //pid > 0 父进程
@@ -120,6 +144,17 @@ int main(int argc, char *argv[])
         }//while
     }
 
+/*if(pid)
+    {
+        //关闭父进程和sock
+        close(pipe_fd[0]);
+        close(sock);
+    }
+    else
+    {
+        //关闭子进程
+        close(pipe_fd[1]);
+    }*/
 
     return 0;
 }
