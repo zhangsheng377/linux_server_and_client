@@ -4,7 +4,6 @@
 const int CLIENTNUM=1001;
 vector<int> sockets(CLIENTNUM);
 
-
 int main(int argc, char *argv[])
 {
     //用户连接的服务器 IP + port
@@ -37,9 +36,20 @@ int main(int argc, char *argv[])
             return -1;
         }
 
-        //将sock和管道读端描述符都添加到内核事件表中
+        //将sock添加到内核事件表中
         addfd(epfd, sockets[c_i], true);
     }
+
+    // 创建管道，其中fd[0]用于父进程读，fd[1]用于子进程写
+    int pipe_fd[2];
+    if(pipe(pipe_fd) < 0)
+    {
+        perror("pipe error");
+        return -1;
+    }
+
+    //将管道读端描述符添加到内核事件表中
+    addfd(epfd, pipe_fd[0], true);
 
     // Fork
     int pid = fork();
@@ -50,8 +60,11 @@ int main(int argc, char *argv[])
     }
     else if(pid == 0)   // 子进程
     {
-        sleep(1);
-        while(true)
+        //子进程负责写入管道，因此关闭读端
+        close(pipe_fd[0]);
+
+        bool isClientwork=true;
+        while(isClientwork)
         {
             sleep(1);
             //cout<<"end sleep"<<endl;
@@ -80,9 +93,12 @@ int main(int argc, char *argv[])
             bzero(order, BUF_SIZE);
             cin>>order;
             //cout<<"code = "<<message<<endl;
+            char message[BUF_SIZE];
+            bzero(message, BUF_SIZE);
             if(strcmp(order,"00")==0)
             {
-                CLIENT client;
+                sprintf(message,"%s %d %s",order,ID," ");
+                /*CLIENT client;
                 client.ID=ID;
                 client.socketfd=sockets[ID];
                 //strcpy(client.code,message);
@@ -93,9 +109,12 @@ int main(int argc, char *argv[])
                 char message[BUF_SIZE];
                 bzero(message, BUF_SIZE);
                 strcat(message,order);
-                strcat(&message[ORDER_LEN],client_info);
-                send(sockets[ID],message, BUF_SIZE, 0);
-                printf("send message: %s\n",message);
+                strcat(&message[ORDER_LEN],client_info);*/
+                //send(sockets[ID],message, BUF_SIZE, 0);
+            }
+            else if(strcmp(order,"-1")==0)//关闭当前socket
+            {
+                sprintf(message,"%s %d %s",order,ID,"END");
             }
             else
             {
@@ -103,18 +122,28 @@ int main(int argc, char *argv[])
                 // 聊天信息缓冲区
                 char msg[BUF_SIZE];
                 bzero(msg, BUF_SIZE);
-                char message[BUF_SIZE];
-                bzero(message, BUF_SIZE);
+                //char message[BUF_SIZE];
+                //bzero(message, BUF_SIZE);
                 cin>>msg;
-                strcat(message,order);
-                strcat(&message[ORDER_LEN],msg);
-                send(sockets[ID],message, BUF_SIZE, 0);
-                printf("send message: %s\n",message);
+                //strcat(message,order);
+                //strcat(&message[ORDER_LEN],msg);
+                //send(sockets[ID],message, BUF_SIZE, 0);
+                //printf("send message: %s\n",message);
+                sprintf(message,"%s %d %s",order,ID,msg);
             }
+            // 子进程将信息写入管道
+            if( write(pipe_fd[1], message, strlen(message)  ) < 0 )//zsd
+            {
+                perror("fork error");
+                return -1;
+            }
+            //printf("send message: %s\n",message);
         }
     }
     else   //pid > 0 父进程
     {
+        //父进程负责读管道数据，因此先关闭写端
+        close(pipe_fd[1]);
         bool isClientwork=true;
         while(isClientwork)
         {
@@ -124,37 +153,95 @@ int main(int argc, char *argv[])
             {
                 // 聊天信息缓冲区
                 char message[BUF_SIZE];
-                bzero(&message, BUF_SIZE);
-
-                //服务端发来消息
-                int sock=events[i].data.fd;
-                //接受服务端消息
-                int ret = recv(sock, message, BUF_SIZE, 0);
-
-                // ret= 0 服务端关闭
-                if(ret == 0)
+                bzero(message, BUF_SIZE);
+                if(events[i].data.fd == pipe_fd[0])
                 {
-                    printf("Server closed connection: %d\n", sock);
-                    //进程退出后自动关闭所有socket
-                    isClientwork = false;
+                    char order[BUF_SIZE];
+                    bzero(order, BUF_SIZE);
+                    int ID;
+                    char IDchars[BUF_SIZE];
+                    bzero(IDchars, BUF_SIZE);
+                    char msg[BUF_SIZE];
+                    bzero(msg, BUF_SIZE);
+                    //从管道读子进程键盘输入的指令
+                    int ret = read(events[i].data.fd, message, BUF_SIZE);
+                    if(ret == 0)
+                    {
+                        //isClientwork = 0;
+                    }
+                    else
+                    {
+                        sscanf(message,"%s %d %s",order,&ID,msg);
+                        printf("msg = %s\n",msg);
+                        //ID=atoi(IDchars);
+                        if(strcmp(order,"00")==0)
+                        {
+                            char send_message[BUF_SIZE];
+                            bzero(send_message, BUF_SIZE);
+                            CLIENT client;
+                            client.ID=ID;
+                            client.socketfd=sockets[ID];
+                            // 将信息发送给服务端
+                            char client_info[BUF_SIZE];
+                            bzero(client_info, BUF_SIZE);
+                            memcpy(client_info,&client,sizeof(CLIENT));
+                            strcat(send_message,order);
+                            strcat(&send_message[ORDER_LEN],client_info);
+                            send(sockets[ID],send_message, BUF_SIZE, 0);
+                            printf("send message: %s\n",send_message);
+                        }
+                        else if(strcmp(order,"-1")==0)//关闭当前socket
+                        {
+                            //
+                        }
+                        else
+                        {
+                            char send_message[BUF_SIZE];
+                            bzero(send_message, BUF_SIZE);
+                            strcat(send_message,order);
+                            strcat(&send_message[ORDER_LEN],msg);
+                            send(sockets[ID],send_message, BUF_SIZE, 0);
+                            printf("send message: %s\n",send_message);
+                        }
+                    }
                 }
-                else printf("%s\n", message);
+                else//从服务器接收的
+                {
+                    // 聊天信息缓冲区
+                    //char message[BUF_SIZE];
+                    //bzero(&message, BUF_SIZE);//?
 
+                    //服务端发来消息
+                    int sock=events[i].data.fd;
+                    //接受服务端消息
+                    int ret = recv(sock, message, BUF_SIZE, 0);
+
+                    // ret= 0 服务端关闭
+                    if(ret == 0)
+                    {
+                        printf("Server closed connection: %d\n", sock);
+                        //进程退出后自动关闭所有socket
+                        isClientwork = false;
+                    }
+                    else printf("%s\n", message);
+                }
             }//for
         }//while
     }
 
-/*if(pid)
+    if(pid)
     {
         //关闭父进程和sock
-        close(pipe_fd[0]);
-        close(sock);
+        printf("close the father thread.\n");
+        //close(pipe_fd[0]);
+        //close(sock);
     }
     else
     {
         //关闭子进程
-        close(pipe_fd[1]);
-    }*/
+        printf("close the son thread.\n");
+        //close(pipe_fd[1]);
+    }
 
     return 0;
 }

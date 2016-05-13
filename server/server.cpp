@@ -86,14 +86,14 @@ int main(int argc, char *argv[])
                 // receive message
                 //printf("read from client(clientID = %d)\n", sockfd);
                 int len = recv(sockfd, buf, BUF_SIZE, 0);
-                buf[len]='\0';
+                buf[len+1]='\0';//zsd
                 if(len == 0) // len = 0 means the client closed connection
                 {
                     close(sockfd);
                     //clients_list.remove(sockfd); //server remove the client
                     map<int,CLIENT>::iterator map_it;
                     map_it=clients_map.find(sockfd);
-                    printf("ClientID = %d closed.\n now there are %d client in the char room\n", clients_map[sockfd].ID, (int)clients_map.size());//zsd
+                    printf("ClientID = %d closed.\n now there are %d client in the char room\n", clients_map[sockfd].ID, (int)clients_map.size()-1);//zsd
                     clients_map.erase(map_it);
                 }
                 else if(len < 0)
