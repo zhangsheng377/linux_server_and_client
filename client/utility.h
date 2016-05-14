@@ -26,7 +26,7 @@ using namespace std;
 // server port
 #define SERVER_PORT 8888
 //epoll size
-#define EPOLL_SIZE 5000
+#define EPOLL_SIZE 10001
 //message buffer size
 #define BUF_SIZE 0xFFFF
 const int ORDER_LEN=2;
@@ -75,50 +75,14 @@ void addfd( int epollfd, int fd, bool enable_et )
     //printf("fd added to epoll!\n\n");
 }
 
-/**
-* @param clientfd: socket descriptor
-* @return : len
-**/
-/*int sendBroadcastmessage(int clientfd)
+void delfd( int epollfd, int fd, bool enable_et )
 {
-// buf[BUF_SIZE] receive new chat message
-// message[BUF_SIZE] save format message
-    char buf[BUF_SIZE], message[BUF_SIZE];
-    bzero(buf, BUF_SIZE);
-    bzero(message, BUF_SIZE);
-// receive message
-    printf("read from client(clientID = %d)\n", clientfd);
-    int len = recv(clientfd, buf, BUF_SIZE, 0);
-    if(len == 0) // len = 0 means the client closed connection
-    {
-        close(clientfd);
-        clients_list.remove(clientfd); //server remove the client
-        printf("ClientID = %d closed.\n now there are %d client in the char room\n", clientfd, (int)clients_list.size());
-    }
-    else //broadcast message
-    {
-        if(clients_list.size() == 1)   // this means There is only one int the char room
-        {
-            send(clientfd, CAUTION, strlen(CAUTION), 0);
-            return len;
-        }
-        // format message to broadcast
-        sprintf(message, SERVER_MESSAGE, clientfd, buf);
+    struct epoll_event ev;
+    ev.data.fd = fd;
+    ev.events = EPOLLIN;
+    if( enable_et ) ev.events = EPOLLIN | EPOLLET;
+    epoll_ctl(epollfd, EPOLL_CTL_DEL, fd, &ev);
+}
 
-        list<int>::iterator it;
-        for(it = clients_list.begin(); it != clients_list.end(); ++it)
-        {
-            if(*it != clientfd)
-            {
-                if( send(*it, message, BUF_SIZE, 0) < 0 )
-                {
-                    perror("error");
-                    exit(-1);
-                }
-            }
-        }
-    }
-    return len;
-}*/
 #endif // UTILITY_H_INCLUDED
 
