@@ -21,6 +21,7 @@ using namespace std;
 /********************** macro defintion **************************/
 // server ip
 #define SERVER_IP "127.0.0.1"
+//#define SERVER_IP "192.168.0.104"
 // server port
 #define SERVER_PORT 8888
 //epoll size
@@ -33,6 +34,7 @@ class CLIENT
 {
 public:
     int ID;
+    int live_sec;
     char code[128];
     int action;
     int type;
@@ -44,6 +46,7 @@ CLIENT::CLIENT()
     ID=-1;
     action=1;
     type=2;
+    live_sec=999999;
 }
 
 /********************** some function **************************/

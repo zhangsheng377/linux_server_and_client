@@ -158,7 +158,7 @@ int main(int argc, char *argv[])
                         map_int_int_it=map_ID_sockets.find(ID);
                         if(map_int_int_it==map_ID_sockets.end() ) //没找到
                         {
-                            printf("This ID's socket can't find, you must enroll(00) it.\n");
+                            printf("This ID's socket can't find, you must enroll(00) it. ID = %d\n",ID);
                             // 创建socket
                             map_ID_sockets[ID]= socket(PF_INET, SOCK_STREAM, 0);
                             // 连接服务端
@@ -178,6 +178,7 @@ int main(int argc, char *argv[])
                                 bzero(send_message, BUF_SIZE);
                                 CLIENT client;
                                 client.ID=ID;
+                                client.live_sec=10;
                                 client.socketfd=map_ID_sockets[ID];
                                 map_socket_clients[map_ID_sockets[ID]]=client;
                                 // 将信息发送给服务端
@@ -187,7 +188,7 @@ int main(int argc, char *argv[])
                                 strcat(send_message,order);
                                 strcat(&send_message[ORDER_LEN],client_info);
                                 send(map_ID_sockets[ID],send_message, BUF_SIZE, 0);
-                                printf("send message: %s\n",send_message);
+                                printf("ID = %d, socket = %d, send message: %s\n",ID,map_ID_sockets[ID],send_message);
                             }
                             else if(strcmp(order,"-1")==0)//关闭当前socket
                             {

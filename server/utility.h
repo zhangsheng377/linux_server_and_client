@@ -2,7 +2,7 @@
 #define UTILITY_H_INCLUDED
 
 #include <iostream>
-#include <list>
+//#include <list>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -15,6 +15,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/resource.h> //setrlimit
+#include <sys/timerfd.h>
+#include <sys/time.h>
+#include <time.h>
 
 using namespace std;
 
@@ -22,6 +25,7 @@ class CLIENT
 {
 public:
     int ID;
+    int live_sec;
     char code[128];
     int action;
     int type;
@@ -33,6 +37,7 @@ CLIENT::CLIENT()
     ID=-1;
     action=1;
     type=2;
+    live_sec=999999;
 }
 // clients_list save all the clients's socket
 //list<int> clients_list;
@@ -71,9 +76,9 @@ void addfd( int epollfd, int fd, bool enable_et )
     ev.data.fd = fd;
     ev.events = EPOLLIN;
     if( enable_et ) ev.events = EPOLLIN | EPOLLET;
-    epoll_ctl(epollfd, EPOLL_CTL_ADD, fd, &ev);
+    int r=epoll_ctl(epollfd, EPOLL_CTL_ADD, fd, &ev);
     setnonblocking(fd);
-    //printf("fd added to epoll!\n");
+    printf("fd = %d added to epoll. r = %d \n",fd,r);
 }
 
 void delfd( int epollfd, int fd, bool enable_et )
@@ -83,6 +88,16 @@ void delfd( int epollfd, int fd, bool enable_et )
     ev.events = EPOLLIN;
     if( enable_et ) ev.events = EPOLLIN | EPOLLET;
     epoll_ctl(epollfd, EPOLL_CTL_DEL, fd, &ev);
+    printf("fd = %d deled to epoll!\n",fd);
+}
+
+void addtimerfd( int epollfd, int fd, bool enable_et )
+{
+    struct epoll_event ev;
+    ev.data.fd = fd;
+    ev.events = EPOLLIN;
+    if( enable_et ) ev.events = EPOLLIN | EPOLLET;
+    epoll_ctl(epollfd, EPOLL_CTL_ADD, fd, &ev);
 }
 
 #endif // UTILITY_H_INCLUDED

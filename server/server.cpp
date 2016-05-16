@@ -2,6 +2,7 @@
 #include<map>
 
 map<int ,CLIENT> clients_map;
+map<int,int> map_timerfd_sockets;
 
 int main(int argc, char *argv[])
 {
@@ -54,6 +55,7 @@ int main(int argc, char *argv[])
     //主循环
     while(1)
     {
+    printf("wait for the epoll.\n");
         //epoll_events_count表示就绪事件的数目
         int epoll_events_count = epoll_wait(epfd, events, EPOLL_SIZE, -1);
         if(epoll_events_count < 0)
@@ -64,10 +66,12 @@ int main(int argc, char *argv[])
         //处理这epoll_events_count个就绪事件
         for(int i = 0; i < epoll_events_count; ++i)
         {
+        printf("here is an event.\n");
             int sockfd = events[i].data.fd;
             //新用户连接
             if(sockfd == listener)
             {
+            //printf("run into the listener.\n");
                 struct sockaddr_in client_address;
                 socklen_t client_addrLength = sizeof(struct sockaddr_in);
 
@@ -80,17 +84,36 @@ int main(int argc, char *argv[])
                 CLIENT client;
                 client.socketfd=clientfd;
                 clients_map[clientfd]=client;
-                printf("Now there are %d clients int the chat room\n\n", (int)clients_map.size());//zsd
+                printf("Now there are %d clients in the chat room\n\n", (int)clients_map.size());//zsd
+            }
+            else if(map_timerfd_sockets.find(sockfd)!=map_timerfd_sockets.end())
+            {
+                printf("timerfd = %d\n",sockfd);
+                int timerfd=sockfd;
+                int socket=map_timerfd_sockets[timerfd];
+                close(socket);
+                delfd(epfd, socket, true);/////////////////////
+                map<int,CLIENT>::iterator map_it;
+                map_it=clients_map.find(socket);
+                printf("ClientID = %d closed.\n now there are %d client in the char room\n", clients_map[socket].ID, (int)clients_map.size()-1);//zsd
+                clients_map.erase(map_it);
+                close(timerfd);
+                delfd(epfd, timerfd, true);/////////////////////
+                map<int,int>::iterator map_int_int_it;
+                map_int_int_it=map_timerfd_sockets.find(timerfd);
+                map_timerfd_sockets.erase(map_int_int_it);
             }
             //处理用户发来的消息
             else
             {
+            printf("run into the recv.\n");
                 // buf[BUF_SIZE] receive new chat message
                 char buf[BUF_SIZE];
                 bzero(buf, BUF_SIZE);
                 // receive message
                 int len = recv(sockfd, buf, BUF_SIZE, 0);
                 buf[len+1]='\0';//zsd
+                printf("recv: %s\n",buf);//zsd
                 if(len == 0) // len = 0 means the client closed connection//貌似不管用
                 {
                     close(sockfd);
@@ -117,9 +140,32 @@ int main(int argc, char *argv[])
                     if(strcmp(order,"00")==0)//接收结构体
                     {
                         CLIENT client;
-                        memcpy(&client,message,sizeof(message));
+                        memcpy(&client,message,sizeof(CLIENT));
                         clients_map[sockfd]=client;
                         printf("ClientID = %d comes.\n", clients_map[sockfd].ID);
+                        printf("live_sec = %d\n",clients_map[sockfd].live_sec);
+
+                        struct timespec now;
+                        if(clock_gettime(CLOCK_REALTIME,&now)==-1)
+                        {
+                            printf("clock_gettime error.\n");
+                            return -1;
+                        }
+                        struct itimerspec new_value;
+                        new_value.it_value.tv_sec=now.tv_sec+clients_map[sockfd].live_sec+5;
+                        new_value.it_value.tv_nsec=0;
+                        new_value.it_interval.tv_sec=0;
+                        new_value.it_interval.tv_nsec=0;
+                        int timerfd=timerfd_create(CLOCK_REALTIME,0);
+                        if(timerfd==-1)
+                        {
+                            printf("timerfd_create error.\n");
+                            return -1;
+                        }
+                        map_timerfd_sockets[timerfd]=sockfd;
+                        addfd(epfd, timerfd, true);
+                        timerfd_settime(timerfd,TFD_TIMER_ABSTIME,&new_value,NULL);
+
                         //send back message
                         char message_send[BUF_SIZE];
                         bzero(message_send, BUF_SIZE);
@@ -130,6 +176,25 @@ int main(int argc, char *argv[])
                             perror("error");
                             return -1;
                         }
+
+                        /*sleep(5);//zsd
+                        //int timerfd=sockfd;
+                        //int socket=map_timerfd_sockets[timerfd];
+                        int socket=sockfd;
+                        close(socket);
+                        printf("close(socket = %d)\n",socket);
+                        delfd(epfd, socket, true);/////////////////////
+                        printf("delfd(epfd, socket, true)\n");
+                        map<int,CLIENT>::iterator map_it;
+                        map_it=clients_map.find(socket);
+                        printf("ClientID = %d closed.\n now there are %d client in the char room\n", clients_map[socket].ID, (int)clients_map.size()-1);//zsd
+                        clients_map.erase(map_it);
+                        printf("clients_map.erase(map_it)\n");
+                        //close(timerfd);
+                        //delfd(epfd, timerfd, true);/////////////////////
+                        //map<int,int>::iterator map_int_int_it;
+                        //map_int_int_it=map_timerfd_sockets.find(timerfd);
+                        //map_timerfd_sockets.erase(map_int_int_it);*/
                     }
                     else if(strcmp(order,"-1")==0)//此socket退出
                     {
