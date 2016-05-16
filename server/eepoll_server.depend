@@ -1,9 +1,9 @@
 # depslib dependency file v1.0
-1463194302 source:/home/zsd/桌面/epoll/server/server.cpp
+1463366874 source:/home/zsd/桌面/epoll/server/server.cpp
 	"utility.h"
 	<map>
 
-1463206069 /home/zsd/桌面/epoll/server/utility.h
+1463366843 /home/zsd/桌面/epoll/server/utility.h
 	<iostream>
 	<list>
 	<sys/types.h>
@@ -17,4 +17,5 @@
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
+	<sys/resource.h>
 

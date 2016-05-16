@@ -10,6 +10,14 @@ int main(int argc, char *argv[])
     serverAddr.sin_family = PF_INET;
     serverAddr.sin_port = htons(SERVER_PORT);
     serverAddr.sin_addr.s_addr = inet_addr(SERVER_IP);
+    struct rlimit rt;//资源限制符
+    //设置每个进程允许打开的最大文件数
+    rt.rlim_max=rt.rlim_cur=EPOLL_SIZE;
+    if(setrlimit(RLIMIT_NOFILE,&rt)==-1)
+    {
+        perror("setrlimt error.\n");
+        return -1;
+    }
     //创建监听socket
     int listener = socket(PF_INET, SOCK_STREAM, 0);
     if(listener < 0)

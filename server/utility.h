@@ -14,6 +14,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/resource.h> //setrlimit
 
 using namespace std;
 
@@ -42,11 +43,10 @@ CLIENT::CLIENT()
 // server port
 #define SERVER_PORT 8888
 //epoll size
-#define EPOLL_SIZE 5000
+#define EPOLL_SIZE 10240
 //message buffer size
 #define BUF_SIZE 0xFFFF
 const int ORDER_LEN=2;
-
 
 
 /********************** some function **************************/

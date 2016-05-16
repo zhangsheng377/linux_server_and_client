@@ -2,7 +2,7 @@
 #define UTILITY_H_INCLUDED
 
 #include <iostream>
-#include <list>
+//#include <list>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -14,11 +14,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/resource.h> //setrlimit
 
 using namespace std;
-
-// clients_list save all the clients's socket
-//list<int> clients_list;
 
 /********************** macro defintion **************************/
 // server ip
@@ -26,7 +24,7 @@ using namespace std;
 // server port
 #define SERVER_PORT 8888
 //epoll size
-#define EPOLL_SIZE 10001
+#define EPOLL_SIZE 10240
 //message buffer size
 #define BUF_SIZE 0xFFFF
 const int ORDER_LEN=2;

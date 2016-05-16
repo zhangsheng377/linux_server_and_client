@@ -1,10 +1,7 @@
 #include "utility.h"
-//#include<vector>
 #include<map>
-//#include<algorithm>
 
-const int CLIENTNUM=1001;//从1开始
-//vector<int> sockets(CLIENTNUM);
+const int CLIENTNUM=3001;//从1开始
 map<int,int> map_ID_sockets;//从1开始
 map<int,CLIENT> map_socket_clients;
 
@@ -15,6 +12,14 @@ int main(int argc, char *argv[])
     serverAddr.sin_family = PF_INET;
     serverAddr.sin_port = htons(SERVER_PORT);
     serverAddr.sin_addr.s_addr = inet_addr(SERVER_IP);
+    struct rlimit rt;//资源限制符
+    //设置每个进程允许打开的最大文件数
+    rt.rlim_max=rt.rlim_cur=EPOLL_SIZE;
+    if(setrlimit(RLIMIT_NOFILE,&rt)==-1)
+    {
+        perror("setrlimt error.\n");
+        return -1;
+    }
     // 创建epoll
     int epfd = epoll_create(EPOLL_SIZE);
     if(epfd < 0)
