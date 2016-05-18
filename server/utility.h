@@ -81,7 +81,7 @@ void addfd( int epollfd, int fd, bool enable_et )
     printf("fd = %d added to epoll. r = %d \n",fd,r);
 }
 
-void delfd( int epollfd, int fd, bool enable_et )
+/*void delfd( int epollfd, int fd, bool enable_et )
 {
     struct epoll_event ev;
     ev.data.fd = fd;
@@ -89,7 +89,7 @@ void delfd( int epollfd, int fd, bool enable_et )
     if( enable_et ) ev.events = EPOLLIN | EPOLLET;
     epoll_ctl(epollfd, EPOLL_CTL_DEL, fd, &ev);
     printf("fd = %d deled to epoll!\n",fd);
-}
+}*/
 
 void addtimerfd( int epollfd, int fd, bool enable_et )
 {
