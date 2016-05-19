@@ -75,7 +75,7 @@ void addfd( int epollfd, int fd, bool enable_et )
     struct epoll_event ev;
     ev.data.fd = fd;
     ev.events = EPOLLIN;
-    if( enable_et ) ev.events = EPOLLIN | EPOLLET;
+    //if( enable_et ) ev.events = EPOLLIN | EPOLLET;
     int r=epoll_ctl(epollfd, EPOLL_CTL_ADD, fd, &ev);
     setnonblocking(fd);
     printf("fd = %d added to epoll. r = %d \n",fd,r);
@@ -86,7 +86,7 @@ void addfd( int epollfd, int fd, bool enable_et )
     struct epoll_event ev;
     ev.data.fd = fd;
     ev.events = EPOLLIN;
-    if( enable_et ) ev.events = EPOLLIN | EPOLLET;
+   // if( enable_et ) ev.events = EPOLLIN | EPOLLET;
     epoll_ctl(epollfd, EPOLL_CTL_DEL, fd, &ev);
     printf("fd = %d deled to epoll!\n",fd);
 }*/

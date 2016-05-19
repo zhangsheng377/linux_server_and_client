@@ -106,8 +106,7 @@ int main(int argc, char *argv[])
                 int timerfd=sockfd;
                 int socket=map_timerfd_sockets[timerfd];
 
-                //shutdown(socket,2);
-                //close(socket);
+                close(socket);
 
                 //delfd(epfd, socket, true);/////////////////////
                 map<int,CLIENT>::iterator map_it;
