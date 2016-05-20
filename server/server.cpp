@@ -10,7 +10,9 @@ int main(int argc, char *argv[])
     struct sockaddr_in serverAddr;
     serverAddr.sin_family = PF_INET;
     serverAddr.sin_port = htons(SERVER_PORT);
-    serverAddr.sin_addr.s_addr = inet_addr(SERVER_IP);
+    //serverAddr.sin_addr.s_addr = inet_addr(SERVER_IP);
+    serverAddr.sin_addr.s_addr = htonl(INADDR_ANY);
+
     struct rlimit rt;//资源限制符
     //设置每个进程允许打开的最大文件数
     rt.rlim_max=rt.rlim_cur=EPOLL_SIZE;

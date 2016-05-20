@@ -22,6 +22,7 @@ using namespace std;
 // server ip
 #define SERVER_IP "127.0.0.1"
 //#define SERVER_IP "192.168.0.104"
+//#define SERVER_IP "121.42.143.201"
 // server port
 #define SERVER_PORT 8888
 //epoll size

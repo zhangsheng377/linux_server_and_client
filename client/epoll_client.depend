@@ -1,11 +1,10 @@
 # depslib dependency file v1.0
-1462783051 source:/home/zsd/桌面/epoll/client/client.cpp
+1463722506 source:/home/zsd/桌面/epoll/client/client.cpp
 	"utility.h"
-	<vector>
+	<map>
 
-1462782389 /home/zsd/桌面/epoll/client/utility.h
+1463732542 /home/zsd/桌面/epoll/client/utility.h
 	<iostream>
-	<list>
 	<sys/types.h>
 	<sys/socket.h>
 	<netinet/in.h>
@@ -17,4 +16,5 @@
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
+	<sys/resource.h>
 
