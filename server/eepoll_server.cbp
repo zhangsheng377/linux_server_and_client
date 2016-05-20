@@ -33,6 +33,8 @@
 		</Compiler>
 		<Unit filename="server.cpp" />
 		<Unit filename="utility.h" />
+		<Unit filename="vertify.cpp" />
+		<Unit filename="vertify.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />

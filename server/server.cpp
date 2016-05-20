@@ -1,5 +1,6 @@
 #include "utility.h"
 #include<map>
+#include "vertify.h"
 
 map<int ,CLIENT> clients_map;
 map<int,int> map_timerfd_sockets;
@@ -54,6 +55,11 @@ int main(int argc, char *argv[])
     static struct epoll_event events[EPOLL_SIZE];
     //往内核事件表里添加事件
     addfd(epfd, listener, true);
+
+
+    CreateDb();
+
+
     //主循环
     while(1)
     {
@@ -89,11 +95,21 @@ int main(int argc, char *argv[])
                 printf("Now there are %d clients in the chat room\n\n", (int)clients_map.size());//zsd
 
             }
-            else if(map_timerfd_sockets.find(sockfd)!=map_timerfd_sockets.end())
+            else if(map_timerfd_sockets.find(sockfd)!=map_timerfd_sockets.end())//删除timefd时，不能删map_timefd，要不然进不来，回到socket那
             {
-                printf("timerfd = %d\n",sockfd);
                 int timerfd=sockfd;
                 int socket=map_timerfd_sockets[timerfd];
+                if(clients_map.find(socket)==clients_map.end())
+                {
+                    close(socket);
+                    map<int,int>::iterator map_int_int_it;
+                    map_int_int_it=map_timerfd_sockets.find(timerfd);
+                    map_timerfd_sockets.erase(map_int_int_it);
+                    continue;
+                }
+                printf("timerfd = %d\n",sockfd);
+                //int timerfd=sockfd;
+                //int socket=map_timerfd_sockets[timerfd];
 
                 close(socket);
 
@@ -148,6 +164,15 @@ int main(int argc, char *argv[])
                         struct CLIENT client;
                         //memcpy(&client,message,sizeof(CLIENT));
                         memcpy(&client,&buf[ORDER_LEN],sizeof(CLIENT));
+
+
+                        if(search(client.id,client.pwd)==false)
+                        {
+                            close(sockfd);
+                            continue;
+                        }
+
+
                         clients_map[sockfd]=client;
                         printf("ClientID = %d comes.\n", clients_map[sockfd].id);
                         printf("live_sec = %f\n",clients_map[sockfd].life_time);
