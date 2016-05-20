@@ -18,10 +18,11 @@
 #include <sys/timerfd.h>
 #include <sys/time.h>
 #include <time.h>
+#include <algorithm>
 
 using namespace std;
 
-class CLIENT
+/*class CLIENT
 {
 public:
     int ID;
@@ -38,7 +39,17 @@ CLIENT::CLIENT()
     action=1;
     type=2;
     live_sec=999999;
-}
+}*/
+
+struct CLIENT
+{
+    int id;
+    int pwd;
+    int hdf_type;//切换类型
+    int bss_type;//业务类型
+    double life_time;
+};
+
 // clients_list save all the clients's socket
 //list<int> clients_list;
 
@@ -51,7 +62,9 @@ CLIENT::CLIENT()
 #define EPOLL_SIZE 10240
 //message buffer size
 #define BUF_SIZE 0xFFFF
+
 const int ORDER_LEN=2;
+
 
 
 /********************** some function **************************/
@@ -98,6 +111,38 @@ void addtimerfd( int epollfd, int fd, bool enable_et )
     ev.events = EPOLLIN;
     if( enable_et ) ev.events = EPOLLIN | EPOLLET;
     epoll_ctl(epollfd, EPOLL_CTL_ADD, fd, &ev);
+}
+
+
+string IntToString ( int a)
+{
+    string s;
+    while(a!=0)
+    {
+        s.append(1, a%10+'0');
+        a = a/10;
+    }
+    reverse (s.begin(), s.end());
+    return s;
+}
+
+int StringToInt(string s)
+{
+    int sum=0;
+    for (int i=0; i<(int)s.size(); i++)
+    {
+        sum += sum*10 + (s[i] - '0');
+    }
+    return sum;
+}
+
+int GenKey(int x)
+{
+    string s = "9211";
+    string temp = IntToString(x);
+    s.append(temp);
+    int xx = StringToInt(s);
+    return xx;
 }
 
 #endif // UTILITY_H_INCLUDED

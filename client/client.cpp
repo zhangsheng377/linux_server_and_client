@@ -186,7 +186,8 @@ int main(int argc, char *argv[])
                                 bzero(client_info, BUF_SIZE);
                                 memcpy(client_info,&client,sizeof(CLIENT));
                                 strcat(send_message,order);
-                                strcat(&send_message[ORDER_LEN],client_info);
+                                //strcat(&send_message[ORDER_LEN],client_info);
+                                memcpy(&send_message[ORDER_LEN],&client,sizeof(CLIENT));
                                 send(map_ID_sockets[ID],send_message, BUF_SIZE, 0);
                                 printf("ID = %d, socket = %d, send message: %s\n",ID,map_ID_sockets[ID],send_message);
                             }
