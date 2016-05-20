@@ -118,7 +118,8 @@ int main(int argc, char *argv[])
                 // receive message
                 int len = recv(sockfd, buf, BUF_SIZE, 0);
                 buf[len+1]='\0';//zsd/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                printf("recv: %s\n",buf);//zsd
+                if(buf[0]=='\0') continue;
+                printf("recv: %s       len  =  %d  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1\n",buf,len);//zsd
                 if(len == 0) // len = 0 means the client closed connection//√≤À∆≤ªπ‹”√
                 {
                     close(sockfd);
