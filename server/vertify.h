@@ -58,13 +58,13 @@ bool search(int ID, int RcvKey) //2, 查询认证
 
 //printf("nrow=%d    ncolumn=%d\n",nrow,ncolumn);//zsd
 
-    for( int i=0 ; i<( nrow + 1 ) * ncolumn ; i++ )
-        printf( "azResult[%d] = %s\n", i , azResult[i] );
+    /*for( int i=0 ; i<( nrow + 1 ) * ncolumn ; i++ )
+        printf( "azResult[%d] = %s\n", i , azResult[i] );*/
     int temp = (nrow + 1) * ncolumn-2;
     sprintf(skey, "%d" , RcvKey);
     //printf("%s", azResult[temp]);//hou mian chu xian 0??
 
-    printf("start search db 2.\n" );
+    //printf("start search db 2.\n" );
 
     char ResultTmp[10];
     int k=0;
