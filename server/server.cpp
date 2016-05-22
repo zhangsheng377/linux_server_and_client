@@ -2,9 +2,16 @@
 #include<map>
 #include "vertify.h"
 #include "zhangxiaofei.hpp"
+#include <time.h>
+#include <sys/timeb.h>
 
 map<int ,CLIENT> clients_map;
 map<int,int> map_timerfd_sockets;
+
+struct timeb rawtime1,rawtime2;
+int ms1,ms2;
+unsigned long s1,s2;
+int out_ms,out_s;
 
 int main(int argc, char *argv[])
 {
@@ -97,7 +104,7 @@ int main(int argc, char *argv[])
                 struct CLIENT client;
                 //client.socketfd=clientfd;
                 clients_map[clientfd]=client;
-                printf("Now there are %d clients in the satellit.\n\n", (int)clients_map.size());//zsd
+                printf("Now there are %d clients in the satellite.\n\n", (int)clients_map.size());//zsd
 
             }
             else if(map_timerfd_sockets.find(sockfd)!=map_timerfd_sockets.end())//删除timefd时，不能删map_timefd，要不然进不来，回到socket那
@@ -106,7 +113,7 @@ int main(int argc, char *argv[])
                 int socket=map_timerfd_sockets[timerfd];
                 if(clients_map.find(socket)==clients_map.end())//找不到此timefd对应的socket对应的client
                 {
-                    if(socket>0) close(socket);//socket应该是大于0的吧
+                    //if(socket>0) close(socket);//socket应该是大于0的吧
                     map<int,int>::iterator map_int_int_it;
                     map_int_int_it=map_timerfd_sockets.find(timerfd);
                     if(map_int_int_it!=map_timerfd_sockets.end()) map_timerfd_sockets.erase(map_int_int_it);
@@ -116,8 +123,13 @@ int main(int argc, char *argv[])
                 //int timerfd=sockfd;
                 //int socket=map_timerfd_sockets[timerfd];
 
-                close(socket);
-
+                printf("close socket 1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+                if(clients_map.find(socket)!=clients_map.end())
+                {
+                    close(socket);
+                    //printf("delfd socket 1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+                    //delfd(epfd, socket, true);
+                }
                 //delfd(epfd, socket, true);/////////////////////
                 map<int,CLIENT>::iterator map_it;
                 map_it=clients_map.find(socket);
@@ -126,16 +138,35 @@ int main(int argc, char *argv[])
                 if(map_it!=clients_map.end())
                 {
                     printf("\ntimeout!!!   ClientID = %d closed.\n now there are %d client in the char room\n\n", clients_map[socket].id, (int)clients_map.size()-1);//zsd
+
+
+                    ftime(&rawtime1);
+                    ms1=rawtime1.millitm;
+                    s1=rawtime1.time;
                     switchcaseout(map_it->second.id);
+                    ftime(&rawtime2);
+                    ms2=rawtime2.millitm;
+                    s2=rawtime2.time;
+                    out_ms=ms2-ms1;
+                    out_s=s2-s1;
+                    if(out_ms<0)
+                    {
+                        out_ms+=1000;
+                        out_s-=1;
+                    }
+                    printf("time of switchcaseout : s = %d    ms = %d\n",out_s,out_ms);
                     printf("band_media_level 0 : %d\n",returnband[0]);
-                    printf("band_ data  _level 0 : %d\n",returnband[1]);
+                    printf("band_ data_level 0 : %d\n",returnband[1]);
                     printf("band_media_level 1 : %d\n",returnband[2]);
-                    printf("band_ data  _level 1 : %d\n",returnband[3]);
+                    printf("band_ data_level 1 : %d\n",returnband[3]);
                     printf("band_media_level 2 : %d\n",returnband[4]);
-                    printf("band_ data  _level 2 : %d\n",returnband[5]);
+                    printf("band_ data_level 2 : %d\n",returnband[5]);
                     clients_map.erase(map_it);
                 }
+                printf("close timerfd 1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
                 close(timerfd);
+                printf("delfd timerfd 1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+                delfd(epfd, timerfd, true);
                 //delfd(epfd, timerfd, true);/////////////////////
                 map<int,int>::iterator map_int_int_it;
                 map_int_int_it=map_timerfd_sockets.find(timerfd);
@@ -149,19 +180,49 @@ int main(int argc, char *argv[])
                 char buf[BUF_SIZE];
                 bzero(buf, BUF_SIZE);
                 // receive message
-                int len = recv(sockfd, buf, BUF_SIZE, 0);
+                int len;
+                printf("recv socket 1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+                //len = recv(sockfd, buf, BUF_SIZE, 0);
+                //printf("recv socket 1.1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+                if(clients_map.find(sockfd)!=clients_map.end())
+                {
+                    len = recv(sockfd, buf, BUF_SIZE, 0);
+                }
+                else
+                {
+                    printf("recv socket error 1.1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+                    while(recv(sockfd, buf, BUF_SIZE, 0)>0);
+                    printf("recv socket error 1.2 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+                    close(sockfd);
+                    printf("delfd sockfd 1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+                    delfd(epfd, sockfd, true);
+                    printf("recv socket error 1.3 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+                    printf("the num of clients in the satellite = %d\n",(int)clients_map.size());
+                    continue;
+                }
                 buf[len+1]='\0';//zsd/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 //if(buf[0]=='\0') continue;
                 while(buf[0]=='\0')
                 {
+                    printf("recv socket 1.4 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
                     len = recv(sockfd, buf, BUF_SIZE, 0);
-                    buf[len+1]='\0';
+                    printf("recv socket 1.5 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+                    //buf[len+1]='\0';
                     if(len<1) break;
                 }
+                printf("recv socket 1.6 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
                 //printf("recv: %s       len  =  %d  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1\n",buf,len);//zsd
                 if(len == 0) // len = 0 means the client closed connection//貌似不管用
                 {
-                    close(sockfd);
+                    printf("close socket 2 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+                    //if(clients_map.find(sockfd)!=clients_map.end())
+                    {
+                        close(sockfd);
+                        printf("delfd sockfd 1.4 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+                        delfd(epfd, sockfd, true);
+                    }
+                    //close(sockfd);
+
                     //delfd(epfd, sockfd, true);/////////////////////
                     //clients_list.remove(sockfd); //server remove the client
                     map<int,CLIENT>::iterator map_it;
@@ -170,23 +231,40 @@ int main(int argc, char *argv[])
                     if(map_it!=clients_map.end())
                     {
                         printf("ClientID = %d closed.\n now there are %d client in the satellite.\n", clients_map[sockfd].id, (int)clients_map.size()-1);//zsd
+
+                        ftime(&rawtime1);
+                        ms1=rawtime1.millitm;
+                        s1=rawtime1.time;
                         switchcaseout(map_it->second.id);
+                        ftime(&rawtime2);
+                        ms2=rawtime2.millitm;
+                        s2=rawtime2.time;
+                        out_ms=ms2-ms1;
+                        out_s=s2-s1;
+                        if(out_ms<0)
+                        {
+                            out_ms+=1000;
+                            out_s-=1;
+                        }
+                        printf("time of switchcaseout : s = %d    ms = %d\n",out_s,out_ms);
                         printf("band_media_level 0 : %d\n",returnband[0]);
-                        printf("band_ data  _level 0 : %d\n",returnband[1]);
+                        printf("band_ data_level 0 : %d\n",returnband[1]);
                         printf("band_media_level 1 : %d\n",returnband[2]);
-                        printf("band_ data  _level 1 : %d\n",returnband[3]);
+                        printf("band_ data_level 1 : %d\n",returnband[3]);
                         printf("band_media_level 2 : %d\n",returnband[4]);
-                        printf("band_ data  _level 2 : %d\n",returnband[5]);
+                        printf("band_ data_level 2 : %d\n",returnband[5]);
                         clients_map.erase(map_it);
                     }
                 }
                 else if(len < 0)
                 {
+                    printf("recv socket 1.7 error !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
                     perror("error");
                     return -1;
                 }
                 else
                 {
+                    printf("recv socket 1.8 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
                     char order[ORDER_LEN+1],message[BUF_SIZE];
                     bzero(order, ORDER_LEN+1);
                     bzero(message, BUF_SIZE);
@@ -201,21 +279,91 @@ int main(int argc, char *argv[])
                         client.sockfd=sockfd;
 //printf("start search db.\n" );
 //printf("id = %d     pwd = %d \n",client.id,client.pwd);
+
+                        ftime(&rawtime1);
+                        ms1=rawtime1.millitm;
+                        s1=rawtime1.time;
                         if(search(client.id,client.pwd)==false)
                         {
+                            printf("===========search = false================\n");
+                            ftime(&rawtime2);
+                            ms2=rawtime2.millitm;
+                            s2=rawtime2.time;
+                            out_ms=ms2-ms1;
+                            out_s=s2-s1;
+                            if(out_ms<0)
+                            {
+                                out_ms+=1000;
+                                out_s-=1;
+                            }
+                            printf("time of search : s = %d    ms = %d\n",out_s,out_ms);
                             //printf("start search db end.\n" );
-                            close(sockfd);
+                            printf("close socket 3 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+                            if(clients_map.find(sockfd)!=clients_map.end())
+                            {
+                                close(sockfd);
+                                printf("delfd sockfd 1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+                                delfd(epfd, sockfd, true);
+                            }
+                            //close(sockfd);
                             continue;
                         }
+
+                        ftime(&rawtime2);
+                        ms2=rawtime2.millitm;
+                        s2=rawtime2.time;
+                        out_ms=ms2-ms1;
+                        out_s=s2-s1;
+                        if(out_ms<0)
+                        {
+                            out_ms+=1000;
+                            out_s-=1;
+                        }
+                        printf("time of search : s = %d    ms = %d\n",out_s,out_ms);
+
+
+                        ftime(&rawtime1);
+                        ms1=rawtime1.millitm;
+                        s1=rawtime1.time;
                         client.degree=searchDegree(client.id);
+
+                        ftime(&rawtime2);
+                        ms2=rawtime2.millitm;
+                        s2=rawtime2.time;
+                        out_ms=ms2-ms1;
+                        out_s=s2-s1;
+                        if(out_ms<0)
+                        {
+                            out_ms+=1000;
+                            out_s-=1;
+                        }
+                        printf("time of searchDegree : s = %d    ms = %d\n",out_s,out_ms);
 //printf("end search db.\n" );
 
                         //int zxf_m=0;
+
+                        ftime(&rawtime1);
+                        ms1=rawtime1.millitm;
+                        s1=rawtime1.time;
                         switchcasein(searchDegree(client.id));
+
+                        ftime(&rawtime2);
+                        ms2=rawtime2.millitm;
+                        s2=rawtime2.time;
+                        out_ms=ms2-ms1;
+                        out_s=s2-s1;
+                        if(out_ms<0)
+                        {
+                            out_ms+=1000;
+                            out_s-=1;
+                        }
+                        printf("time of switchcasein : s = %d    ms = %d\n",out_s,out_ms);
                         if(returnband[6]==0)//接入不成功
                         {
-                            //printf("start switchcasein db end.\n" );
+                            printf("================ switchcasein = false ================\n" );
                             close(sockfd);
+                            printf("delfd sockfd 2 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+                            delfd(epfd, sockfd, true);
                             continue;
                         }
                         else//接入成功
@@ -230,14 +378,32 @@ int main(int argc, char *argv[])
                                     {
                                         if(num>0)
                                         {
+                                            printf("===========need to throw the client ==========\n");
+                                            ftime(&rawtime1);
+                                            ms1=rawtime1.millitm;
+                                            s1=rawtime1.time;
                                             switchcaseout(map_int_CLIENT_it->second.id);
+
+                                            ftime(&rawtime2);
+                                            ms2=rawtime2.millitm;
+                                            s2=rawtime2.time;
+                                            out_ms=ms2-ms1;
+                                            out_s=s2-s1;
+                                            if(out_ms<0)
+                                            {
+                                                out_ms+=1000;
+                                                out_s-=1;
+                                            }
+                                            printf("time of switchcaseout : s = %d    ms = %d\n",out_s,out_ms);
                                             printf("band_media_level 0 : %d\n",returnband[0]);
-                                            printf("band_ data  _level 0 : %d\n",returnband[1]);
+                                            printf("band_ data_level 0 : %d\n",returnband[1]);
                                             printf("band_media_level 1 : %d\n",returnband[2]);
-                                            printf("band_ data  _level 1 : %d\n",returnband[3]);
+                                            printf("band_ data_level 1 : %d\n",returnband[3]);
                                             printf("band_media_level 2 : %d\n",returnband[4]);
-                                            printf("band_ data  _level 2 : %d\n",returnband[5]);
+                                            printf("band_ data_level 2 : %d\n",returnband[5]);
                                             close(map_int_CLIENT_it->first);
+                                            printf("delfd map_int_CLIENT_it->first 3 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+                                            delfd(epfd, map_int_CLIENT_it->first, true);
                                             //往回退一个，这样之后执行++it应该不会出问题
                                             map<int,CLIENT>::iterator map_int_CLIENT_itt=--map_int_CLIENT_it;
                                             clients_map.erase(map_int_CLIENT_it);
@@ -251,13 +417,17 @@ int main(int argc, char *argv[])
                                     }
                                 }
                             }
+                            else
+                            {
+                                printf("band_media_level 0 : %d\n",returnband[0]);
+                                printf("band_ data_level 0 : %d\n",returnband[1]);
+                                printf("band_media_level 1 : %d\n",returnband[2]);
+                                printf("band_ data_level 1 : %d\n",returnband[3]);
+                                printf("band_media_level 2 : %d\n",returnband[4]);
+                                printf("band_ data_level 2 : %d\n",returnband[5]);
+                            }
                         }
-                        printf("band_media_level 0 : %d\n",returnband[0]);
-                        printf("band_ data  _level 0 : %d\n",returnband[1]);
-                        printf("band_media_level 1 : %d\n",returnband[2]);
-                        printf("band_ data  _level 1 : %d\n",returnband[3]);
-                        printf("band_media_level 2 : %d\n",returnband[4]);
-                        printf("band_ data  _level 2 : %d\n",returnband[5]);
+
 
                         clients_map[sockfd]=client;
                         printf("ClientID = %d comes.\n", clients_map[sockfd].id);
@@ -284,21 +454,33 @@ int main(int argc, char *argv[])
                         addfd(epfd, timerfd, true);
                         timerfd_settime(timerfd,TFD_TIMER_ABSTIME,&new_value,NULL);
 
+
                         //send back message
                         char message_send[BUF_SIZE];
                         bzero(message_send, BUF_SIZE);
                         // format message
                         sprintf(message_send, "Server received ClientID=%d 's message.\n",clients_map[sockfd].id);
-                        if( send(sockfd, message_send, BUF_SIZE, 0) < 0 )
+                        printf("send socket 1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+                        if(clients_map.find(sockfd)!=clients_map.end())
                         {
-                            perror("error");
-                            return -1;
+                            if( send(sockfd, message_send, BUF_SIZE, 0) < 0 )
+                            {
+                                perror("error");
+                                return -1;
+                            }
                         }
 
                     }
                     else if(strcmp(order,"-1")==0)//此socket退出
                     {
-                        close(sockfd);
+                        printf("close socket 4 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+                        if(clients_map.find(sockfd)!=clients_map.end())
+                        {
+                            close(sockfd);
+                            printf("delfd sockfd 4 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+                            delfd(epfd, sockfd, true);
+                        }
+                        //close(sockfd);
                         //delfd(epfd, sockfd, true);/////////////////////
                         map<int,CLIENT>::iterator map_it;
                         map_it=clients_map.find(sockfd);
@@ -307,13 +489,29 @@ int main(int argc, char *argv[])
                         if(map_it!=clients_map.end())
                         {
                             printf("ClientID = %d closed.\n now there are %d client in the satellite.\n", clients_map[sockfd].id, (int)clients_map.size()-1);//zsd
+
+                            ftime(&rawtime1);
+                            ms1=rawtime1.millitm;
+                            s1=rawtime1.time;
                             switchcaseout(map_it->second.id);
+
+                            ftime(&rawtime2);
+                            ms2=rawtime2.millitm;
+                            s2=rawtime2.time;
+                            out_ms=ms2-ms1;
+                            out_s=s2-s1;
+                            if(out_ms<0)
+                            {
+                                out_ms+=1000;
+                                out_s-=1;
+                            }
+                            printf("time of switchcaseout : s = %d    ms = %d\n",out_s,out_ms);
                             printf("band_media_level 0 : %d\n",returnband[0]);
-                            printf("band_ data  _level 0 : %d\n",returnband[1]);
+                            printf("band_ data_level 0 : %d\n",returnband[1]);
                             printf("band_media_level 1 : %d\n",returnband[2]);
-                            printf("band_ data  _level 1 : %d\n",returnband[3]);
+                            printf("band_ data_level 1 : %d\n",returnband[3]);
                             printf("band_media_level 2 : %d\n",returnband[4]);
-                            printf("band_ data  _level 2 : %d\n",returnband[5]);
+                            printf("band_ data_level 2 : %d\n",returnband[5]);
                             clients_map.erase(map_it);
                         }
                     }
