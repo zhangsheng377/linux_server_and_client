@@ -1,7 +1,7 @@
 #include "utility.h"
 #include<map>
 #include "vertify.h"
-#include "zhangxiaofei.hpp"
+//#include "zhangxiaofei.hpp"
 
 map<int ,CLIENT> clients_map;
 map<int,int> map_timerfd_sockets;
@@ -104,12 +104,12 @@ int main(int argc, char *argv[])
             {
                 int timerfd=sockfd;
                 int socket=map_timerfd_sockets[timerfd];
-                if(clients_map.find(socket)==clients_map.end())//找不到此timefd对应的socket对应的client
+                if(clients_map.find(socket)==clients_map.end())
                 {
-                    if(socket>0) close(socket);//socket应该是大于0的吧
+                    close(socket);
                     map<int,int>::iterator map_int_int_it;
                     map_int_int_it=map_timerfd_sockets.find(timerfd);
-                    if(map_int_int_it!=map_timerfd_sockets.end()) map_timerfd_sockets.erase(map_int_int_it);
+                    map_timerfd_sockets.erase(map_int_int_it);
                     continue;
                 }
                 printf("timerfd = %d\n",sockfd);
@@ -121,19 +121,13 @@ int main(int argc, char *argv[])
                 //delfd(epfd, socket, true);/////////////////////
                 map<int,CLIENT>::iterator map_it;
                 map_it=clients_map.find(socket);
-                //printf("timeout!!!   ClientID = %d closed.\n now there are %d client in the char room\n", clients_map[socket].id, (int)clients_map.size()-1);//zsd
-
-                if(map_it!=clients_map.end())
-                {
-                    printf("timeout!!!   ClientID = %d closed.\n now there are %d client in the char room\n", clients_map[socket].id, (int)clients_map.size()-1);//zsd
-                    switchcaseout(map_it->second.id);
-                    clients_map.erase(map_it);
-                }
+                printf("timeout!!!   ClientID = %d closed.\n now there are %d client in the char room\n", clients_map[socket].id, (int)clients_map.size()-1);//zsd
+                clients_map.erase(map_it);
                 close(timerfd);
                 //delfd(epfd, timerfd, true);/////////////////////
                 map<int,int>::iterator map_int_int_it;
                 map_int_int_it=map_timerfd_sockets.find(timerfd);
-                if(map_int_int_it!=map_timerfd_sockets.end()) map_timerfd_sockets.erase(map_int_int_it);
+                map_timerfd_sockets.erase(map_int_int_it);
             }
             //处理用户发来的消息
             else
@@ -145,13 +139,7 @@ int main(int argc, char *argv[])
                 // receive message
                 int len = recv(sockfd, buf, BUF_SIZE, 0);
                 buf[len+1]='\0';//zsd/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                //if(buf[0]=='\0') continue;
-                while(buf[0]=='\0')
-                {
-                    len = recv(sockfd, buf, BUF_SIZE, 0);
-                    buf[len+1]='\0';
-                    if(len<1) break;
-                }
+                if(buf[0]=='\0') continue;
                 printf("recv: %s       len  =  %d  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1\n",buf,len);//zsd
                 if(len == 0) // len = 0 means the client closed connection//貌似不管用
                 {
@@ -160,13 +148,8 @@ int main(int argc, char *argv[])
                     //clients_list.remove(sockfd); //server remove the client
                     map<int,CLIENT>::iterator map_it;
                     map_it=clients_map.find(sockfd);
-                    //printf("ClientID = %d closed.\n now there are %d client in the char room\n", clients_map[sockfd].id, (int)clients_map.size()-1);//zsd
-                    if(map_it!=clients_map.end())
-                    {
-                        printf("ClientID = %d closed.\n now there are %d client in the char room\n", clients_map[sockfd].id, (int)clients_map.size()-1);//zsd
-                        switchcaseout(map_it->second.id);
-                        clients_map.erase(map_it);
-                    }
+                    printf("ClientID = %d closed.\n now there are %d client in the char room\n", clients_map[sockfd].id, (int)clients_map.size()-1);//zsd
+                    clients_map.erase(map_it);
                 }
                 else if(len < 0)
                 {
@@ -186,56 +169,30 @@ int main(int argc, char *argv[])
                         struct CLIENT client;
                         //memcpy(&client,message,sizeof(CLIENT));
                         memcpy(&client,&buf[ORDER_LEN],sizeof(CLIENT));
-                        client.sockfd=sockfd;
-//printf("start search db.\n" );
-//printf("id = %d     pwd = %d \n",client.id,client.pwd);
+
+printf("start search db.\n" );
                         if(search(client.id,client.pwd)==false)
                         {
-                            //printf("start search db end.\n" );
+                            printf("start search db end.\n" );
                             close(sockfd);
                             continue;
                         }
-                        client.degree=searchDegree(client.id);
-//printf("end search db.\n" );
+printf("end search db.\n" );
 
-                        //int zxf_m=0;
-                        switchcasein(searchDegree(client.id));
-                        if(returnband[6]==0)//接入不成功
+  /*                      int zxf_m=0;
+                        switchcasein(zxf_m);
+                        if(returnband[6]==0)
                         {
                             printf("start switchcasein db end.\n" );
                             close(sockfd);
                             continue;
                         }
-                        else//接入成功
-                        {
-                            if(returnband[8]>0)//需要踢人
-                            {
-                                int num=returnband[8];
-                                map<int,CLIENT>::iterator map_int_CLIENT_it;
-                                for(map_int_CLIENT_it=clients_map.begin(); map_int_CLIENT_it!=clients_map.end(); ++map_int_CLIENT_it)
-                                {
-                                    if(map_int_CLIENT_it->second.degree==returnband[7])
-                                    {
-                                        if(num>0)
-                                        {
-                                            switchcaseout(map_int_CLIENT_it->second.id);
-                                            close(map_int_CLIENT_it->first);
-                                            //往回退一个，这样之后执行++it应该不会出问题
-                                            map<int,CLIENT>::iterator map_int_CLIENT_itt=--map_int_CLIENT_it;
-                                            clients_map.erase(map_int_CLIENT_it);
-                                            map_int_CLIENT_it=map_int_CLIENT_itt;
-                                            --num;
-                                        }
-                                        else
-                                        {
-                                            break;
-                                        }
-                                    }
-                                }
+                        else{
+                            if(){
 
                             }
                         }
-
+*/
                         clients_map[sockfd]=client;
                         printf("ClientID = %d comes.\n", clients_map[sockfd].id);
                         printf("live_sec = %f\n",clients_map[sockfd].life_time);
@@ -279,14 +236,8 @@ int main(int argc, char *argv[])
                         //delfd(epfd, sockfd, true);/////////////////////
                         map<int,CLIENT>::iterator map_it;
                         map_it=clients_map.find(sockfd);
-                        //printf("ClientID = %d closed.\n now there are %d client in the char room\n", clients_map[sockfd].id, (int)clients_map.size()-1);//zsd
-                        //clients_map.erase(map_it);
-                        if(map_it!=clients_map.end())
-                        {
-                            printf("ClientID = %d closed.\n now there are %d client in the char room\n", clients_map[sockfd].id, (int)clients_map.size()-1);//zsd
-                            switchcaseout(map_it->second.id);
-                            clients_map.erase(map_it);
-                        }
+                        printf("ClientID = %d closed.\n now there are %d client in the char room\n", clients_map[sockfd].id, (int)clients_map.size()-1);//zsd
+                        clients_map.erase(map_it);
                     }
                     else
                     {

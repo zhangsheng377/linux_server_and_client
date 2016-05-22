@@ -1,9 +1,10 @@
 # depslib dependency file v1.0
-1463735986 source:/home/zsd/桌面/epoll/server/server.cpp
+1463747495 source:/home/zsd/桌面/epoll/server/server.cpp
 	"utility.h"
 	<map>
+	"vertify.h"
 
-1463732448 /home/zsd/桌面/epoll/server/utility.h
+1463747711 /home/zsd/桌面/epoll/server/utility.h
 	<iostream>
 	<sys/types.h>
 	<sys/socket.h>
@@ -22,4 +23,15 @@
 	<time.h>
 	<algorithm>
 	<math.h>
+
+1463881410 /home/zsd/桌面/epoll/server/vertify.h
+	"sqlite3.h"
+	<stdio.h>
+	<string>
+	<string.h>
+	<algorithm>
+	<iostream>
+
+1463750985 source:/home/zsd/桌面/epoll/server/vertify.cpp
+	"vertify.h"
 

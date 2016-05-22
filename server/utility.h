@@ -49,6 +49,8 @@ struct CLIENT
     int hdf_type;//切换类型
     int bss_type;//业务类型
     double life_time;
+    int degree;
+    int sockfd;
 };
 
 // clients_list save all the clients's socket
@@ -115,7 +117,7 @@ void addtimerfd( int epollfd, int fd, bool enable_et )
 }
 
 
-string IntToString ( int a)
+/*string IntToString ( int a)
 {
     string s;
     while(a!=0)
@@ -144,7 +146,7 @@ int GenKey(int x)
     s.append(temp);
     int xx = StringToInt(s);
     return xx;
-}
+}*/
 
 #endif // UTILITY_H_INCLUDED
 
