@@ -2,7 +2,10 @@
 #define UTILITY_H_INCLUDED
 
 #include <iostream>
-//#include <list>
+#include <list>
+
+
+
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -14,20 +17,41 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/resource.h> //setrlimit
-#include <sys/timerfd.h>
-#include <sys/time.h>
-#include <time.h>
+
 #include <algorithm>
+#include <sys/shm.h>
 #include <math.h>
+#include <time.h>
+#include <sys/resource.h> //setrlimit
+
+
+#define MYPORT  8887
+
+
 
 using namespace std;
 
-/*class CLIENT
+// clients_list save all the clients's socket
+//list<int> clients_list;
+
+/********************** macro defintion **************************/
+// server ip
+#define SERVER_IP "127.0.0.1"
+// server port
+#define SERVER_PORT 8888
+//epoll size
+#define EPOLL_SIZE 10001
+//message buffer size
+#define BUF_SIZE 0xFFFF
+
+#define MYPORT  8887
+
+const int ORDER_LEN=2;
+/*
+class CLIENT
 {
 public:
     int ID;
-    int live_sec;
     char code[128];
     int action;
     int type;
@@ -39,34 +63,20 @@ CLIENT::CLIENT()
     ID=-1;
     action=1;
     type=2;
-    live_sec=999999;
-}*/
-
+}
+*/
 struct CLIENT
 {
     int id;
     int pwd;
-    int hdf_type;//切换类型
-    int bss_type;//业务类型
+    int hdf_type; //切换类型
+    int bss_type; //业务类型
     double life_time;
     int degree;
     int sockfd;
+    //bool isalive;
 };
 
-// clients_list save all the clients's socket
-//list<int> clients_list;
-
-/********************** macro defintion **************************/
-// server ip
-#define SERVER_IP "127.0.0.1"
-// server port
-#define SERVER_PORT 8888
-//epoll size
-#define EPOLL_SIZE 10240
-//message buffer size
-#define BUF_SIZE 0xFFFF
-
-const int ORDER_LEN=2;
 
 
 
@@ -94,7 +104,7 @@ void addfd( int epollfd, int fd, bool enable_et )
     //if( enable_et ) ev.events = EPOLLIN | EPOLLET;
     epoll_ctl(epollfd, EPOLL_CTL_ADD, fd, &ev);
     setnonblocking(fd);
-    //printf("fd = %d added to epoll. \n",fd);
+    //printf("fd added to epoll!\n\n");
 }
 
 void delfd( int epollfd, int fd, bool enable_et )
@@ -102,22 +112,14 @@ void delfd( int epollfd, int fd, bool enable_et )
     struct epoll_event ev;
     ev.data.fd = fd;
     ev.events = EPOLLIN;
-   // if( enable_et ) ev.events = EPOLLIN | EPOLLET;
+    //if( enable_et ) ev.events = EPOLLIN | EPOLLET;
     epoll_ctl(epollfd, EPOLL_CTL_DEL, fd, &ev);
-    //printf("fd = %d deled to epoll!\n",fd);
-}
-
-void addtimerfd( int epollfd, int fd, bool enable_et )
-{
-    struct epoll_event ev;
-    ev.data.fd = fd;
-    ev.events = EPOLLIN;
-    if( enable_et ) ev.events = EPOLLIN | EPOLLET;
-    epoll_ctl(epollfd, EPOLL_CTL_ADD, fd, &ev);
 }
 
 
-/*string IntToString ( int a)
+
+
+string IntToString ( int a)
 {
     string s;
     while(a!=0)
@@ -128,7 +130,6 @@ void addtimerfd( int epollfd, int fd, bool enable_et )
     reverse (s.begin(), s.end());
     return s;
 }
-
 int StringToInt(string s)
 {
     int sum=0;
@@ -146,7 +147,11 @@ int GenKey(int x)
     s.append(temp);
     int xx = StringToInt(s);
     return xx;
-}*/
+}
+
+
+
 
 #endif // UTILITY_H_INCLUDED
+
 

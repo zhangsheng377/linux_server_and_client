@@ -1,17 +1,24 @@
+#define  NDEBUG
+
 #include "utility.h"
 #include<map>
 #include "vertify.h"
 #include "zhangxiaofei.hpp"
+
+#ifndef NDEBUG
 #include <time.h>
 #include <sys/timeb.h>
+#endif // NDEBUG
 
 map<int ,CLIENT> clients_map;
 map<int,int> map_timerfd_sockets;
 
+#ifndef NDEBUG
 struct timeb rawtime1,rawtime2;
 int ms1,ms2;
 unsigned long s1,s2;
 int out_ms,out_s;
+#endif // NDEBUG
 
 int main(int argc, char *argv[])
 {
@@ -123,7 +130,9 @@ int main(int argc, char *argv[])
                 //int timerfd=sockfd;
                 //int socket=map_timerfd_sockets[timerfd];
 
+#ifndef NDEBUG
                 printf("close socket 1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+#endif // NDEBUG
                 if(clients_map.find(socket)!=clients_map.end())
                 {
                     close(socket);
@@ -137,13 +146,15 @@ int main(int argc, char *argv[])
 
                 if(map_it!=clients_map.end())
                 {
-                    printf("\ntimeout!!!   ClientID = %d closed.\n now there are %d client in the char room\n\n", clients_map[socket].id, (int)clients_map.size()-1);//zsd
+                    printf("\ntimeout!!!   ClientID = %d closed.\n now there are %d client in the satellite.\n\n", clients_map[socket].id, (int)clients_map.size()-1);//zsd
 
-
+#ifndef NDEBUG
                     ftime(&rawtime1);
                     ms1=rawtime1.millitm;
                     s1=rawtime1.time;
-                    switchcaseout(map_it->second.id);
+#endif // NDEBUG
+                    switchcaseout(makelevel(map_it->second.degree,map_it->second.hdf_type,map_it->second.bss_type));
+#ifndef NDEBUG
                     ftime(&rawtime2);
                     ms2=rawtime2.millitm;
                     s2=rawtime2.time;
@@ -155,6 +166,7 @@ int main(int argc, char *argv[])
                         out_s-=1;
                     }
                     printf("time of switchcaseout : s = %d    ms = %d\n",out_s,out_ms);
+#endif // NDEBUG
                     printf("band_media_level 0 : %d\n",returnband[0]);
                     printf("band_ data_level 0 : %d\n",returnband[1]);
                     printf("band_media_level 1 : %d\n",returnband[2]);
@@ -163,9 +175,13 @@ int main(int argc, char *argv[])
                     printf("band_ data_level 2 : %d\n",returnband[5]);
                     clients_map.erase(map_it);
                 }
+#ifndef NDEBUG
                 printf("close timerfd 1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+#endif // NDEBUG
                 close(timerfd);
+#ifndef NDEBUG
                 printf("delfd timerfd 1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+#endif // NDEBUG
                 delfd(epfd, timerfd, true);
                 //delfd(epfd, timerfd, true);/////////////////////
                 map<int,int>::iterator map_int_int_it;
@@ -181,7 +197,9 @@ int main(int argc, char *argv[])
                 bzero(buf, BUF_SIZE);
                 // receive message
                 int len;
+#ifndef NDEBUG
                 printf("recv socket 1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+#endif // NDEBUG
                 //len = recv(sockfd, buf, BUF_SIZE, 0);
                 //printf("recv socket 1.1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
                 if(clients_map.find(sockfd)!=clients_map.end())
@@ -190,37 +208,55 @@ int main(int argc, char *argv[])
                 }
                 else
                 {
+#ifndef NDEBUG
                     printf("recv socket error 1.1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+#endif // NDEBUG
                     while(recv(sockfd, buf, BUF_SIZE, 0)>0);
+#ifndef NDEBUG
                     printf("recv socket error 1.2 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+#endif // NDEBUG
                     close(sockfd);
+#ifndef NDEBUG
                     printf("delfd sockfd 1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+#endif // NDEBUG
                     delfd(epfd, sockfd, true);
+#ifndef NDEBUG
                     printf("recv socket error 1.3 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
                     printf("the num of clients in the satellite = %d\n",(int)clients_map.size());
+#endif // NDEBUG
                     continue;
                 }
                 buf[len+1]='\0';//zsd/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 //if(buf[0]=='\0') continue;
                 while(buf[0]=='\0')
                 {
+#ifndef NDEBUG
                     printf("recv socket 1.4 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+#endif // NDEBUG
                     len = recv(sockfd, buf, BUF_SIZE, 0);
+#ifndef NDEBUG
                     printf("recv socket 1.5 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+#endif // NDEBUG
                     //buf[len+1]='\0';
                     if(len<1) break;
                 }
+#ifndef NDEBUG
                 printf("recv socket 1.6 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+#endif // NDEBUG
                 //printf("recv: %s       len  =  %d  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1\n",buf,len);//zsd
-                if(len == 0) // len = 0 means the client closed connection//貌似不管用
+                if(len <= 0) // len = 0 means the client closed connection//貌似不管用
                 {
+#ifndef NDEBUG
                     printf("close socket 2 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+#endif // NDEBUG
                     //if(clients_map.find(sockfd)!=clients_map.end())
-                    {
-                        close(sockfd);
-                        printf("delfd sockfd 1.4 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
-                        delfd(epfd, sockfd, true);
-                    }
+                    //{
+                    close(sockfd);
+#ifndef NDEBUG
+                    printf("delfd sockfd 1.4 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+#endif // NDEBUG
+                    delfd(epfd, sockfd, true);
+                    //}
                     //close(sockfd);
 
                     //delfd(epfd, sockfd, true);/////////////////////
@@ -230,12 +266,16 @@ int main(int argc, char *argv[])
                     //printf("ClientID = %d closed.\n now there are %d client in the char room\n", clients_map[sockfd].id, (int)clients_map.size()-1);//zsd
                     if(map_it!=clients_map.end())
                     {
+
                         printf("ClientID = %d closed.\n now there are %d client in the satellite.\n", clients_map[sockfd].id, (int)clients_map.size()-1);//zsd
 
+#ifndef NDEBUG
                         ftime(&rawtime1);
                         ms1=rawtime1.millitm;
                         s1=rawtime1.time;
-                        switchcaseout(map_it->second.id);
+#endif // NDEBUG
+                        switchcaseout(makelevel(map_it->second.degree,map_it->second.hdf_type,map_it->second.bss_type));
+#ifndef NDEBUG
                         ftime(&rawtime2);
                         ms2=rawtime2.millitm;
                         s2=rawtime2.time;
@@ -247,6 +287,7 @@ int main(int argc, char *argv[])
                             out_s-=1;
                         }
                         printf("time of switchcaseout : s = %d    ms = %d\n",out_s,out_ms);
+#endif // NDEBUG
                         printf("band_media_level 0 : %d\n",returnband[0]);
                         printf("band_ data_level 0 : %d\n",returnband[1]);
                         printf("band_media_level 1 : %d\n",returnband[2]);
@@ -256,15 +297,18 @@ int main(int argc, char *argv[])
                         clients_map.erase(map_it);
                     }
                 }
-                else if(len < 0)
+                /*else if(len < 0)//并到==0里，变成<=0
                 {
                     printf("recv socket 1.7 error !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
-                    perror("error");
-                    return -1;
-                }
+                    perror("recv error");
+                    //return -1;
+                    continue;
+                }*/
                 else
                 {
+#ifndef NDEBUG
                     printf("recv socket 1.8 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+#endif // NDEBUG
                     char order[ORDER_LEN+1],message[BUF_SIZE];
                     bzero(order, ORDER_LEN+1);
                     bzero(message, BUF_SIZE);
@@ -279,13 +323,15 @@ int main(int argc, char *argv[])
                         client.sockfd=sockfd;
 //printf("start search db.\n" );
 //printf("id = %d     pwd = %d \n",client.id,client.pwd);
-
+#ifndef NDEBUG
                         ftime(&rawtime1);
                         ms1=rawtime1.millitm;
                         s1=rawtime1.time;
+#endif // NDEBUG
                         if(search(client.id,client.pwd)==false)
                         {
                             printf("===========search = false================\n");
+#ifndef NDEBUG
                             ftime(&rawtime2);
                             ms2=rawtime2.millitm;
                             s2=rawtime2.time;
@@ -297,18 +343,23 @@ int main(int argc, char *argv[])
                                 out_s-=1;
                             }
                             printf("time of search : s = %d    ms = %d\n",out_s,out_ms);
+#endif // NDEBUG
                             //printf("start search db end.\n" );
+#ifndef NDEBUG
                             printf("close socket 3 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+#endif // NDEBUG
                             if(clients_map.find(sockfd)!=clients_map.end())
                             {
                                 close(sockfd);
+#ifndef NDEBUG
                                 printf("delfd sockfd 1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+#endif // NDEBUG
                                 delfd(epfd, sockfd, true);
                             }
                             //close(sockfd);
                             continue;
                         }
-
+#ifndef NDEBUG
                         ftime(&rawtime2);
                         ms2=rawtime2.millitm;
                         s2=rawtime2.time;
@@ -320,13 +371,14 @@ int main(int argc, char *argv[])
                             out_s-=1;
                         }
                         printf("time of search : s = %d    ms = %d\n",out_s,out_ms);
-
-
+#endif // NDEBUG
+#ifndef NDEBUG
                         ftime(&rawtime1);
                         ms1=rawtime1.millitm;
                         s1=rawtime1.time;
+#endif // NDEBUG
                         client.degree=searchDegree(client.id);
-
+#ifndef NDEBUG
                         ftime(&rawtime2);
                         ms2=rawtime2.millitm;
                         s2=rawtime2.time;
@@ -338,15 +390,24 @@ int main(int argc, char *argv[])
                             out_s-=1;
                         }
                         printf("time of searchDegree : s = %d    ms = %d\n",out_s,out_ms);
+#endif // NDEBUG
 //printf("end search db.\n" );
 
                         //int zxf_m=0;
-
+#ifndef NDEBUG
                         ftime(&rawtime1);
                         ms1=rawtime1.millitm;
                         s1=rawtime1.time;
-                        switchcasein(searchDegree(client.id));
-
+#endif // NDEBUG
+                        client.degree=searchDegree(client.id);
+                        switchcasein(makelevel(client.degree,client.hdf_type,client.bss_type));
+#ifndef NDEBUG
+                        for(int c_i=0; c_i<12; c_i++)
+                        {
+                            printf("switchcasein my_count[%d] = %d\n",c_i,my_count[c_i]);
+                        }
+#endif // NDEBUG
+#ifndef NDEBUG
                         ftime(&rawtime2);
                         ms2=rawtime2.millitm;
                         s2=rawtime2.time;
@@ -358,11 +419,14 @@ int main(int argc, char *argv[])
                             out_s-=1;
                         }
                         printf("time of switchcasein : s = %d    ms = %d\n",out_s,out_ms);
+#endif // NDEBUG
                         if(returnband[6]==0)//接入不成功
                         {
                             printf("================ switchcasein = false ================\n" );
                             close(sockfd);
+#ifndef NDEBUG
                             printf("delfd sockfd 2 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+#endif // NDEBUG
                             delfd(epfd, sockfd, true);
                             continue;
                         }
@@ -379,11 +443,13 @@ int main(int argc, char *argv[])
                                         if(num>0)
                                         {
                                             printf("===========need to throw the client ==========\n");
+#ifndef NDEBUG
                                             ftime(&rawtime1);
                                             ms1=rawtime1.millitm;
                                             s1=rawtime1.time;
-                                            switchcaseout(map_int_CLIENT_it->second.id);
-
+#endif // NDEBUG
+                                            switchcaseout(makelevel(map_int_CLIENT_it->second.degree,map_int_CLIENT_it->second.hdf_type,map_int_CLIENT_it->second.bss_type));
+#ifndef NDEBUG
                                             ftime(&rawtime2);
                                             ms2=rawtime2.millitm;
                                             s2=rawtime2.time;
@@ -395,19 +461,24 @@ int main(int argc, char *argv[])
                                                 out_s-=1;
                                             }
                                             printf("time of switchcaseout : s = %d    ms = %d\n",out_s,out_ms);
+#endif // NDEBUG
                                             printf("band_media_level 0 : %d\n",returnband[0]);
                                             printf("band_ data_level 0 : %d\n",returnband[1]);
                                             printf("band_media_level 1 : %d\n",returnband[2]);
                                             printf("band_ data_level 1 : %d\n",returnband[3]);
                                             printf("band_media_level 2 : %d\n",returnband[4]);
                                             printf("band_ data_level 2 : %d\n",returnband[5]);
+
                                             close(map_int_CLIENT_it->first);
+#ifndef NDEBUG
                                             printf("delfd map_int_CLIENT_it->first 3 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+#endif // NDEBUG
                                             delfd(epfd, map_int_CLIENT_it->first, true);
                                             //往回退一个，这样之后执行++it应该不会出问题
-                                            map<int,CLIENT>::iterator map_int_CLIENT_itt=--map_int_CLIENT_it;
+                                            //map<int,CLIENT>::iterator map_int_CLIENT_itt=--map_int_CLIENT_it;
                                             clients_map.erase(map_int_CLIENT_it);
-                                            map_int_CLIENT_it=map_int_CLIENT_itt;
+                                            //map_int_CLIENT_it=map_int_CLIENT_itt;
+                                            map_int_CLIENT_it=clients_map.begin();
                                             --num;
                                         }
                                         else
@@ -431,7 +502,9 @@ int main(int argc, char *argv[])
 
                         clients_map[sockfd]=client;
                         printf("ClientID = %d comes.\n", clients_map[sockfd].id);
+#ifndef NDEBUG
                         printf("live_sec = %f\n",clients_map[sockfd].life_time);
+#endif // NDEBUG
 
                         struct timespec now;
                         if(clock_gettime(CLOCK_REALTIME,&now)==-1)
@@ -460,24 +533,31 @@ int main(int argc, char *argv[])
                         bzero(message_send, BUF_SIZE);
                         // format message
                         sprintf(message_send, "Server received ClientID=%d 's message.\n",clients_map[sockfd].id);
-                        printf("send socket 1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+#ifndef NDEBUG
+                        printf("send socket 1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+#endif // NDEBUG
                         if(clients_map.find(sockfd)!=clients_map.end())
                         {
                             if( send(sockfd, message_send, BUF_SIZE, 0) < 0 )
                             {
                                 perror("error");
-                                return -1;
+                                //return -1;
+                                continue;
                             }
                         }
 
                     }
                     else if(strcmp(order,"-1")==0)//此socket退出
                     {
+#ifndef NDEBUG
                         printf("close socket 4 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+#endif // NDEBUG
                         if(clients_map.find(sockfd)!=clients_map.end())
                         {
                             close(sockfd);
+#ifndef NDEBUG
                             printf("delfd sockfd 4 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+#endif // NDEBUG
                             delfd(epfd, sockfd, true);
                         }
                         //close(sockfd);
@@ -489,12 +569,13 @@ int main(int argc, char *argv[])
                         if(map_it!=clients_map.end())
                         {
                             printf("ClientID = %d closed.\n now there are %d client in the satellite.\n", clients_map[sockfd].id, (int)clients_map.size()-1);//zsd
-
+#ifndef NDEBUG
                             ftime(&rawtime1);
                             ms1=rawtime1.millitm;
                             s1=rawtime1.time;
-                            switchcaseout(map_it->second.id);
-
+#endif // NDEBUG
+                            switchcaseout(makelevel(map_it->second.degree,map_it->second.hdf_type,map_it->second.bss_type));
+#ifndef NDEBUG
                             ftime(&rawtime2);
                             ms2=rawtime2.millitm;
                             s2=rawtime2.time;
@@ -506,12 +587,14 @@ int main(int argc, char *argv[])
                                 out_s-=1;
                             }
                             printf("time of switchcaseout : s = %d    ms = %d\n",out_s,out_ms);
+#endif // NDEBUG
                             printf("band_media_level 0 : %d\n",returnband[0]);
                             printf("band_ data_level 0 : %d\n",returnband[1]);
                             printf("band_media_level 1 : %d\n",returnband[2]);
                             printf("band_ data_level 1 : %d\n",returnband[3]);
                             printf("band_media_level 2 : %d\n",returnband[4]);
                             printf("band_ data_level 2 : %d\n",returnband[5]);
+
                             clients_map.erase(map_it);
                         }
                     }

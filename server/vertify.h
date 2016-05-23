@@ -1,7 +1,6 @@
 #ifndef VERTIFY_H_INCLUDED
 #define VERTIFY_H_INCLUDED
 
-
 #include "sqlite3.h"
 #include <stdio.h>
 #include <string>
@@ -24,7 +23,7 @@ static sqlite3 *DB = NULL;
 static char * errMsg = NULL;
 static int rc = 0;
 static int nrow = 0, ncolumn = 0;
-static char **azResult;
+static char** azResult;
 
 bool CreateDb()//1， 建立数据库
 {
@@ -47,16 +46,22 @@ bool search(int ID, int RcvKey) //2, 查询认证
 //printf("start search db.\n" );
 
     RcvKey = RcvKey^8888888;
+    //printf("RcvKey = %d\n",RcvKey);//zsd
     char value[500];
     char skey[100];
     int x = ID;
     sprintf(value,"SELECT * FROM MY WHERE ID=%d", x);
 
 //printf("start search db 1.\n" );
+    //printf("nrow=%d    ncolumn=%d\n",nrow,ncolumn);//zsd
+    if(sqlite3_get_table( DB , value , &azResult , &nrow , &ncolumn , &errMsg )!=SQLITE_OK)
+    {
+        printf("sqlite3_get_table is error !!!! errMsg = %s\n",errMsg);
+        sqlite3_free(errMsg);
+        return false;
+    }
 
-    sqlite3_get_table( DB , value , &azResult , &nrow , &ncolumn , &errMsg );
-
-//printf("nrow=%d    ncolumn=%d\n",nrow,ncolumn);//zsd
+//
 
     /*for( int i=0 ; i<( nrow + 1 ) * ncolumn ; i++ )
         printf( "azResult[%d] = %s\n", i , azResult[i] );*/
@@ -67,16 +72,17 @@ bool search(int ID, int RcvKey) //2, 查询认证
     //printf("start search db 2.\n" );
 
     char ResultTmp[10];
-    int k=0;
+    //int k=0;
     int len =strlen(azResult[temp]);
-
+    //printf("len = %d\n",len);
 //printf("start search db 3.\n" );
 
     for(int j=0; j<len; j++)
-        ResultTmp[k++] = azResult[temp][j];
-
+        ResultTmp[j] = azResult[temp][j];
+    ResultTmp[len]='\0';
 //printf("start search db 4.\n" );
 
+    //printf("ResultTmp = %s  , skey = %s \n",  ResultTmp, skey);
     if (strcmp(ResultTmp, skey) == 0)
         return true;
     else
@@ -166,6 +172,16 @@ int searchDegree(int ID) //根据ID查找返回用户等级degree
     int tempdegree = (nrow + 1) * ncolumn-1;
     int RcvDegree  = azResult[tempdegree][0] - '0';
     return RcvDegree;
+}
+int makelevel(int degree,int handoff,int bss)
+{
+    if(handoff==0)
+    {
+        return 4*degree+3;
+    }
+    else
+        return bss+degree*4;
+
 }
 
 #endif // VERTIFY_H_INCLUDED

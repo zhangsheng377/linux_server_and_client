@@ -29,10 +29,11 @@ const int BDmax=128;
 const double e=2.71828;
 const double a=-2*log(0.0001/(1-0.0001))/64;
 const double c=-log(0.0009)/(128-BDmin);
+const double jingdu=0.0001;
 double mk=c;
 using namespace std;
 int my_count[12]={0},m,Uv=3,Uv1=6,Uv2=9,mark=0,del=0,returnband[12]={0};
-float Umax=0,Lb=66000,LBK=66000,temp=0,RB,n,b1,b2,b3,b4,b5,b6,b_total,U1,U2,U3,U4,U5,U6,Uz,b_media,b_data,b_media1,b_data1,b_media2,b_data2,Bz;
+float Umax=0,Lb=100000,LBK=100000,temp=0,RB,n,b1,b2,b3,b4,b5,b6,b_total,U1,U2,U3,U4,U5,U6,Uz,b_media,b_data,b_media1,b_data1,b_media2,b_data2,Bz;
 
 
 //int _tmain(int argc, _TCHAR* argv[])
@@ -203,7 +204,7 @@ void Umaxjs1(int C)
 						temp=0;
 						mark=0;
 						returnband[6]=mark;
-						for(n=0.000001;n<mk;n=n+0.000001)
+						for(n=jingdu;n<mk;n=n+jingdu)
 							{
 								b1=bm(n);
 								b2=bd(n);
@@ -274,7 +275,7 @@ returnband[6]=mark;
 									returnband[6]=mark;
 									for(del=1;del<=my_count[2];del++)
 									{
-										for(n=0.000001;n<mk;n=n+0.000001)
+										for(n=jingdu;n<mk;n=n+jingdu)
 										{
 											b1=bm(n);
 											b2=bd(n);
@@ -345,7 +346,7 @@ returnband[8]=del;
 returnband[6]=mark;
 									for(del=1;del<=my_count[6];del++)
 									{
-										for(n=0.000001;n<mk;n=n+0.000001)
+										for(n=jingdu;n<mk;n=n+jingdu)
 										{
 											b1=bm(n);
 											b2=0;
@@ -415,7 +416,7 @@ returnband[8]=del;
 returnband[6]=mark;
 									for(del=1;del<=my_count[10];del++)
 									{
-										for(n=0.000001;n<mk;n=n+0.000001)
+										for(n=jingdu;n<mk;n=n+jingdu)
 										{
 											b1=bm(n);
 											b2=0;
@@ -484,7 +485,7 @@ returnband[8]=del;
 returnband[6]=mark;
 									for(del=1;del<=my_count[1];del++)
 									{
-										for(n=0.000001;n<mk;n=n+0.000001)
+										for(n=jingdu;n<mk;n=n+jingdu)
 										{
 											b1=bm(n);
 											b2=0;
@@ -554,7 +555,7 @@ returnband[8]=del;
 returnband[6]=mark;
 									for(del=1;del<=my_count[5];del++)
 									{
-										for(n=0.000001;n<mk;n=n+0.000001)
+										for(n=jingdu;n<mk;n=n+jingdu)
 										{
 											b1=0;
 											b2=0;
@@ -624,7 +625,7 @@ returnband[8]=del;
 returnband[6]=mark;
 									for(del=1;del<=my_count[9];del++)
 									{
-										for(n=0.000001;n<mk;n=n+0.000001)
+										for(n=jingdu;n<mk;n=n+jingdu)
 										{
 											b1=0;
 											b2=0;
@@ -704,7 +705,7 @@ void Umaxjs2(int C)
 						temp=0;
 						mark=0;
 returnband[6]=mark;
-						for(n=0.000001;n<mk;n=n+0.000001)
+						for(n=jingdu;n<mk;n=n+jingdu)
 							{
 								b1=bm(n);
 								b2=bd(n);
@@ -769,7 +770,7 @@ void Umaxjs3(int C)//Ò»Œ¶Á÷ÃœÌå
 						temp=0;
 						mark=0;
 returnband[6]=mark;
-						for(n=0.000001;n<mk;n=n+0.000001)
+						for(n=jingdu;n<mk;n=n+jingdu)
 							{
 								b1=bm(n);
 								b2=bd(n);
@@ -828,7 +829,7 @@ returnband[6]=mark;
 returnband[6]=mark;
 									for(del=1;del<=my_count[2];del++)
 									{
-										for(n=0.000001;n<mk;n=n+0.000001)
+										for(n=jingdu;n<mk;n=n+jingdu)
 										{
 											b1=bm(n);
 											b2=bd(n);
@@ -897,7 +898,7 @@ returnband[8]=del;
 returnband[6]=mark;
 									for(del=1;del<=my_count[1];del++)
 									{
-										for(n=0.000001;n<mk;n=n+0.000001)
+										for(n=jingdu;n<mk;n=n+jingdu)
 										{
 											b1=bm(n);
 											b2=0;
@@ -1090,7 +1091,7 @@ void switchcaseout(int m)
 						temp=0;
 						mark=0;
 returnband[6]=m;
-						for(n=0.000001;n<mk;n=n+0.000001)
+						for(n=jingdu;n<mk;n=n+jingdu)
 							{
 								b1=bm(n);
 								b2=bd(n);
@@ -1164,7 +1165,7 @@ returnband[6]=m;
 						temp=0;
 						mark=0;
                                                 returnband[6]=m;
-						for(n=0.000001;n<mk;n=n+0.000001)
+						for(n=jingdu;n<mk;n=n+jingdu)
 							{
 								b1=bm(n);
 								b2=bd(n);
@@ -1238,7 +1239,7 @@ returnband[6]=m;
 						temp=0;
 						mark=0;
                                                 returnband[6]=m;
-						for(n=0.000001;n<mk;n=n+0.000001)
+						for(n=jingdu;n<mk;n=n+jingdu)
 							{
 								b1=bm(n);
 								b2=bd(n);
@@ -1312,7 +1313,7 @@ returnband[6]=m;
 						temp=0;
 						mark=0;
                                                 returnband[6]=m;
-						for(n=0.000001;n<mk;n=n+0.000001)
+						for(n=jingdu;n<mk;n=n+jingdu)
 							{
 								b1=bm(n);
 								b2=bd(n);
@@ -1386,7 +1387,7 @@ returnband[6]=m;
 						temp=0;
 						mark=0;
                                                 returnband[6]=m;
-						for(n=0.000001;n<mk;n=n+0.000001)
+						for(n=jingdu;n<mk;n=n+jingdu)
 							{
 								b1=bm(n);
 								b2=bd(n);
@@ -1460,7 +1461,7 @@ returnband[6]=m;
 						temp=0;
 						mark=0;
                                                 returnband[6]=m;
-						for(n=0.000001;n<mk;n=n+0.000001)
+						for(n=jingdu;n<mk;n=n+jingdu)
 							{
 								b1=bm(n);
 								b2=bd(n);
@@ -1534,7 +1535,7 @@ returnband[6]=m;
 						temp=0;
 						mark=0;
                                                 returnband[6]=m;
-						for(n=0.000001;n<mk;n=n+0.000001)
+						for(n=jingdu;n<mk;n=n+jingdu)
 							{
 								b1=bm(n);
 								b2=bd(n);
@@ -1746,7 +1747,7 @@ returnband[0]=128;
 						temp=0;
 						mark=0;
 returnband[6]=mark;
-						for(n=0.000001;n<mk;n=n+0.000001)
+						for(n=jingdu;n<mk;n=n+jingdu)
 							{
 								b1=bm(n);
 								b2=bd(n);
@@ -1811,7 +1812,7 @@ returnband[6]=mark;
 returnband[6]=mark;
 									for(del=1;del<=my_count[2];del++)
 									{
-										for(n=0.000001;n<mk;n=n+0.000001)
+										for(n=jingdu;n<mk;n=n+jingdu)
 										{
 											b1=bm(n);
 											b2=bd(n);
@@ -1946,7 +1947,7 @@ returnband[0]=128;
 						temp=0;
 						mark=0;
 returnband[6]=mark;
-						for(n=0.000001;n<mk;n=n+0.000001)
+						for(n=jingdu;n<mk;n=n+jingdu)
 							{
 								b1=bm(n);
 								b2=bd(n);
@@ -2008,7 +2009,7 @@ returnband[6]=mark;
 returnband[6]=mark;
 									for(del=1;del<=my_count[2];del++)
 									{
-										for(n=0.000001;n<mk;n=n+0.000001)
+										for(n=jingdu;n<mk;n=n+jingdu)
 										{
 											b1=bm(n);
 											b2=bd(n);
@@ -2077,7 +2078,7 @@ returnband[8]=del;
 returnband[6]=mark;
 									for(del=1;del<=my_count[6];del++)
 									{
-										for(n=0.000001;n<mk;n=n+0.000001)
+										for(n=jingdu;n<mk;n=n+jingdu)
 										{
 											b1=bm(n);
 											b2=0;
@@ -2146,7 +2147,7 @@ returnband[8]=del;
 returnband[6]=mark;
 									for(del=1;del<=my_count[1];del++)
 									{
-										for(n=0.000001;n<mk;n=n+0.000001)
+										for(n=jingdu;n<mk;n=n+jingdu)
 										{
 											b1=bm(n);
 											b2=0;
@@ -2215,7 +2216,7 @@ returnband[8]=del;
 returnband[6]=mark;
 									for(del=1;del<=my_count[5];del++)
 									{
-										for(n=0.000001;n<mk;n=n+0.000001)
+										for(n=jingdu;n<mk;n=n+jingdu)
 										{
 											b1=0;
 											b2=0;
@@ -2312,7 +2313,7 @@ returnband[0]=128;
 						temp=0;
 						mark=0;
 returnband[6]=mark;
-						for(n=0.000001;n<mk;n=n+0.000001)
+						for(n=jingdu;n<mk;n=n+jingdu)
 							{
 								b1=bm(n);
 								b2=bd(n);
@@ -2374,7 +2375,7 @@ returnband[6]=mark;
 returnband[6]=mark;
 									for(del=1;del<=my_count[2];del++)
 									{
-										for(n=0.000001;n<mk;n=n+0.000001)
+										for(n=jingdu;n<mk;n=n+jingdu)
 										{
 											b1=bm(n);
 											b2=bd(n);
@@ -2443,7 +2444,7 @@ returnband[8]=del;
 returnband[6]=mark;
 									for(del=1;del<=my_count[6];del++)
 									{
-										for(n=0.000001;n<mk;n=n+0.000001)
+										for(n=jingdu;n<mk;n=n+jingdu)
 										{
 											b1=bm(n);
 											b2=0;
