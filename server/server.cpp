@@ -1,4 +1,4 @@
-#define  NDEBUG
+//#define  NDEBUG
 
 #include "utility.h"
 #include<map>

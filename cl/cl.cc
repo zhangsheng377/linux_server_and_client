@@ -8,7 +8,7 @@
 
 const int CLIENTNUM=2001;//从1开始
 //vector<int> sockets(CLIENTNUM);
-
+const int SLEEP_US=10000;
 
 map<int,int> map_ID_sockets;//从1开始
 map<int,CLIENT> map_socket_clients;
@@ -183,15 +183,16 @@ int main()
             //int possion=2;
             for(int itemp=0; itemp<possion; itemp++)
             {
+                //printf("itemp = %d\n",itemp);
                 bzero(message,BUF_SIZE);
-                sprintf(message,"%s %d %s","00",a[iNum]," ");
+                sprintf(message,"%s %d %s","00",a[iNum]," \0");
                 // 子进程将信息写入管道
                 if( write(pipe_fd[1], message, strlen(message)  ) < 0 )//zsd
                 {
                     perror("fork error");
                     return -1;
                 }
-
+                usleep(SLEEP_US);
                 if(iNum==CLIENTNUM)
                 {
                     for(i=0; i<CLIENTNUM; ++i) a[i]=i+1;
@@ -201,8 +202,10 @@ int main()
                 iNum++;
 
             }
-            printf("this possion is end. start sleep.\n");
-            sleep(1);
+            //printf("this possion is end. start sleep.\n");
+            int s=1000*1000-possion*SLEEP_US;
+            if(s>0) usleep(s);
+            //sleep(1);
         }
     }
     else   //pid > 0 父进程
@@ -222,6 +225,7 @@ int main()
                 bzero(message, BUF_SIZE);
                 if(events[i].data.fd == pipe_fd[0])
                 {
+                    //printf("read from the pipe.\n");
                     char order[ORDER_LEN+1];
                     bzero(order, sizeof(order));
                     int ID;
@@ -278,7 +282,7 @@ int main()
                                 sendUser.bss_type=n;
                             else
                                 sendUser.bss_type=rand()%3;
-                            sendUser.life_time=expntl(1000);
+                            sendUser.life_time=expntl(180);
                             sendUser.degree=-1;
                             sendUser.sockfd=-1;
                             //sendUser.isalive=true;
@@ -333,6 +337,7 @@ int main()
                 }
                 else//从服务器接收的
                 {
+                    //printf("recv from the server.\n");
                     //服务端发来消息
                     int sock=events[i].data.fd;
                     //接受服务端消息

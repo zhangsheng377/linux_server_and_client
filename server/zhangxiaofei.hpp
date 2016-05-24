@@ -30,10 +30,11 @@ const double e=2.71828;
 const double a=-2*log(0.0001/(1-0.0001))/64;
 const double c=-log(0.0009)/(128-BDmin);
 const double jingdu=0.0001;
+const int TOTALBAND=66000;
 double mk=c;
 using namespace std;
 int my_count[12]={0},m,Uv=3,Uv1=6,Uv2=9,mark=0,del=0,returnband[12]={0};
-float Umax=0,Lb=100000,LBK=100000,temp=0,RB,n,b1,b2,b3,b4,b5,b6,b_total,U1,U2,U3,U4,U5,U6,Uz,b_media,b_data,b_media1,b_data1,b_media2,b_data2,Bz;
+float Umax=0,Lb=TOTALBAND,LBK=TOTALBAND,temp=0,RB,n,b1,b2,b3,b4,b5,b6,b_total,U1,U2,U3,U4,U5,U6,Uz,b_media,b_data,b_media1,b_data1,b_media2,b_data2,Bz;
 
 
 //int _tmain(int argc, _TCHAR* argv[])
