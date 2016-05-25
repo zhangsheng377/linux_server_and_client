@@ -24,6 +24,7 @@ static char * errMsg = NULL;
 static int rc = 0;
 static int nrow = 0, ncolumn = 0;
 static char** azResult;
+const int RESULTLEN=10;
 
 bool CreateDb()//1， 建立数据库
 {
@@ -43,51 +44,80 @@ bool CreateDb()//1， 建立数据库
 
 bool search(int ID, int RcvKey) //2, 查询认证
 {
-//printf("start search db.\n" );
+    //printf("start search db.\n" );
 
     RcvKey = RcvKey^8888888;
     //printf("RcvKey = %d\n",RcvKey);//zsd
     char value[500];
     char skey[100];
     int x = ID;
-    sprintf(value,"SELECT * FROM MY WHERE ID=%d", x);
 
-//printf("start search db 1.\n" );
-    //printf("nrow=%d    ncolumn=%d\n",nrow,ncolumn);//zsd
+    sprintf(value,"SELECT COUNT(ID) FROM MY WHERE ID=%d", x);
     if(sqlite3_get_table( DB , value , &azResult , &nrow , &ncolumn , &errMsg )!=SQLITE_OK)
     {
         printf("sqlite3_get_table is error !!!! errMsg = %s\n",errMsg);
         sqlite3_free(errMsg);
         return false;
     }
+    if((azResult[1][0]-'0')>0)
+    {
 
+        //sprintf(value,"SELECT * FROM MY WHERE ID=%d", x);
+        sprintf(value,"SELECT MYKEY FROM MY WHERE ID=%d", x);//只查找一个字段
+
+        //printf("start search db 1.\n" );
+        //printf("nrow=%d    ncolumn=%d\n",nrow,ncolumn);//zsd
+        if(sqlite3_get_table( DB , value , &azResult , &nrow , &ncolumn , &errMsg )!=SQLITE_OK)
+        {
+            printf("sqlite3_get_table is error !!!! errMsg = %s\n",errMsg);
+            sqlite3_free(errMsg);
+            return false;
+        }
+        //printf("end sqlite3_get_table\n");
 //
 
-    /*for( int i=0 ; i<( nrow + 1 ) * ncolumn ; i++ )
-        printf( "azResult[%d] = %s\n", i , azResult[i] );*/
-    int temp = (nrow + 1) * ncolumn-2;
-    sprintf(skey, "%d" , RcvKey);
-    //printf("%s", azResult[temp]);//hou mian chu xian 0??
+        /*for( int i=0 ; i<( nrow + 1 ) * ncolumn ; i++ )
+            printf( "azResult[%d] = %s\n", i , azResult[i] );*/
+        //int temp = (nrow + 1) * ncolumn-2;
+        int temp=1;//因为只查一个字段，所以就一列，第一行是字段名，所以第二行第一个编号就是1,从0开始
+        sprintf(skey, "%d" , RcvKey);
+        //printf("%s", azResult[temp]);//hou mian chu xian 0??
 
-    //printf("start search db 2.\n" );
 
-    char ResultTmp[10];
-    //int k=0;
-    int len =strlen(azResult[temp]);
-    //printf("len = %d\n",len);
-//printf("start search db 3.\n" );
 
-    for(int j=0; j<len; j++)
-        ResultTmp[j] = azResult[temp][j];
-    ResultTmp[len]='\0';
+        char ResultTmp[RESULTLEN+1];
+        //printf("start search db 2.\n" );
+        //int k=0;
+        int len =strlen(azResult[temp]);
+        //printf("len = %d\n",len);
+        //printf("start search db 3.\n" );
+        //printf("temp = %d\n",temp);
+        //printf("ID = %d\n",ID);
+        for(int j=0; j<len; j++)
+            //int j;
+            //for(j=0; azResult[temp][j]!='\0' || j<RESULTLEN; j++)
+        {
+            //printf("J =%d\n",j);
+            ResultTmp[j] = azResult[temp][j];
+        }
+        //ResultTmp[j]='\0';
+        ResultTmp[len]='\0';
+
 //printf("start search db 4.\n" );
 
-    //printf("ResultTmp = %s  , skey = %s \n",  ResultTmp, skey);
-    if (strcmp(ResultTmp, skey) == 0)
-        return true;
-    else
-        return false;
+        printf("ResultTmp = %s  , skey = %s \n",  ResultTmp, skey);
 
+        //char ccc[4096];cin>>ccc;
+
+        if (strcmp(ResultTmp, skey) == 0)
+            return true;
+        else
+            return false;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 
@@ -166,10 +196,12 @@ int searchDegree(int ID) //根据ID查找返回用户等级degree
     char value[500];
     int x = ID;
     sprintf(value,"SELECT * FROM MY WHERE ID=%d", x);
+    //sprintf(value,"SELECT DEGREE FROM MY WHERE ID=%d", x);
     sqlite3_get_table( DB , value , &azResult , &nrow , &ncolumn , &errMsg );
     //for( int i=0 ; i<( nrow + 1 ) * ncolumn ; i++ )
     //printf( "azResult[%d] = %s\n", i , azResult[i] );
     int tempdegree = (nrow + 1) * ncolumn-1;
+    //int tempdegree = 1;
     int RcvDegree  = azResult[tempdegree][0] - '0';
     return RcvDegree;
 }

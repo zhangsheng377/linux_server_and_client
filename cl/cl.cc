@@ -9,6 +9,9 @@
 const int CLIENTNUM=2001;//从1开始
 //vector<int> sockets(CLIENTNUM);
 const int SLEEP_US=10000;
+const int CLIENTSEC=200;
+const int MINCLIENTSEC=50;
+const int LIVETIME=600;
 
 map<int,int> map_ID_sockets;//从1开始
 map<int,CLIENT> map_socket_clients;
@@ -69,7 +72,7 @@ int main()
 {
     ///定义sockfd
     //int sock_cli = socket(AF_INET,SOCK_STREAM, 0);
-    int countnow=0;
+    //int countnow=0;
     ///定义sockaddr_in
     struct sockaddr_in serverAddr;
     memset(&serverAddr, 0, sizeof(serverAddr));
@@ -130,6 +133,11 @@ int main()
         int iNum = 0;
         char message[BUF_SIZE];
         bzero(message, BUF_SIZE);
+
+
+        int count_client=0;
+        int client_sec=CLIENTSEC;
+
         while(isClientwork)
         {
 
@@ -178,7 +186,14 @@ int main()
                    perror("fork error");
                    return -1;
                }*/
-            int possion =randomPossion(100);
+
+            if(count_client>1000)
+            {
+                client_sec=CLIENTSEC-count_client/(2000/(CLIENTSEC-MINCLIENTSEC));
+                if(client_sec<MINCLIENTSEC) client_sec=MINCLIENTSEC;
+            }
+            int possion =randomPossion(client_sec);
+            count_client+=possion;
             printf("possion=%d\n",possion);
             //int possion=2;
             for(int itemp=0; itemp<possion; itemp++)
@@ -282,7 +297,7 @@ int main()
                                 sendUser.bss_type=n;
                             else
                                 sendUser.bss_type=rand()%3;
-                            sendUser.life_time=expntl(180);
+                            sendUser.life_time=expntl(LIVETIME);
                             sendUser.degree=-1;
                             sendUser.sockfd=-1;
                             //sendUser.isalive=true;
@@ -302,8 +317,10 @@ int main()
                             //send_message[sizeof(CLIENT)+ORDER_LEN]='\0';
                             //strcat(&send_message[ORDER_LEN],sendUser.usr_pwd);
                             send(map_ID_sockets[ID],send_message, sizeof(CLIENT)+ORDER_LEN, 0);
-                            countnow++;
-                            printf("send message1: %s,countnow=%d\n\n\n",send_message,countnow);
+                            //countnow++;
+                            //printf("send message1: %s,countnow=%d\n\n\n",send_message,countnow);
+                            printf("ID: %d connect\n",ID);
+                            printf(" client count now = %lu\n\n\n",map_socket_clients.size());
                         }
                         else if(strcmp(order,"-1")==0)//关闭当前socket
                         {
@@ -321,6 +338,7 @@ int main()
                             printf("ClientID = %d closed.\n", ID);//zsd
                             map_ID_sockets.erase(map_int_int_it);
                             map_socket_clients.erase(map_int_client_it);
+                            printf("client count now = %lu\n\n\n",map_socket_clients.size());
                         }
                         else
                         {
@@ -355,16 +373,21 @@ int main()
                         else
                         {
                             printf("Server closed connection: ID=%d\n", map_int_int_it->first);
+
                             map_ID_sockets.erase(map_int_int_it);
+                            map<int,CLIENT>::iterator map_int_client_it;
+                            map_int_client_it=map_socket_clients.find(sock);
+
+                            map_socket_clients.erase(map_int_client_it);
+                            close(sock);//不知要不要这样重复关闭
+                            delfd(epfd, sock, true);/////////////////////
+                            //printf("Server closed connection: %d\n", sock);
+                            //countnow--;
+                            //printf("countnow=%d\n",countnow);
+
+                            printf("client count now = %lu\n\n\n",map_socket_clients.size());
                         }
-                        map<int,CLIENT>::iterator map_int_client_it;
-                        map_int_client_it=map_socket_clients.find(sock);
-                        map_socket_clients.erase(map_int_client_it);
-                        close(sock);//不知要不要这样重复关闭
-                        delfd(epfd, sock, true);/////////////////////
-                        //printf("Server closed connection: %d\n", sock);
-                        countnow--;
-                        printf("countnow=%d\n",countnow);
+
                     }
                     //  else printf("%s\n", message);20160520
                 }
