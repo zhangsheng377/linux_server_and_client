@@ -62,7 +62,7 @@ struct CLIENT
 // server port
 #define SERVER_PORT 8888
 //epoll size
-#define EPOLL_SIZE 10240
+#define EPOLL_SIZE 99999
 //message buffer size
 #define BUF_SIZE 0xFFFF
 

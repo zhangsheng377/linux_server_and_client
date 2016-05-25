@@ -518,10 +518,11 @@ int main(int argc, char *argv[])
                         new_value.it_interval.tv_sec=0;
                         new_value.it_interval.tv_nsec=0;
                         int timerfd=timerfd_create(CLOCK_REALTIME,0);
-                        if(timerfd==-1)
+                        while(timerfd==-1)
                         {
-                            printf("timerfd_create error.\n");
-                            return -1;
+                            //printf("timerfd_create error.\n");
+                            timerfd=timerfd_create(CLOCK_REALTIME,0);
+                            //return -1;
                         }
                         map_timerfd_sockets[timerfd]=sockfd;
                         addfd(epfd, timerfd, true);
