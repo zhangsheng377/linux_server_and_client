@@ -1,5 +1,6 @@
 // ×ÜÌå³ÌÐò.cpp : ¶šÒå¿ØÖÆÌšÓŠÓÃ³ÌÐòµÄÈë¿Úµã¡£
 //
+#define NDEBUGLESS0
 
 //#include "stdafx.h"
 #include <iostream>
@@ -30,7 +31,7 @@ const double e=2.71828;
 const double a=-2*log(0.0001/(1-0.0001))/64;
 const double c=-log(0.0009)/(128-BDmin);
 const double jingdu=0.0001;
-const int TOTALBAND=409600;
+const int TOTALBAND=66000;
 double mk=c;
 using namespace std;
 int my_count[12]= {0},m,Uv=3,Uv1=6,Uv2=9,mark=0,del=0,returnband[12]= {0};
@@ -1129,7 +1130,9 @@ void switchcaseout(int m)
     case 8:
     case 11:
     {
+#ifndef NDEBUGLESS0
         if(my_count[m]<=0)   break;
+#endif // NDEBUGLESS0
         my_count[m]--;
         if((my_count[0]*BV+my_count[1]*BMmax+my_count[2]*BDmax+my_count[3]*BV+my_count[4]*BV+my_count[5]*BMmax+my_count[6]*BDmax+my_count[7]*BV+my_count[8]*BV+my_count[9]*BMmax+my_count[10]*BDmax+my_count[11]*BV)<=LBK)
         {
@@ -1205,7 +1208,9 @@ void switchcaseout(int m)
     }//case0,3,4,7,8,11
     case 1:
     {
+#ifndef NDEBUGLESS0
         if(my_count[m]<=0)   break;
+#endif // NDEBUGLESS0
         my_count[m]--;
 
         if((my_count[0]*BV+my_count[1]*BMmax+my_count[2]*BDmax+my_count[3]*BV+my_count[4]*BV+my_count[5]*BMmax+my_count[6]*BDmax+my_count[7]*BV+my_count[8]*BV+my_count[9]*BMmax+my_count[10]*BDmax+my_count[11]*BV)<=LBK)
@@ -1282,7 +1287,9 @@ void switchcaseout(int m)
     }//case1
     case 2:
     {
+#ifndef NDEBUGLESS0
         if(my_count[m]<=0)   break;
+#endif // NDEBUGLESS0
         my_count[m]--;
 
         if((my_count[0]*BV+my_count[1]*BMmax+my_count[2]*BDmax+my_count[3]*BV+my_count[4]*BV+my_count[5]*BMmax+my_count[6]*BDmax+my_count[7]*BV+my_count[8]*BV+my_count[9]*BMmax+my_count[10]*BDmax+my_count[11]*BV)<=LBK)
@@ -1359,7 +1366,9 @@ void switchcaseout(int m)
     }//case2
     case 5:
     {
+#ifndef NDEBUGLESS0
         if(my_count[m]<=0)   break;
+#endif // NDEBUGLESS0
         my_count[m]--;
 
         if((my_count[0]*BV+my_count[1]*BMmax+my_count[2]*BDmax+my_count[3]*BV+my_count[4]*BV+my_count[5]*BMmax+my_count[6]*BDmax+my_count[7]*BV+my_count[8]*BV+my_count[9]*BMmax+my_count[10]*BDmax+my_count[11]*BV)<=LBK)
@@ -1436,7 +1445,9 @@ void switchcaseout(int m)
     }//case5
     case 6:
     {
+#ifndef NDEBUGLESS0
         if(my_count[m]<=0)   break;
+#endif // NDEBUGLESS0
         my_count[m]--;
 
         if((my_count[0]*BV+my_count[1]*BMmax+my_count[2]*BDmax+my_count[3]*BV+my_count[4]*BV+my_count[5]*BMmax+my_count[6]*BDmax+my_count[7]*BV+my_count[8]*BV+my_count[9]*BMmax+my_count[10]*BDmax+my_count[11]*BV)<=LBK)
@@ -1513,7 +1524,9 @@ void switchcaseout(int m)
     }//case6
     case 9:
     {
+#ifndef NDEBUGLESS0
         if(my_count[m]<=0)   break;
+#endif // NDEBUGLESS0
         my_count[m]--;
 
         if((my_count[0]*BV+my_count[1]*BMmax+my_count[2]*BDmax+my_count[3]*BV+my_count[4]*BV+my_count[5]*BMmax+my_count[6]*BDmax+my_count[7]*BV+my_count[8]*BV+my_count[9]*BMmax+my_count[10]*BDmax+my_count[11]*BV)<=LBK)
@@ -1590,7 +1603,9 @@ void switchcaseout(int m)
     }//case9
     case 10:
     {
+#ifndef NDEBUGLESS0
         if(my_count[m]<=0)   break;
+#endif // NDEBUGLESS0
         my_count[m]--;
 
         if((my_count[0]*BV+my_count[1]*BMmax+my_count[2]*BDmax+my_count[3]*BV+my_count[4]*BV+my_count[5]*BMmax+my_count[6]*BDmax+my_count[7]*BV+my_count[8]*BV+my_count[9]*BMmax+my_count[10]*BDmax+my_count[11]*BV)<=LBK)
@@ -1665,6 +1680,12 @@ void switchcaseout(int m)
 
         break;
     }//case10
+    /*default:
+    {
+        char tempcs[100];
+        printf("switchcaseout default\n");
+        cin>>tempcs;
+    }*/
     }  //switch
 
 

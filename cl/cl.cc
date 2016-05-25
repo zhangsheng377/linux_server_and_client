@@ -10,8 +10,8 @@ const int CLIENTNUM=2001;//从1开始
 //vector<int> sockets(CLIENTNUM);
 const int SLEEP_US=10000;
 const int CLIENTSEC=200;
-const int MINCLIENTSEC=60;
-const int LIVETIME=600;
+const int MINCLIENTSEC=100;
+const int LIVETIME=60;
 
 map<int,int> map_ID_sockets;//从1开始
 map<int,CLIENT> map_socket_clients;

@@ -1,4 +1,5 @@
-#define  NDEBUG
+#define NDEBUG
+//#define NDEBUGMYCOUNT
 
 #include "utility.h"
 #include<map>
@@ -152,7 +153,7 @@ int main(int argc, char *argv[])
 
                 if(map_it!=clients_map.end())
                 {
-                    printf("\n====================timeout!!!===================\nClientID = %d closed. now there are %d client in the satellite.\n\n", clients_map[socket].id, (int)clients_map.size()-1);//zsd
+                    printf("\n====================timeout !!!===================\nClientID = %d closed. now there are %d client in the satellite.\n\n", clients_map[socket].id, (int)clients_map.size()-1);//zsd
 
 #ifndef NDEBUG
                     ftime(&rawtime1);
@@ -160,6 +161,11 @@ int main(int argc, char *argv[])
                     s1=rawtime1.time;
 #endif // NDEBUG
                     switchcaseout(makelevel(map_it->second.degree,map_it->second.hdf_type,map_it->second.bss_type));
+
+                    /*for(int c_i=0; c_i<12; c_i++)
+                    {
+                        printf("switchcaseout my_count[%d] = %d\n",c_i,my_count[c_i]);
+                    }*/
 #ifndef NDEBUG
                     ftime(&rawtime2);
                     ms2=rawtime2.millitm;
@@ -180,7 +186,17 @@ int main(int argc, char *argv[])
                     printf("band_media_level 2 : %d\n",returnband[4]);
                     printf("band_ data_level 2 : %d\n",returnband[5]);*/
                     //returnmyband(searchDegree(map_it->second.id),returnband);
+
                     clients_map.erase(map_it);
+                    map<int,CLIENT>::iterator map_int_CLIENT_itt;
+                    for(int c_i=0; c_i<12; c_i++)
+                    {
+                        my_count[c_i]=0;
+                    }
+                    for(map_int_CLIENT_itt=clients_map.begin(); map_int_CLIENT_itt!=clients_map.end(); ++map_int_CLIENT_itt)
+                    {
+                        ++my_count[makelevel(map_int_CLIENT_itt->second.degree,map_int_CLIENT_itt->second.hdf_type,map_int_CLIENT_itt->second.bss_type)];
+                    }
                 }
 #ifndef NDEBUG
                 printf("close timerfd 1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
@@ -282,6 +298,11 @@ int main(int argc, char *argv[])
                         s1=rawtime1.time;
 #endif // NDEBUG
                         switchcaseout(makelevel(map_it->second.degree,map_it->second.hdf_type,map_it->second.bss_type));
+
+                        /*for(int c_i=0; c_i<12; c_i++)
+                        {
+                            printf("switchcaseout my_count[%d] = %d\n",c_i,my_count[c_i]);
+                        }*/
 #ifndef NDEBUG
                         ftime(&rawtime2);
                         ms2=rawtime2.millitm;
@@ -303,6 +324,15 @@ int main(int argc, char *argv[])
                         printf("band_ data_level 2 : %d\n",returnband[5]);*/
                         //returnmyband(searchDegree(map_it->second.id),returnband);
                         clients_map.erase(map_it);
+                        map<int,CLIENT>::iterator map_int_CLIENT_itt;
+                        for(int c_i=0; c_i<12; c_i++)
+                        {
+                            my_count[c_i]=0;
+                        }
+                        for(map_int_CLIENT_itt=clients_map.begin(); map_int_CLIENT_itt!=clients_map.end(); ++map_int_CLIENT_itt)
+                        {
+                            ++my_count[makelevel(map_int_CLIENT_itt->second.degree,map_int_CLIENT_itt->second.hdf_type,map_int_CLIENT_itt->second.bss_type)];
+                        }
                     }
                 }
                 /*else if(len < 0)//并到==0里，变成<=0
@@ -434,7 +464,23 @@ int main(int argc, char *argv[])
                         {
                             printf("================ switchcasein = false ================\n" );
                             printf("Reject the client id = %d to come in.\n\n",client.id);
+                            char message_send[BUF_SIZE];
+                            bzero(message_send, BUF_SIZE);
+                            sprintf(message_send, "-3");
+                            send(sockfd, message_send, BUF_SIZE, 0);
                             close(sockfd);
+                            /*printf("band_media_level 0 : %d\n",returnband[0]);
+                            printf("band_ data_level 0 : %d\n",returnband[1]);
+                            printf("band_media_level 1 : %d\n",returnband[2]);
+                            printf("band_ data_level 1 : %d\n",returnband[3]);
+                            printf("band_media_level 2 : %d\n",returnband[4]);
+                            printf("band_ data_level 2 : %d\n",returnband[5]);*/
+#ifndef NDEBUGMYCOUNT
+                            for(int c_i=0; c_i<12; c_i++)
+                            {
+                                printf("switchcasein my_count[%d] = %d\n",c_i,my_count[c_i]);
+                            }
+#endif // NDEBUGMYCOUNT
 #ifndef NDEBUG
                             printf("delfd sockfd 2 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
 #endif // NDEBUG
@@ -443,6 +489,15 @@ int main(int argc, char *argv[])
                             if(map_int_CLIENT_it!=clients_map.end())
                             {
                                 clients_map.erase(map_int_CLIENT_it);
+                                map<int,CLIENT>::iterator map_int_CLIENT_itt;
+                                for(int c_i=0; c_i<12; c_i++)
+                                {
+                                    my_count[c_i]=0;
+                                }
+                                for(map_int_CLIENT_itt=clients_map.begin(); map_int_CLIENT_itt!=clients_map.end(); ++map_int_CLIENT_itt)
+                                {
+                                    ++my_count[makelevel(map_int_CLIENT_itt->second.degree,map_int_CLIENT_itt->second.hdf_type,map_int_CLIENT_itt->second.bss_type)];
+                                }
                             }
                             continue;
                         }
@@ -465,6 +520,12 @@ int main(int argc, char *argv[])
                                             s1=rawtime1.time;
 #endif // NDEBUG
                                             switchcaseout(makelevel(map_int_CLIENT_it->second.degree,map_int_CLIENT_it->second.hdf_type,map_int_CLIENT_it->second.bss_type));
+#ifndef NDEBUGMYCOUNT
+                                            for(int c_i=0; c_i<12; c_i++)
+                                            {
+                                                printf("switchcasein my_count[%d] = %d\n",c_i,my_count[c_i]);
+                                            }
+#endif // NDEBUGMYCOUNT
 #ifndef NDEBUG
                                             ftime(&rawtime2);
                                             ms2=rawtime2.millitm;
@@ -498,7 +559,61 @@ int main(int argc, char *argv[])
                                             //往回退一个，这样之后执行++it应该不会出问题
                                             //map<int,CLIENT>::iterator map_int_CLIENT_itt=--map_int_CLIENT_it;
                                             clients_map.erase(map_int_CLIENT_it);
+                                            map<int,CLIENT>::iterator map_int_CLIENT_itt;
+                                            for(int c_i=0; c_i<12; c_i++)
+                                            {
+                                                my_count[c_i]=0;
+                                            }
+                                            for(map_int_CLIENT_itt=clients_map.begin(); map_int_CLIENT_itt!=clients_map.end(); ++map_int_CLIENT_itt)
+                                            {
+                                                ++my_count[makelevel(map_int_CLIENT_itt->second.degree,map_int_CLIENT_itt->second.hdf_type,map_int_CLIENT_itt->second.bss_type)];
+                                            }
                                             //map_int_CLIENT_it=map_int_CLIENT_itt;
+                                            map_int_CLIENT_it=clients_map.begin();
+                                            --num;
+                                        }
+                                        else
+                                        {
+                                            break;
+                                        }
+                                    }
+
+                                }//for
+                                printf("\n");
+                            }
+                            else if(returnband[10]>0)//需要踢人
+                            {
+                                int num=returnband[10];
+                                map<int,CLIENT>::iterator map_int_CLIENT_it;
+                                for(map_int_CLIENT_it=clients_map.begin(); map_int_CLIENT_it!=clients_map.end(); ++map_int_CLIENT_it)
+                                {
+                                    if(map_int_CLIENT_it->second.degree==returnband[9])
+                                    {
+                                        if(num>0)
+                                        {
+                                            printf("===========need to throw the client ==========\n");
+
+                                            switchcaseout(makelevel(map_int_CLIENT_it->second.degree,map_int_CLIENT_it->second.hdf_type,map_int_CLIENT_it->second.bss_type));
+
+                                            char message_send[BUF_SIZE];
+                                            bzero(message_send, BUF_SIZE);
+                                            sprintf(message_send, "-3");
+                                            send(map_int_CLIENT_it->first, message_send, BUF_SIZE, 0);
+                                            close(map_int_CLIENT_it->first);
+                                            printf("throw out the client id = %d\n",map_int_CLIENT_it->second.id);
+
+                                            delfd(epfd, map_int_CLIENT_it->first, true);
+
+                                            clients_map.erase(map_int_CLIENT_it);
+                                            map<int,CLIENT>::iterator map_int_CLIENT_itt;
+                                            for(int c_i=0; c_i<12; c_i++)
+                                            {
+                                                my_count[c_i]=0;
+                                            }
+                                            for(map_int_CLIENT_itt=clients_map.begin(); map_int_CLIENT_itt!=clients_map.end(); ++map_int_CLIENT_itt)
+                                            {
+                                                ++my_count[makelevel(map_int_CLIENT_itt->second.degree,map_int_CLIENT_itt->second.hdf_type,map_int_CLIENT_itt->second.bss_type)];
+                                            }
                                             map_int_CLIENT_it=clients_map.begin();
                                             --num;
                                         }
@@ -525,6 +640,15 @@ int main(int argc, char *argv[])
 
 
                         clients_map[sockfd]=client;
+                        map<int,CLIENT>::iterator map_int_CLIENT_itt;
+                        for(int c_i=0; c_i<12; c_i++)
+                        {
+                            my_count[c_i]=0;
+                        }
+                        for(map_int_CLIENT_itt=clients_map.begin(); map_int_CLIENT_itt!=clients_map.end(); ++map_int_CLIENT_itt)
+                        {
+                            ++my_count[makelevel(map_int_CLIENT_itt->second.degree,map_int_CLIENT_itt->second.hdf_type,map_int_CLIENT_itt->second.bss_type)];
+                        }
                         printf("ClientID = %d comes.\n", clients_map[sockfd].id);
                         printf("the band for this client is %d\n",band);
                         printf("Now there are %d clients in the satellite.\n\n", (int)clients_map.size());
@@ -623,6 +747,15 @@ int main(int argc, char *argv[])
                             printf("band_ data_level 2 : %d\n",returnband[5]);*/
                             //returnmyband(searchDegree(map_it->second.id),returnband);
                             clients_map.erase(map_it);
+                            map<int,CLIENT>::iterator map_int_CLIENT_itt;
+                            for(int c_i=0; c_i<12; c_i++)
+                            {
+                                my_count[c_i]=0;
+                            }
+                            for(map_int_CLIENT_itt=clients_map.begin(); map_int_CLIENT_itt!=clients_map.end(); ++map_int_CLIENT_itt)
+                            {
+                                ++my_count[makelevel(map_int_CLIENT_itt->second.degree,map_int_CLIENT_itt->second.hdf_type,map_int_CLIENT_itt->second.bss_type)];
+                            }
                         }
                     }
                     else
