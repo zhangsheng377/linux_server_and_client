@@ -10,7 +10,7 @@ const int CLIENTNUM=2001;//从1开始
 //vector<int> sockets(CLIENTNUM);
 const int SLEEP_US=10000;
 const int CLIENTSEC=200;
-const int MINCLIENTSEC=50;
+const int MINCLIENTSEC=60;
 const int LIVETIME=600;
 
 map<int,int> map_ID_sockets;//从1开始
@@ -80,6 +80,7 @@ int main()
     serverAddr.sin_port = htons(SERVER_PORT);  ///服务器端口
     //serverAddr.sin_addr.s_addr = inet_addr("121.42.143.201");  ///服务器ip
     //serverAddr.sin_addr.s_addr = inet_addr("192.168.0.103");
+    //serverAddr.sin_addr.s_addr = inet_addr("192.168.1.102");
     serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
     srand((unsigned) time(NULL)); //为了提高不重复的概率
     struct rlimit rt;//资源限制符
@@ -301,7 +302,7 @@ int main()
                             sendUser.degree=-1;
                             sendUser.sockfd=-1;
                             //sendUser.isalive=true;
-                            printf("id=%d\n",sendUser.id);
+                            //printf("id=%d\n",sendUser.id);
                             // printf("pwd=%d\n",sendUser.pwd);
                             //printf("hdf_type=%d\n",sendUser.hdf_type);
                             // printf("bss_type=%d\n",sendUser.bss_type);

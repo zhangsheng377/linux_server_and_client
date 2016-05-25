@@ -22,22 +22,22 @@ int out_ms,out_s;
 
 int main(int argc, char *argv[])
 {
-    //·şÎñÆ÷IP + port
+    //æœåŠ¡å™¨IP + port
     struct sockaddr_in serverAddr;
     serverAddr.sin_family = PF_INET;
     serverAddr.sin_port = htons(SERVER_PORT);
     //serverAddr.sin_addr.s_addr = inet_addr(SERVER_IP);
     serverAddr.sin_addr.s_addr = htonl(INADDR_ANY);
 
-    struct rlimit rt;//×ÊÔ´ÏŞÖÆ·û
-    //ÉèÖÃÃ¿¸ö½ø³ÌÔÊĞí´ò¿ªµÄ×î´óÎÄ¼şÊı
+    struct rlimit rt;//èµ„æºé™åˆ¶ç¬¦
+    //è®¾ç½®æ¯ä¸ªè¿›ç¨‹å…è®¸æ‰“å¼€çš„æœ€å¤§æ–‡ä»¶æ•°
     rt.rlim_max=rt.rlim_cur=EPOLL_SIZE;
     if(setrlimit(RLIMIT_NOFILE,&rt)==-1)
     {
         perror("setrlimt error.\n");
         return -1;
     }
-    //´´½¨¼àÌısocket
+    //åˆ›å»ºç›‘å¬socket
     int listener = socket(PF_INET, SOCK_STREAM, 0);
     if(listener < 0)
     {
@@ -45,13 +45,13 @@ int main(int argc, char *argv[])
         return -1;
     }
     printf("listen socket created \n");
-    //°ó¶¨µØÖ·
+    //ç»‘å®šåœ°å€
     if( bind(listener, (struct sockaddr *)&serverAddr, sizeof(serverAddr)) < 0)
     {
         perror("bind error");
         return -1;
     }
-    //¼àÌı
+    //ç›‘å¬
     int ret = listen(listener, 5);
     if(ret < 0)
     {
@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
         return -1;
     }
     printf("Start to listen: %s\n", SERVER_IP);
-    //ÔÚÄÚºËÖĞ´´½¨ÊÂ¼ş±í
+    //åœ¨å†…æ ¸ä¸­åˆ›å»ºäº‹ä»¶è¡¨
     int epfd = epoll_create(EPOLL_SIZE);
     if(epfd < 0)
     {
@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
     }
     printf("epoll created, epollfd = %d\n", epfd);
     static struct epoll_event events[EPOLL_SIZE];
-    //ÍùÄÚºËÊÂ¼ş±íÀïÌí¼ÓÊÂ¼ş
+    //å¾€å†…æ ¸äº‹ä»¶è¡¨é‡Œæ·»åŠ äº‹ä»¶
     addfd(epfd, listener, true);
 
 
@@ -79,23 +79,23 @@ int main(int argc, char *argv[])
     }
 
 
-    //Ö÷Ñ­»·
+    //ä¸»å¾ªç¯
     while(1)
     {
         //printf("wait for the epoll.\n");
-        //epoll_events_count±íÊ¾¾ÍĞ÷ÊÂ¼şµÄÊıÄ¿
+        //epoll_events_countè¡¨ç¤ºå°±ç»ªäº‹ä»¶çš„æ•°ç›®
         int epoll_events_count = epoll_wait(epfd, events, EPOLL_SIZE, -1);
         if(epoll_events_count < 0)
         {
             perror("epoll failure");
             break;
         }
-        //´¦ÀíÕâepoll_events_count¸ö¾ÍĞ÷ÊÂ¼ş
+        //å¤„ç†è¿™epoll_events_countä¸ªå°±ç»ªäº‹ä»¶
         for(int i = 0; i < epoll_events_count; ++i)
         {
             //printf("here is an event.\n");
             int sockfd = events[i].data.fd;
-            //ĞÂÓÃ»§Á¬½Ó
+            //æ–°ç”¨æˆ·è¿æ¥
             if(sockfd == listener)
             {
                 //printf("run into the listener.\n");
@@ -107,20 +107,20 @@ int main(int argc, char *argv[])
 
                 addfd(epfd, clientfd, true);
 
-                // ·şÎñ¶ËÓÃlist±£´æÓÃ»§Á¬½Ó
+                // æœåŠ¡ç«¯ç”¨listä¿å­˜ç”¨æˆ·è¿æ¥
                 struct CLIENT client;
                 //client.socketfd=clientfd;
                 clients_map[clientfd]=client;
-                printf("Now there are %d clients in the satellite.\n\n", (int)clients_map.size());//zsd
+                //printf("Now there are %d clients in the satellite.\n\n", (int)clients_map.size());//zsd
 
             }
-            else if(map_timerfd_sockets.find(sockfd)!=map_timerfd_sockets.end())//É¾³ıtimefdÊ±£¬²»ÄÜÉ¾map_timefd£¬Òª²»È»½ø²»À´£¬»Øµ½socketÄÇ
+            else if(map_timerfd_sockets.find(sockfd)!=map_timerfd_sockets.end())//åˆ é™¤timefdæ—¶ï¼Œä¸èƒ½åˆ map_timefdï¼Œè¦ä¸ç„¶è¿›ä¸æ¥ï¼Œå›åˆ°socketé‚£
             {
                 int timerfd=sockfd;
                 int socket=map_timerfd_sockets[timerfd];
-                if(clients_map.find(socket)==clients_map.end())//ÕÒ²»µ½´Ëtimefd¶ÔÓ¦µÄsocket¶ÔÓ¦µÄclient
+                if(clients_map.find(socket)==clients_map.end())//æ‰¾ä¸åˆ°æ­¤timefdå¯¹åº”çš„socketå¯¹åº”çš„client
                 {
-                    //if(socket>0) close(socket);//socketÓ¦¸ÃÊÇ´óÓÚ0µÄ°É
+                    //if(socket>0) close(socket);//socketåº”è¯¥æ˜¯å¤§äº0çš„å§
                     map<int,int>::iterator map_int_int_it;
                     map_int_int_it=map_timerfd_sockets.find(timerfd);
                     if(map_int_int_it!=map_timerfd_sockets.end()) map_timerfd_sockets.erase(map_int_int_it);
@@ -146,7 +146,7 @@ int main(int argc, char *argv[])
 
                 if(map_it!=clients_map.end())
                 {
-                    printf("\ntimeout!!!   ClientID = %d closed.\n now there are %d client in the satellite.\n\n", clients_map[socket].id, (int)clients_map.size()-1);//zsd
+                    printf("\n====================timeout!!!===================\nClientID = %d closed. now there are %d client in the satellite.\n\n", clients_map[socket].id, (int)clients_map.size()-1);//zsd
 
 #ifndef NDEBUG
                     ftime(&rawtime1);
@@ -167,12 +167,13 @@ int main(int argc, char *argv[])
                     }
                     printf("time of switchcaseout : s = %d    ms = %d\n",out_s,out_ms);
 #endif // NDEBUG
-                    printf("band_media_level 0 : %d\n",returnband[0]);
+                    /*printf("band_media_level 0 : %d\n",returnband[0]);
                     printf("band_ data_level 0 : %d\n",returnband[1]);
                     printf("band_media_level 1 : %d\n",returnband[2]);
                     printf("band_ data_level 1 : %d\n",returnband[3]);
                     printf("band_media_level 2 : %d\n",returnband[4]);
-                    printf("band_ data_level 2 : %d\n",returnband[5]);
+                    printf("band_ data_level 2 : %d\n",returnband[5]);*/
+                    //returnmyband(searchDegree(map_it->second.id),returnband);
                     clients_map.erase(map_it);
                 }
 #ifndef NDEBUG
@@ -188,7 +189,7 @@ int main(int argc, char *argv[])
                 map_int_int_it=map_timerfd_sockets.find(timerfd);
                 if(map_int_int_it!=map_timerfd_sockets.end()) map_timerfd_sockets.erase(map_int_int_it);
             }
-            //´¦ÀíÓÃ»§·¢À´µÄÏûÏ¢
+            //å¤„ç†ç”¨æˆ·å‘æ¥çš„æ¶ˆæ¯
             else
             {
                 //printf("run into the recv.\n");
@@ -244,7 +245,7 @@ int main(int argc, char *argv[])
                 printf("recv socket 1.6 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
 #endif // NDEBUG
                 //printf("recv: %s       len  =  %d  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1\n",buf,len);//zsd
-                if(len <= 0) // len = 0 means the client closed connection//Ã²ËÆ²»¹ÜÓÃ
+                if(len <= 0) // len = 0 means the client closed connection//è²Œä¼¼ä¸ç®¡ç”¨
                 {
 #ifndef NDEBUG
                     printf("close socket 2 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
@@ -267,7 +268,7 @@ int main(int argc, char *argv[])
                     if(map_it!=clients_map.end())
                     {
 
-                        printf("ClientID = %d closed.\n now there are %d client in the satellite.\n", clients_map[sockfd].id, (int)clients_map.size()-1);//zsd
+                        printf("ClientID = %d closed. now there are %d client in the satellite.\n", clients_map[sockfd].id, (int)clients_map.size()-1);//zsd
 
 #ifndef NDEBUG
                         ftime(&rawtime1);
@@ -288,16 +289,17 @@ int main(int argc, char *argv[])
                         }
                         printf("time of switchcaseout : s = %d    ms = %d\n",out_s,out_ms);
 #endif // NDEBUG
-                        printf("band_media_level 0 : %d\n",returnband[0]);
+                        /*printf("band_media_level 0 : %d\n",returnband[0]);
                         printf("band_ data_level 0 : %d\n",returnband[1]);
                         printf("band_media_level 1 : %d\n",returnband[2]);
                         printf("band_ data_level 1 : %d\n",returnband[3]);
                         printf("band_media_level 2 : %d\n",returnband[4]);
-                        printf("band_ data_level 2 : %d\n",returnband[5]);
+                        printf("band_ data_level 2 : %d\n",returnband[5]);*/
+                        //returnmyband(searchDegree(map_it->second.id),returnband);
                         clients_map.erase(map_it);
                     }
                 }
-                /*else if(len < 0)//²¢µ½==0Àï£¬±ä³É<=0
+                /*else if(len < 0)//å¹¶åˆ°==0é‡Œï¼Œå˜æˆ<=0
                 {
                     printf("recv socket 1.7 error !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
                     perror("recv error");
@@ -315,7 +317,7 @@ int main(int argc, char *argv[])
                     strncat(order,buf,ORDER_LEN);
                     strcat(message,&buf[ORDER_LEN]);
                     //printf("order= %s\n",order);
-                    if(strcmp(order,"00")==0)//½ÓÊÕ½á¹¹Ìå
+                    if(strcmp(order,"00")==0)//æ¥æ”¶ç»“æ„ä½“
                     {
                         struct CLIENT client;
                         //memcpy(&client,message,sizeof(CLIENT));
@@ -330,7 +332,7 @@ int main(int argc, char *argv[])
 #endif // NDEBUG
                         if(search(client.id,client.pwd)==false)
                         {
-                            printf("===========search = false================\n");
+                            printf("===========search DB = false================\n");
 #ifndef NDEBUG
                             ftime(&rawtime2);
                             ms2=rawtime2.millitm;
@@ -401,6 +403,7 @@ int main(int argc, char *argv[])
 #endif // NDEBUG
                         client.degree=searchDegree(client.id);
                         switchcasein(makelevel(client.degree,client.hdf_type,client.bss_type));
+                        int band=returnmyband(searchDegree(client.id),returnband);
 #ifndef NDEBUG
                         for(int c_i=0; c_i<12; c_i++)
                         {
@@ -420,7 +423,7 @@ int main(int argc, char *argv[])
                         }
                         printf("time of switchcasein : s = %d    ms = %d\n",out_s,out_ms);
 #endif // NDEBUG
-                        if(returnband[6]==0)//½ÓÈë²»³É¹¦
+                        if(returnband[6]==0)//æ¥å…¥ä¸æˆåŠŸ
                         {
                             printf("================ switchcasein = false ================\n" );
                             close(sockfd);
@@ -430,9 +433,9 @@ int main(int argc, char *argv[])
                             delfd(epfd, sockfd, true);
                             continue;
                         }
-                        else//½ÓÈë³É¹¦
+                        else//æ¥å…¥æˆåŠŸ
                         {
-                            if(returnband[8]>0)//ĞèÒªÌßÈË
+                            if(returnband[8]>0)//éœ€è¦è¸¢äºº
                             {
                                 int num=returnband[8];
                                 map<int,CLIENT>::iterator map_int_CLIENT_it;
@@ -462,19 +465,19 @@ int main(int argc, char *argv[])
                                             }
                                             printf("time of switchcaseout : s = %d    ms = %d\n",out_s,out_ms);
 #endif // NDEBUG
-                                            printf("band_media_level 0 : %d\n",returnband[0]);
+                                            /*printf("band_media_level 0 : %d\n",returnband[0]);
                                             printf("band_ data_level 0 : %d\n",returnband[1]);
                                             printf("band_media_level 1 : %d\n",returnband[2]);
                                             printf("band_ data_level 1 : %d\n",returnband[3]);
                                             printf("band_media_level 2 : %d\n",returnband[4]);
-                                            printf("band_ data_level 2 : %d\n",returnband[5]);
-
+                                            printf("band_ data_level 2 : %d\n",returnband[5]);*/
+                                            //returnmyband(searchDegree(map_int_CLIENT_it->second.id),returnband);
                                             close(map_int_CLIENT_it->first);
 #ifndef NDEBUG
                                             printf("delfd map_int_CLIENT_it->first 3 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
 #endif // NDEBUG
                                             delfd(epfd, map_int_CLIENT_it->first, true);
-                                            //Íù»ØÍËÒ»¸ö£¬ÕâÑùÖ®ºóÖ´ĞĞ++itÓ¦¸Ã²»»á³öÎÊÌâ
+                                            //å¾€å›é€€ä¸€ä¸ªï¼Œè¿™æ ·ä¹‹åæ‰§è¡Œ++itåº”è¯¥ä¸ä¼šå‡ºé—®é¢˜
                                             //map<int,CLIENT>::iterator map_int_CLIENT_itt=--map_int_CLIENT_it;
                                             clients_map.erase(map_int_CLIENT_it);
                                             //map_int_CLIENT_it=map_int_CLIENT_itt;
@@ -490,18 +493,21 @@ int main(int argc, char *argv[])
                             }
                             else
                             {
-                                printf("band_media_level 0 : %d\n",returnband[0]);
+                                /*printf("band_media_level 0 : %d\n",returnband[0]);
                                 printf("band_ data_level 0 : %d\n",returnband[1]);
                                 printf("band_media_level 1 : %d\n",returnband[2]);
                                 printf("band_ data_level 1 : %d\n",returnband[3]);
                                 printf("band_media_level 2 : %d\n",returnband[4]);
-                                printf("band_ data_level 2 : %d\n",returnband[5]);
+                                printf("band_ data_level 2 : %d\n",returnband[5]);*/
+                                //printf("the band for this client is %d\n",returnmyband(searchDegree(client.id),returnband));
                             }
                         }
 
 
                         clients_map[sockfd]=client;
                         printf("ClientID = %d comes.\n", clients_map[sockfd].id);
+                        printf("the band for this client is %d\n",band);
+                        printf("Now there are %d clients in the satellite.\n\n", (int)clients_map.size());
 #ifndef NDEBUG
                         printf("live_sec = %f\n",clients_map[sockfd].life_time);
 #endif // NDEBUG
@@ -548,7 +554,7 @@ int main(int argc, char *argv[])
                         }
 
                     }
-                    else if(strcmp(order,"-1")==0)//´ËsocketÍË³ö
+                    else if(strcmp(order,"-1")==0)//æ­¤socketé€€å‡º
                     {
 #ifndef NDEBUG
                         printf("close socket 4 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
@@ -569,7 +575,7 @@ int main(int argc, char *argv[])
                         //clients_map.erase(map_it);
                         if(map_it!=clients_map.end())
                         {
-                            printf("ClientID = %d closed.\n now there are %d client in the satellite.\n", clients_map[sockfd].id, (int)clients_map.size()-1);//zsd
+                            printf("ClientID = %d closed. now there are %d client in the satellite.\n", clients_map[sockfd].id, (int)clients_map.size()-1);//zsd
 #ifndef NDEBUG
                             ftime(&rawtime1);
                             ms1=rawtime1.millitm;
@@ -589,13 +595,13 @@ int main(int argc, char *argv[])
                             }
                             printf("time of switchcaseout : s = %d    ms = %d\n",out_s,out_ms);
 #endif // NDEBUG
-                            printf("band_media_level 0 : %d\n",returnband[0]);
+                            /*printf("band_media_level 0 : %d\n",returnband[0]);
                             printf("band_ data_level 0 : %d\n",returnband[1]);
                             printf("band_media_level 1 : %d\n",returnband[2]);
                             printf("band_ data_level 1 : %d\n",returnband[3]);
                             printf("band_media_level 2 : %d\n",returnband[4]);
-                            printf("band_ data_level 2 : %d\n",returnband[5]);
-
+                            printf("band_ data_level 2 : %d\n",returnband[5]);*/
+                            //returnmyband(searchDegree(map_it->second.id),returnband);
                             clients_map.erase(map_it);
                         }
                     }
@@ -621,7 +627,7 @@ int main(int argc, char *argv[])
             }
         }
     }
-    close(listener); //¹Ø±Õsocket
-    close(epfd); //¹Ø±ÕÄÚºË
+    close(listener); //å…³é—­socket
+    close(epfd); //å…³é—­å†…æ ¸
     return 0;
 }

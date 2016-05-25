@@ -105,7 +105,7 @@ bool search(int ID, int RcvKey) //2, 查询认证
 
 //printf("start search db 4.\n" );
 
-        printf("ResultTmp = %s  , skey = %s \n",  ResultTmp, skey);
+        //printf("ResultTmp = %s  , skey = %s \n",  ResultTmp, skey);
 
         //char ccc[4096];cin>>ccc;
 
