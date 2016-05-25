@@ -124,6 +124,8 @@ int main(int argc, char *argv[])
                     map<int,int>::iterator map_int_int_it;
                     map_int_int_it=map_timerfd_sockets.find(timerfd);
                     if(map_int_int_it!=map_timerfd_sockets.end()) map_timerfd_sockets.erase(map_int_int_it);
+                    close(timerfd);
+                    delfd(epfd, timerfd, true);
                     continue;
                 }
                 //printf("timerfd = %d\n",sockfd);
@@ -133,12 +135,16 @@ int main(int argc, char *argv[])
 #ifndef NDEBUG
                 printf("close socket 1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
 #endif // NDEBUG
-                if(clients_map.find(socket)!=clients_map.end())
-                {
-                    close(socket);
-                    //printf("delfd socket 1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
-                    //delfd(epfd, socket, true);
-                }
+                //if(clients_map.find(socket)!=clients_map.end())
+                //{
+                char message_send[BUF_SIZE];
+                bzero(message_send, BUF_SIZE);
+                sprintf(message_send, "-2");
+                send(socket, message_send, BUF_SIZE, 0);
+                close(socket);
+                //printf("delfd socket 1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+                delfd(epfd, socket, true);
+                //}
                 //delfd(epfd, socket, true);/////////////////////
                 map<int,CLIENT>::iterator map_it;
                 map_it=clients_map.find(socket);
@@ -333,6 +339,7 @@ int main(int argc, char *argv[])
                         if(search(client.id,client.pwd)==false)
                         {
                             printf("===========search DB = false================\n");
+                            printf("Reject the client id = %d to come in.\n\n",client.id);
 #ifndef NDEBUG
                             ftime(&rawtime2);
                             ms2=rawtime2.millitm;
@@ -379,7 +386,7 @@ int main(int argc, char *argv[])
                         ms1=rawtime1.millitm;
                         s1=rawtime1.time;
 #endif // NDEBUG
-                        client.degree=searchDegree(client.id);
+                        //client.degree=searchDegree(client.id);
 #ifndef NDEBUG
                         ftime(&rawtime2);
                         ms2=rawtime2.millitm;
@@ -426,11 +433,17 @@ int main(int argc, char *argv[])
                         if(returnband[6]==0)//接入不成功
                         {
                             printf("================ switchcasein = false ================\n" );
+                            printf("Reject the client id = %d to come in.\n\n",client.id);
                             close(sockfd);
 #ifndef NDEBUG
                             printf("delfd sockfd 2 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
 #endif // NDEBUG
                             delfd(epfd, sockfd, true);
+                            map<int,CLIENT>::iterator map_int_CLIENT_it=clients_map.find(sockfd);
+                            if(map_int_CLIENT_it!=clients_map.end())
+                            {
+                                clients_map.erase(map_int_CLIENT_it);
+                            }
                             continue;
                         }
                         else//接入成功
@@ -472,7 +485,12 @@ int main(int argc, char *argv[])
                                             printf("band_media_level 2 : %d\n",returnband[4]);
                                             printf("band_ data_level 2 : %d\n",returnband[5]);*/
                                             //returnmyband(searchDegree(map_int_CLIENT_it->second.id),returnband);
+                                            char message_send[BUF_SIZE];
+                                            bzero(message_send, BUF_SIZE);
+                                            sprintf(message_send, "-3");
+                                            send(map_int_CLIENT_it->first, message_send, BUF_SIZE, 0);
                                             close(map_int_CLIENT_it->first);
+                                            printf("throw out the client id = %d\n",map_int_CLIENT_it->second.id);
 #ifndef NDEBUG
                                             printf("delfd map_int_CLIENT_it->first 3 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
 #endif // NDEBUG
@@ -489,7 +507,9 @@ int main(int argc, char *argv[])
                                             break;
                                         }
                                     }
-                                }
+
+                                }//for
+                                printf("\n");
                             }
                             else
                             {

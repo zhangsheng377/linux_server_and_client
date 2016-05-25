@@ -220,6 +220,7 @@ int main()
             }
             //printf("this possion is end. start sleep.\n");
             int s=1000*1000-possion*SLEEP_US;
+            if(s<0) s=0;
             if(s>0) usleep(s);
             //sleep(1);
         }
@@ -301,6 +302,7 @@ int main()
                             sendUser.life_time=expntl(LIVETIME);
                             sendUser.degree=-1;
                             sendUser.sockfd=-1;
+                            sendUser.state=0;
                             //sendUser.isalive=true;
                             //printf("id=%d\n",sendUser.id);
                             // printf("pwd=%d\n",sendUser.pwd);
@@ -373,13 +375,26 @@ int main()
                         if(map_int_int_it==map_ID_sockets.end()) printf("Can't find the socket to close.\n");
                         else
                         {
-                            printf("Server closed connection: ID=%d\n", map_int_int_it->first);
+                            //printf("Server closed connection: ID=%d, ", map_int_int_it->first);
 
                             map_ID_sockets.erase(map_int_int_it);
                             map<int,CLIENT>::iterator map_int_client_it;
                             map_int_client_it=map_socket_clients.find(sock);
+                            if(map_int_client_it!=map_socket_clients.end())
+                            {
+                                if(map_int_client_it->second.state==0)
+                                {
+                                    printf("This client is timeout !!!\n");
+                                }
+                                else
+                                {
+                                    printf("This client has been thrown out !!!\n");
+                                }
 
-                            map_socket_clients.erase(map_int_client_it);
+                                map_socket_clients.erase(map_int_client_it);
+                            }
+
+
                             close(sock);//不知要不要这样重复关闭
                             delfd(epfd, sock, true);/////////////////////
                             //printf("Server closed connection: %d\n", sock);
@@ -390,7 +405,25 @@ int main()
                         }
 
                     }
-                    //  else printf("%s\n", message);20160520
+                    else
+                    {
+                        //printf("%s\n", message);//20160520
+                        /* if(strcmp(message,"-2")==0)//timeout
+                         {
+                             if(map_socket_clients.find(sock)!=map_socket_clients.end())
+                             {
+                                 printf("The client id = %d is timeout !!!\n",map_socket_clients[sock].id);
+                             }
+                         }
+                         else */ if(strcmp(message,"-3")==0)//timeout
+                        {
+                            if(map_socket_clients.find(sock)!=map_socket_clients.end())
+                            {
+                                //printf("The client id = %d has been thrown out !!!\n",map_socket_clients[sock].id);
+                                map_socket_clients[sock].state=1;
+                            }
+                        }
+                    }
                 }
             }//for
         }//while

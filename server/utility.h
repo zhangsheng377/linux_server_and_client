@@ -51,6 +51,7 @@ struct CLIENT
     double life_time;
     int degree;
     int sockfd;
+    int state;//0是timeout，1是被踢
 };
 
 // clients_list save all the clients's socket

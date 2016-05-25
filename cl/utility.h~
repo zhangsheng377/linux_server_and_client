@@ -74,6 +74,7 @@ struct CLIENT
     double life_time;
     int degree;
     int sockfd;
+    int state;
     //bool isalive;
 };
 
@@ -121,32 +122,32 @@ void delfd( int epollfd, int fd, bool enable_et )
 
 string IntToString ( int a)
 {
-	string s;
-	while(a!=0)
-	{
-		s.append(1, a%10+'0');
-		a = a/10;
-	}
-	reverse (s.begin(), s.end());
-	return s;
+    string s;
+    while(a!=0)
+    {
+        s.append(1, a%10+'0');
+        a = a/10;
+    }
+    reverse (s.begin(), s.end());
+    return s;
 }
 int StringToInt(string s)
 {
-int sum=0;
-    for (int i=0; i<s.size(); i++)
+    int sum=0;
+    for (int i=0; i<(int)s.size(); i++)
     {
-       sum += sum*10 + (s[i] - '0');
-}
-return sum;
+        sum += sum*10 + (s[i] - '0');
+    }
+    return sum;
 }
 
 int GenKey(int x)
 {
-	string s = "9211";
-	string temp = IntToString(x);
-	s.append(temp);
-	int xx = StringToInt(s);
-	return xx;
+    string s = "9211";
+    string temp = IntToString(x);
+    s.append(temp);
+    int xx = StringToInt(s);
+    return xx;
 }
 
 
