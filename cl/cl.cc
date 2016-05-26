@@ -11,7 +11,7 @@ const int CLIENTNUM=2001;//从1开始
 const int SLEEP_US=10000;
 const int CLIENTSEC=200;
 const int MINCLIENTSEC=100;
-const int LIVETIME=60;
+const int LIVETIME=300;
 
 map<int,int> map_ID_sockets;//从1开始
 map<int,CLIENT> map_socket_clients;
@@ -322,8 +322,8 @@ int main()
                             send(map_ID_sockets[ID],send_message, sizeof(CLIENT)+ORDER_LEN, 0);
                             //countnow++;
                             //printf("send message1: %s,countnow=%d\n\n\n",send_message,countnow);
-                            printf("ID: %d connect\n",ID);
-                            printf(" client count now = %lu\n\n\n",map_socket_clients.size());
+                            //printf("ID: %d connect\n",ID);
+                            //printf(" client count now = %lu\n\n\n",map_socket_clients.size());
                         }
                         else if(strcmp(order,"-1")==0)//关闭当前socket
                         {
@@ -415,12 +415,20 @@ int main()
                                  printf("The client id = %d is timeout !!!\n",map_socket_clients[sock].id);
                              }
                          }
-                         else */ if(strcmp(message,"-3")==0)//timeout
+                         else */ if(strcmp(message,"-3")==0)//throw out
                         {
                             if(map_socket_clients.find(sock)!=map_socket_clients.end())
                             {
                                 //printf("The client id = %d has been thrown out !!!\n",map_socket_clients[sock].id);
                                 map_socket_clients[sock].state=1;
+                            }
+                        }
+                        else  if(strcmp(message,"02")==0)//come in
+                        {
+                            if(map_socket_clients.find(sock)!=map_socket_clients.end())
+                            {
+                                printf("ID: %d connected\n",map_socket_clients[sock].id);
+                                printf(" client count now = %lu\n\n\n",map_socket_clients.size());
                             }
                         }
                     }

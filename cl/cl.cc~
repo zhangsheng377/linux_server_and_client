@@ -8,7 +8,10 @@
 
 const int CLIENTNUM=2001;//从1开始
 //vector<int> sockets(CLIENTNUM);
-
+const int SLEEP_US=10000;
+const int CLIENTSEC=200;
+const int MINCLIENTSEC=50;
+const int LIVETIME=300;
 
 map<int,int> map_ID_sockets;//从1开始
 map<int,CLIENT> map_socket_clients;
@@ -69,16 +72,17 @@ int main()
 {
     ///定义sockfd
     //int sock_cli = socket(AF_INET,SOCK_STREAM, 0);
-    int countnow=0;
+    //int countnow=0;
     ///定义sockaddr_in
     struct sockaddr_in serverAddr;
     memset(&serverAddr, 0, sizeof(serverAddr));
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_port = htons(SERVER_PORT);  ///服务器端口
     //serverAddr.sin_addr.s_addr = inet_addr("121.42.143.201");  ///服务器ip
-    //serverAddr.sin_addr.s_addr = inet_addr("192.168.0.103"); 
-    serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1"); 
-	srand((unsigned) time(NULL)); //为了提高不重复的概率
+    //serverAddr.sin_addr.s_addr = inet_addr("192.168.0.103");
+    //serverAddr.sin_addr.s_addr = inet_addr("192.168.1.102");
+    serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
+    srand((unsigned) time(NULL)); //为了提高不重复的概率
     struct rlimit rt;//资源限制符
     //设置每个进程允许打开的最大文件数
     rt.rlim_max=rt.rlim_cur=EPOLL_SIZE;
@@ -102,7 +106,7 @@ int main()
     for(i=CLIENTNUM; i>=1; --i) swap(a[i], a[rand()%i]);
 
 
-    
+
     // 创建管道，其中fd[0]用于父进程读，fd[1]用于子进程写
     int pipe_fd[2];
     if(pipe(pipe_fd) < 0)
@@ -130,9 +134,14 @@ int main()
         int iNum = 0;
         char message[BUF_SIZE];
         bzero(message, BUF_SIZE);
+
+
+        int count_client=0;
+        int client_sec=CLIENTSEC;
+
         while(isClientwork)
         {
-            
+
             //cout<<"end sleep"<<endl;
             /*   printf("Please input the sockets' ID: ");
 
@@ -178,20 +187,28 @@ int main()
                    perror("fork error");
                    return -1;
                }*/
-            int possion =randomPossion(100);
+
+            if(count_client>1000)
+            {
+                client_sec=CLIENTSEC-count_client/(2000/(CLIENTSEC-MINCLIENTSEC));
+                if(client_sec<MINCLIENTSEC) client_sec=MINCLIENTSEC;
+            }
+            int possion =randomPossion(client_sec);
+            count_client+=possion;
             printf("possion=%d\n",possion);
             //int possion=2;
             for(int itemp=0; itemp<possion; itemp++)
             {
+                //printf("itemp = %d\n",itemp);
                 bzero(message,BUF_SIZE);
-                sprintf(message,"%s %d %s","00",a[iNum]," ");
+                sprintf(message,"%s %d %s","00",a[iNum]," \0");
                 // 子进程将信息写入管道
                 if( write(pipe_fd[1], message, strlen(message)  ) < 0 )//zsd
                 {
                     perror("fork error");
                     return -1;
                 }
-				
+                usleep(SLEEP_US);
                 if(iNum==CLIENTNUM)
                 {
                     for(i=0; i<CLIENTNUM; ++i) a[i]=i+1;
@@ -201,7 +218,11 @@ int main()
                 iNum++;
 
             }
-            sleep(1);
+            //printf("this possion is end. start sleep.\n");
+            int s=1000*1000-possion*SLEEP_US;
+            if(s<0) s=0;
+            if(s>0) usleep(s);
+            //sleep(1);
         }
     }
     else   //pid > 0 父进程
@@ -221,6 +242,7 @@ int main()
                 bzero(message, BUF_SIZE);
                 if(events[i].data.fd == pipe_fd[0])
                 {
+                    //printf("read from the pipe.\n");
                     char order[ORDER_LEN+1];
                     bzero(order, sizeof(order));
                     int ID;
@@ -264,28 +286,29 @@ int main()
                             int n;
                             struct CLIENT sendUser;
                             bzero(&sendUser,sizeof(sendUser));
-                            
-				sendUser.id=ID;
-				//n=520520;
-				sendUser.pwd=GenKey(ID);
-				n=rand()%10;
-				if(n!=0)
-					 n=1;
-				//	printf("n=%d\n",n);
-				sendUser.hdf_type=n;
-                                if(n==0)
-                                    sendUser.bss_type=n;
-				else
-				    sendUser.bss_type=rand()%3;
-				sendUser.life_time=expntl(180);
-                                sendUser.degree=-1;
-                                sendUser.sockfd=-1;
-                //sendUser.isalive=true;
-               printf("id=%d\n",sendUser.id);
-       // printf("pwd=%d\n",sendUser.pwd);
-       //printf("hdf_type=%d\n",sendUser.hdf_type);
-       // printf("bss_type=%d\n",sendUser.bss_type);
-       // printf("life_time=%lf\n",sendUser.life_time);
+
+                            sendUser.id=ID;
+                            //n=520520;
+                            sendUser.pwd=GenKey(ID);
+                            n=rand()%10;
+                            if(n!=0)
+                                n=1;
+                            //	printf("n=%d\n",n);
+                            sendUser.hdf_type=n;
+                            if(n==0)
+                                sendUser.bss_type=n;
+                            else
+                                sendUser.bss_type=rand()%3;
+                            sendUser.life_time=expntl(LIVETIME);
+                            sendUser.degree=-1;
+                            sendUser.sockfd=-1;
+                            sendUser.state=0;
+                            //sendUser.isalive=true;
+                            //printf("id=%d\n",sendUser.id);
+                            // printf("pwd=%d\n",sendUser.pwd);
+                            //printf("hdf_type=%d\n",sendUser.hdf_type);
+                            // printf("bss_type=%d\n",sendUser.bss_type);
+                            // printf("life_time=%lf\n",sendUser.life_time);
                             map_socket_clients[map_ID_sockets[ID]]=sendUser;
                             // 将信息发送给服务端
                             //char client_info[BUF_SIZE];
@@ -297,8 +320,10 @@ int main()
                             //send_message[sizeof(CLIENT)+ORDER_LEN]='\0';
                             //strcat(&send_message[ORDER_LEN],sendUser.usr_pwd);
                             send(map_ID_sockets[ID],send_message, sizeof(CLIENT)+ORDER_LEN, 0);
-countnow++;
-                            printf("send message1: %s,countnow=%d\n\n\n",send_message,countnow);
+                            //countnow++;
+                            //printf("send message1: %s,countnow=%d\n\n\n",send_message,countnow);
+                            //printf("ID: %d connect\n",ID);
+                            //printf(" client count now = %lu\n\n\n",map_socket_clients.size());
                         }
                         else if(strcmp(order,"-1")==0)//关闭当前socket
                         {
@@ -316,6 +341,7 @@ countnow++;
                             printf("ClientID = %d closed.\n", ID);//zsd
                             map_ID_sockets.erase(map_int_int_it);
                             map_socket_clients.erase(map_int_client_it);
+                            printf("client count now = %lu\n\n\n",map_socket_clients.size());
                         }
                         else
                         {
@@ -332,6 +358,7 @@ countnow++;
                 }
                 else//从服务器接收的
                 {
+                    //printf("recv from the server.\n");
                     //服务端发来消息
                     int sock=events[i].data.fd;
                     //接受服务端消息
@@ -348,19 +375,63 @@ countnow++;
                         if(map_int_int_it==map_ID_sockets.end()) printf("Can't find the socket to close.\n");
                         else
                         {
-                           printf("Server closed connection: ID=%d\n", map_int_int_it->first);                            
-                           map_ID_sockets.erase(map_int_int_it);
+                            //printf("Server closed connection: ID=%d, ", map_int_int_it->first);
+
+                            map_ID_sockets.erase(map_int_int_it);
+                            map<int,CLIENT>::iterator map_int_client_it;
+                            map_int_client_it=map_socket_clients.find(sock);
+                            if(map_int_client_it!=map_socket_clients.end())
+                            {
+                                if(map_int_client_it->second.state==0)
+                                {
+                                    printf("This client is timeout !!!\n");
+                                }
+                                else
+                                {
+                                    printf("This client has been thrown out !!!\n");
+                                }
+
+                                map_socket_clients.erase(map_int_client_it);
+                            }
+
+
+                            close(sock);//不知要不要这样重复关闭
+                            delfd(epfd, sock, true);/////////////////////
+                            //printf("Server closed connection: %d\n", sock);
+                            //countnow--;
+                            //printf("countnow=%d\n",countnow);
+
+                            printf("client count now = %lu\n\n\n",map_socket_clients.size());
                         }
-                        map<int,CLIENT>::iterator map_int_client_it;
-                        map_int_client_it=map_socket_clients.find(sock);
-                        map_socket_clients.erase(map_int_client_it);
-                        close(sock);//不知要不要这样重复关闭
-                        delfd(epfd, sock, true);/////////////////////
-                        //printf("Server closed connection: %d\n", sock);
-                        countnow--;
-                         printf("countnow=%d\n",countnow);
+
                     }
-                  //  else printf("%s\n", message);20160520
+                    else
+                    {
+                        //printf("%s\n", message);//20160520
+                        /* if(strcmp(message,"-2")==0)//timeout
+                         {
+                             if(map_socket_clients.find(sock)!=map_socket_clients.end())
+                             {
+                                 printf("The client id = %d is timeout !!!\n",map_socket_clients[sock].id);
+                             }
+                         }
+                         else */ if(strcmp(message,"-3")==0)//throw out
+                        {
+                            if(map_socket_clients.find(sock)!=map_socket_clients.end())
+                            {
+                                //printf("The client id = %d has been thrown out !!!\n",map_socket_clients[sock].id);
+                                map_socket_clients[sock].state=1;
+                            }
+                        }
+                        else  if(strcmp(message,"02")==0)//come in
+                        {
+                            if(map_socket_clients.find(sock)!=map_socket_clients.end())
+                            {
+                                printf("ID: %d connected\n",map_socket_clients[sock].id);
+                                printf(" client count now = %lu\n\n\n",map_socket_clients.size());
+                            }
+                        }
+                    }
                 }
             }//for
         }//while
