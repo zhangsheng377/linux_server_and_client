@@ -503,6 +503,7 @@ int main(int argc, char *argv[])
                         }
                         else//接入成功
                         {
+                            printf("================ switchcasein = true ================\n" );
                             if(returnband[8]>0)//需要踢人
                             {
                                 //int num=returnband[8];
