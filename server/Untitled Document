@@ -1,0 +1,4 @@
+ar -crv sqlite3.a sqlite3.o
+
+g++ -Wall -O2 -pthread server.cpp sqlite3.a -o server2 -ldl
+

@@ -20,6 +20,8 @@
 #include <time.h>
 #include <algorithm>
 #include <math.h>
+#include <limits.h>
+#include <sys/stat.h>
 
 using namespace std;
 
@@ -68,7 +70,8 @@ struct CLIENT
 #define BUF_SIZE 0xFFFF
 
 const int ORDER_LEN=2;
-
+const char *fifo_name = "/tmp/my_fifo";
+const int open_mode = O_WRONLY | O_NONBLOCK;
 
 
 /********************** some function **************************/

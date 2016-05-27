@@ -80,6 +80,26 @@ int main(int argc, char *argv[])
     }
 
 
+    int pipe_fd = -1;
+    int res = 0;
+    char buffer[PIPE_BUF + 1];
+    if(access(fifo_name, F_OK) == -1)
+    {
+        //管道文件不存在
+        //创建命名管道
+        res = mkfifo(fifo_name, 0777);
+        if(res != 0)
+        {
+            fprintf(stderr, "Could not create fifo %s\n", fifo_name);
+            exit(EXIT_FAILURE);
+        }
+    }
+    printf("Process %d opening FIFO O_WRONLY | O_NONBLOCK\n", getpid());
+    //以只写非阻塞方式打开FIFO文件，以只读方式打开数据文件
+    pipe_fd = open(fifo_name, open_mode);
+    printf("Process %d result %d\n", getpid(), pipe_fd);
+
+
     //主循环
     while(1)
     {
@@ -154,6 +174,11 @@ int main(int argc, char *argv[])
                 if(map_it!=clients_map.end())
                 {
                     printf("\n====================timeout !!!===================\nClientID = %d closed. now there are %d client in the satellite.\n\n", clients_map[socket].id, (int)clients_map.size()-1);//zsd
+
+                    bzero(buffer,sizeof(buffer));
+                    sprintf(buffer,"timeout %d %d %s",clients_map[socket].id, (int)clients_map.size()-1,"");
+                    //向FIFO文件写数据
+                    write(pipe_fd, buffer, sizeof(buffer));
 
 #ifndef NDEBUG
                     ftime(&rawtime1);
@@ -370,6 +395,12 @@ int main(int argc, char *argv[])
                         {
                             printf("===========search DB = false================\n");
                             printf("Reject the client id = %d to come in.\n\n",client.id);
+
+                            bzero(buffer,sizeof(buffer));
+                            sprintf(buffer,"rejectdb %d %d %s",client.id, (int)clients_map.size(),"");
+                            //向FIFO文件写数据
+                            write(pipe_fd, buffer, sizeof(buffer));
+
 #ifndef NDEBUG
                             ftime(&rawtime2);
                             ms2=rawtime2.millitm;
@@ -398,6 +429,12 @@ int main(int argc, char *argv[])
                             //close(sockfd);
                             continue;
                         }
+
+                        bzero(buffer,sizeof(buffer));
+                        sprintf(buffer,"accessdb %d %d %s",client.id, (int)clients_map.size(),"");
+                        //向FIFO文件写数据
+                        write(pipe_fd, buffer, sizeof(buffer));
+
 #ifndef NDEBUG
                         ftime(&rawtime2);
                         ms2=rawtime2.millitm;
@@ -464,6 +501,12 @@ int main(int argc, char *argv[])
                         {
                             printf("================ switchcasein = false ================\n" );
                             printf("Reject the client id = %d to come in.\n\n",client.id);
+
+                            bzero(buffer,sizeof(buffer));
+                            sprintf(buffer,"rejecthdf %d %d %s",client.id, (int)clients_map.size(),"");
+                            //向FIFO文件写数据
+                            write(pipe_fd, buffer, sizeof(buffer));
+
                             char message_send[BUF_SIZE];
                             bzero(message_send, BUF_SIZE);
                             sprintf(message_send, "-3");
@@ -503,9 +546,21 @@ int main(int argc, char *argv[])
                         }
                         else//接入成功
                         {
+
+                            bzero(buffer,sizeof(buffer));
+                            sprintf(buffer,"accesshdf %d %d %s",client.id, (int)clients_map.size(),"");
+                            //向FIFO文件写数据
+                            write(pipe_fd, buffer, sizeof(buffer));
+
                             printf("================ switchcasein = true ================\n" );
                             if(returnband[8]>0)//需要踢人
                             {
+
+                                bzero(buffer,sizeof(buffer));
+                                sprintf(buffer,"throw1 %d %d %s",client.id, 0,"");
+                                //向FIFO文件写数据
+                                //write(pipe_fd, buffer, sizeof(buffer));
+
                                 //int num=returnband[8];
                                 map<int,CLIENT>::iterator map_int_CLIENT_it;
                                 for(map_int_CLIENT_it=clients_map.begin(); map_int_CLIENT_it!=clients_map.end(); ++map_int_CLIENT_it)
@@ -553,6 +608,12 @@ int main(int argc, char *argv[])
                                             send(map_int_CLIENT_it->first, message_send, BUF_SIZE, 0);
                                             close(map_int_CLIENT_it->first);
                                             printf("throw out the client id = %d\n",map_int_CLIENT_it->second.id);
+
+                                            char temp_cs[10];
+                                            bzero(temp_cs,sizeof(temp_cs));
+                                            sprintf(buffer,"%d,",map_int_CLIENT_it->second.id);
+                                            strcat(buffer,temp_cs);
+
 #ifndef NDEBUG
                                             printf("delfd map_int_CLIENT_it->first 3 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
 #endif // NDEBUG
@@ -578,12 +639,16 @@ int main(int argc, char *argv[])
                                             break;
                                         }
                                     }
-
                                 }//for
                                 //printf("\n");
+                                buffer[strlen(buffer)-1]='\0';
+                                //向FIFO文件写数据
+                                write(pipe_fd, buffer, sizeof(buffer));
                             }
                             else if(returnband[10]>0)//需要踢人
                             {
+                                bzero(buffer,sizeof(buffer));
+                                sprintf(buffer,"throw2 %d %d %s",client.id, 0,"");
                                 //int num=returnband[10];
                                 map<int,CLIENT>::iterator map_int_CLIENT_it;
                                 for(map_int_CLIENT_it=clients_map.begin(); map_int_CLIENT_it!=clients_map.end(); ++map_int_CLIENT_it)
@@ -602,6 +667,11 @@ int main(int argc, char *argv[])
                                             send(map_int_CLIENT_it->first, message_send, BUF_SIZE, 0);
                                             close(map_int_CLIENT_it->first);
                                             printf("throw out the client id = %d\n",map_int_CLIENT_it->second.id);
+
+                                            char temp_cs[10];
+                                            bzero(temp_cs,sizeof(temp_cs));
+                                            sprintf(buffer,"%d,",map_int_CLIENT_it->second.id);
+                                            strcat(buffer,temp_cs);
 
                                             delfd(epfd, map_int_CLIENT_it->first, true);
 
@@ -625,7 +695,10 @@ int main(int argc, char *argv[])
                                     }
 
                                 }//for
-                                printf("\n");
+                                //printf("\n");
+                                buffer[strlen(buffer)-1]='\0';
+                                //向FIFO文件写数据
+                                write(pipe_fd, buffer, sizeof(buffer));
                             }
                             else
                             {
@@ -789,5 +862,6 @@ int main(int argc, char *argv[])
     }
     close(listener); //关闭socket
     close(epfd); //关闭内核
+    close(pipe_fd);
     return 0;
 }
