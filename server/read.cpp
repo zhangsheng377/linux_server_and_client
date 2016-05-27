@@ -98,18 +98,21 @@ int main()
                 }
                 else if(strcmp(cs1,"accesshdf")==0){
                     accesshdfID=i1;
-                    total_clients=i2;
+                    ID=i1;
+                    band=i2;
                 }
                 else if(strcmp(cs1,"throw1")==0){
                     comeIDthrow=i1;
-                    strcmp(throwID1,cs2);
+                    ID=i1;
+                    strcpy(throwID1,cs2);
                 }
                 else if(strcmp(cs1,"throw2")==0){
                     if(comeIDthrow!=i1){
                         comeIDthrow=i1;
-                        strcmp(throwID1,"");
+                        ID=i1;
+                        strcpy(throwID1,"");
                     }
-                    strcmp(throwID1,cs2);
+                    strcpy(throwID1,cs2);
                 }
             }
             showdetail();

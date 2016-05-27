@@ -497,6 +497,7 @@ int main(int argc, char *argv[])
                         }
                         printf("time of switchcasein : s = %d    ms = %d\n",out_s,out_ms);
 #endif // NDEBUG
+
                         if(returnband[6]==0)//接入不成功
                         {
                             printf("================ switchcasein = false ================\n" );
@@ -548,11 +549,16 @@ int main(int argc, char *argv[])
                         {
 
                             bzero(buffer,sizeof(buffer));
-                            sprintf(buffer,"accesshdf %d %d %s",client.id, (int)clients_map.size(),"");
+                            sprintf(buffer,"accesshdf %d %d %s",client.id, band,"");
                             //向FIFO文件写数据
                             write(pipe_fd, buffer, sizeof(buffer));
 
                             printf("================ switchcasein = true ================\n" );
+
+                            /*char cs_tmp1[4096],cs_tmp2[4096];//发送给read的throwID
+                            bzero(cs_tmp1,sizeof(cs_tmp1));
+                            bzero(cs_tmp2,sizeof(cs_tmp2));*/
+
                             if(returnband[8]>0)//需要踢人
                             {
 
@@ -611,7 +617,7 @@ int main(int argc, char *argv[])
 
                                             char temp_cs[10];
                                             bzero(temp_cs,sizeof(temp_cs));
-                                            sprintf(buffer,"%d,",map_int_CLIENT_it->second.id);
+                                            sprintf(temp_cs,"%d,",map_int_CLIENT_it->second.id);
                                             strcat(buffer,temp_cs);
 
 #ifndef NDEBUG
@@ -670,7 +676,7 @@ int main(int argc, char *argv[])
 
                                             char temp_cs[10];
                                             bzero(temp_cs,sizeof(temp_cs));
-                                            sprintf(buffer,"%d,",map_int_CLIENT_it->second.id);
+                                            sprintf(temp_cs,"%d,",map_int_CLIENT_it->second.id);
                                             strcat(buffer,temp_cs);
 
                                             delfd(epfd, map_int_CLIENT_it->first, true);
