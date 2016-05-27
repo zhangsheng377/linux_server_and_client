@@ -738,6 +738,12 @@ int main(int argc, char *argv[])
                         printf("ClientID = %d comes.\n", clients_map[sockfd].id);
                         printf("the band for this client is %d\n",band);
                         printf("Now there are %d clients in the satellite.\n\n", (int)clients_map.size());
+
+                        bzero(buffer,sizeof(buffer));
+                        sprintf(buffer,"come %d %d %s",client.id, band,"");
+                        //向FIFO文件写数据
+                        write(pipe_fd, buffer, sizeof(buffer));
+
 #ifndef NDEBUG
                         printf("live_sec = %f\n",clients_map[sockfd].life_time);
 #endif // NDEBUG

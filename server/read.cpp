@@ -23,6 +23,7 @@ void showdetail()
 {
     //system("clear");
     printf("\033[2J");
+    printf("\033[0;0H");//把光标定位在0,0
     printf("==================== Refreshing area =================== \n");
     printf("The coming client's id : %4d\n",ID);
     printf("The bandwidth allocated to the client is  : %3d\n",band);
@@ -90,6 +91,7 @@ int main()
                 }
                 else if(strcmp(cs1,"accessdb")==0){
                     accessdbID=i1;
+                    //ID=i1;
                     total_clients=i2;
                 }
                 else if(strcmp(cs1,"rejecthdf")==0){
@@ -109,10 +111,14 @@ int main()
                 else if(strcmp(cs1,"throw2")==0){
                     if(comeIDthrow!=i1){
                         comeIDthrow=i1;
-                        ID=i1;
                         strcpy(throwID1,"");
                     }
+                    ID=i1;
                     strcpy(throwID1,cs2);
+                }
+                else if(strcmp(cs1,"come")==0){
+                    ID=i1;
+                    band=i2;
                 }
             }
             showdetail();
