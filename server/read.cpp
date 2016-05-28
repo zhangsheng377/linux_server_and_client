@@ -22,7 +22,7 @@ char throwID2[4096];
 void showdetail()
 {
     //system("clear");
-    printf("\033[2J");
+    printf("\033[2J");//清屏
     printf("\033[0;0H");//把光标定位在0,0
     printf("==================== Refreshing area =================== \n");
     printf("The coming client's id : %4d\n",ID);
@@ -37,6 +37,7 @@ void showdetail()
     printf("Reject NO. %4d client, because the bandwidth isn't enough. \n",rejecthdfID);
     printf("-------------------------------------------------------- \n");
     char throwID[4096*2+1];
+    bzero(throwID,sizeof(throwID));
     strcpy(throwID,throwID1);
     strcat(throwID,throwID2);
     printf("Beacuse of the NO. %4d client coming, we need to throw out clients NO. %s \n",comeIDthrow,throwID);
@@ -106,15 +107,20 @@ int main()
                 else if(strcmp(cs1,"throw1")==0){
                     comeIDthrow=i1;
                     ID=i1;
+                    bzero(throwID1,sizeof(throwID1));
                     strcpy(throwID1,cs2);
+                    //strcpy(throwID2,"");
+                    bzero(throwID2,sizeof(throwID2));
                 }
                 else if(strcmp(cs1,"throw2")==0){
                     if(comeIDthrow!=i1){
                         comeIDthrow=i1;
-                        strcpy(throwID1,"");
+                        //strcpy(throwID1,"");
+                        bzero(throwID1,sizeof(throwID1));
                     }
                     ID=i1;
-                    strcpy(throwID1,cs2);
+                    bzero(throwID2,sizeof(throwID2));
+                    strcpy(throwID2,cs2);
                 }
                 else if(strcmp(cs1,"come")==0){
                     ID=i1;

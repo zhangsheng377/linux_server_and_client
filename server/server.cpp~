@@ -178,7 +178,8 @@ int main(int argc, char *argv[])
                     bzero(buffer,sizeof(buffer));
                     sprintf(buffer,"timeout %d %d %s",clients_map[socket].id, (int)clients_map.size()-1,"");
                     //向FIFO文件写数据
-                    write(pipe_fd, buffer, sizeof(buffer));
+                    int ret_len=write(pipe_fd, buffer, sizeof(buffer));
+                    if(ret_len==-1) printf("write error on fifo0\n");
 
 #ifndef NDEBUG
                     ftime(&rawtime1);
@@ -399,8 +400,8 @@ int main(int argc, char *argv[])
                             bzero(buffer,sizeof(buffer));
                             sprintf(buffer,"rejectdb %d %d %s",client.id, (int)clients_map.size(),"");
                             //向FIFO文件写数据
-                            write(pipe_fd, buffer, sizeof(buffer));
-
+                            int ret_len=write(pipe_fd, buffer, sizeof(buffer));
+                            if(ret_len==-1) printf("write error on fifo1\n");
 #ifndef NDEBUG
                             ftime(&rawtime2);
                             ms2=rawtime2.millitm;
@@ -420,6 +421,11 @@ int main(int argc, char *argv[])
 #endif // NDEBUG
                             if(clients_map.find(sockfd)!=clients_map.end())
                             {
+                                char message_send[BUF_SIZE];
+                                bzero(message_send, BUF_SIZE);
+                                sprintf(message_send, "-5");
+                                send(sockfd, message_send, BUF_SIZE, 0);
+
                                 close(sockfd);
 #ifndef NDEBUG
                                 printf("delfd sockfd 1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
@@ -433,8 +439,8 @@ int main(int argc, char *argv[])
                         bzero(buffer,sizeof(buffer));
                         sprintf(buffer,"accessdb %d %d %s",client.id, (int)clients_map.size(),"");
                         //向FIFO文件写数据
-                        write(pipe_fd, buffer, sizeof(buffer));
-
+                        int ret_len=write(pipe_fd, buffer, sizeof(buffer));
+                        if(ret_len==-1) printf("write error on fifo2\n");
 #ifndef NDEBUG
                         ftime(&rawtime2);
                         ms2=rawtime2.millitm;
@@ -497,6 +503,7 @@ int main(int argc, char *argv[])
                         }
                         printf("time of switchcasein : s = %d    ms = %d\n",out_s,out_ms);
 #endif // NDEBUG
+
                         if(returnband[6]==0)//接入不成功
                         {
                             printf("================ switchcasein = false ================\n" );
@@ -505,11 +512,12 @@ int main(int argc, char *argv[])
                             bzero(buffer,sizeof(buffer));
                             sprintf(buffer,"rejecthdf %d %d %s",client.id, (int)clients_map.size(),"");
                             //向FIFO文件写数据
-                            write(pipe_fd, buffer, sizeof(buffer));
+                            int ret_len1=write(pipe_fd, buffer, sizeof(buffer));
+                            if(ret_len1==-1) printf("write error on fifo3\n");
 
                             char message_send[BUF_SIZE];
                             bzero(message_send, BUF_SIZE);
-                            sprintf(message_send, "-3");
+                            sprintf(message_send, "-4");
                             send(sockfd, message_send, BUF_SIZE, 0);
                             close(sockfd);
                             /*printf("band_media_level 0 : %d\n",returnband[0]);
@@ -548,11 +556,17 @@ int main(int argc, char *argv[])
                         {
 
                             bzero(buffer,sizeof(buffer));
-                            sprintf(buffer,"accesshdf %d %d %s",client.id, (int)clients_map.size(),"");
+                            sprintf(buffer,"accesshdf %d %d %s",client.id, band,"");
                             //向FIFO文件写数据
-                            write(pipe_fd, buffer, sizeof(buffer));
+                            int ret_len1=write(pipe_fd, buffer, sizeof(buffer));
+                            if(ret_len1==-1) printf("write error on fifo4\n");
 
                             printf("================ switchcasein = true ================\n" );
+
+                            /*char cs_tmp1[4096],cs_tmp2[4096];//发送给read的throwID
+                            bzero(cs_tmp1,sizeof(cs_tmp1));
+                            bzero(cs_tmp2,sizeof(cs_tmp2));*/
+
                             if(returnband[8]>0)//需要踢人
                             {
 
@@ -611,7 +625,7 @@ int main(int argc, char *argv[])
 
                                             char temp_cs[10];
                                             bzero(temp_cs,sizeof(temp_cs));
-                                            sprintf(buffer,"%d,",map_int_CLIENT_it->second.id);
+                                            sprintf(temp_cs,"%d,",map_int_CLIENT_it->second.id);
                                             strcat(buffer,temp_cs);
 
 #ifndef NDEBUG
@@ -643,7 +657,8 @@ int main(int argc, char *argv[])
                                 //printf("\n");
                                 buffer[strlen(buffer)-1]='\0';
                                 //向FIFO文件写数据
-                                write(pipe_fd, buffer, sizeof(buffer));
+                                int ret_len2=write(pipe_fd, buffer, sizeof(buffer));
+                                if(ret_len2==-1) printf("write error on fifo5\n");
                             }
                             else if(returnband[10]>0)//需要踢人
                             {
@@ -670,7 +685,7 @@ int main(int argc, char *argv[])
 
                                             char temp_cs[10];
                                             bzero(temp_cs,sizeof(temp_cs));
-                                            sprintf(buffer,"%d,",map_int_CLIENT_it->second.id);
+                                            sprintf(temp_cs,"%d,",map_int_CLIENT_it->second.id);
                                             strcat(buffer,temp_cs);
 
                                             delfd(epfd, map_int_CLIENT_it->first, true);
@@ -698,7 +713,8 @@ int main(int argc, char *argv[])
                                 //printf("\n");
                                 buffer[strlen(buffer)-1]='\0';
                                 //向FIFO文件写数据
-                                write(pipe_fd, buffer, sizeof(buffer));
+                                int ret_len2=write(pipe_fd, buffer, sizeof(buffer));
+                                if(ret_len2==-1) printf("write error on fifo6\n");
                             }
                             else
                             {
@@ -732,6 +748,12 @@ int main(int argc, char *argv[])
                         printf("ClientID = %d comes.\n", clients_map[sockfd].id);
                         printf("the band for this client is %d\n",band);
                         printf("Now there are %d clients in the satellite.\n\n", (int)clients_map.size());
+
+                        bzero(buffer,sizeof(buffer));
+                        sprintf(buffer,"come %d %d %s",client.id, band,"");
+                        //向FIFO文件写数据
+                        int ret_len1=write(pipe_fd, buffer, sizeof(buffer));
+                        if(ret_len1==-1) printf("write error on fifo7\n");
 #ifndef NDEBUG
                         printf("live_sec = %f\n",clients_map[sockfd].life_time);
 #endif // NDEBUG

@@ -74,7 +74,7 @@ struct CLIENT
     double life_time;
     int degree;
     int sockfd;
-    int state;//0是timeout，1是被踢
+    int state;//0是timeout，1是带宽被踢，2是带宽被拒，3是数据库被拒
     //bool isalive;
 };
 
