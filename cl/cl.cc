@@ -10,7 +10,7 @@
 const int CLIENTNUM=2501;//从1开始
 //vector<int> sockets(CLIENTNUM);
 const int SLEEP_US=10000;
-const int CLIENTSEC=200;
+const int CLIENTSEC=400;
 const int MINCLIENTSEC=100;
 const int LIVETIME=300;
 

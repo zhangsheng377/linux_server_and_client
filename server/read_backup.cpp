@@ -27,33 +27,32 @@ void showdetail()
     //system("clear");
     printf("\033[2J");//清屏
     printf("\033[0;0H");//把光标定位在0,0
-    printf("=================================== Refreshing area ================================== \n");
+    printf("==================== Refreshing area =================== \n");
     printf("The coming client's id : %4d\n",ID);
     printf("The bandwidth allocated to the client is  : %3d\n",band);
     printf("Now there are %4d cliens in the satellite. \n",total_clients);
     printf("\n");
-    printf("=================================== Emergency area =================================== \n");
+    printf("==================== Emergency area ==================== \n");
     printf("NO. %4d client is timeout. \n",timeoutID);
-    printf("-------------------------------------------------------------------------------------- \n");
+    printf("-------------------------------------------------------- \n");
     printf("Reject NO. %4d client, because his authentication failed. \n",rejectdbID);
-    printf("-------------------------------------------------------------------------------------- \n");
+    printf("-------------------------------------------------------- \n");
     printf("Reject NO. %4d client, because the bandwidth isn't enough. \n",rejecthdfID);
-    printf("-------------------------------------------------------------------------------------- \n");
+    printf("-------------------------------------------------------- \n");
     char throwID[4096*2+1];
     bzero(throwID,sizeof(throwID));
     strcpy(throwID,throwID1);
     strcat(throwID,throwID2);
-    if(comeIDthrow!=old_ComeIDthrow && strcmp(throwID,old_throwID)!=0)
-    {
+    if(comeIDthrow!=old_ComeIDthrow && strcmp(throwID,old_throwID)!=0){
         printf("Beacuse of the NO. %4d client coming, we need to throw out clients NO. %s \n",comeIDthrow,throwID);
         old_ComeIDthrow=comeIDthrow;
         strcpy(old_throwID,throwID);
     }
     else printf("Beacuse of the NO. %4d client coming, we need to throw out clients NO. %s \n",old_ComeIDthrow,old_throwID);
-    //printf("\n");
+    printf("\n");
     printf("\033[0;0H");//把光标定位在0,0
     isFresh=false;
-    //usleep(10000);
+    usleep(10000);
 }
 
 int main()
@@ -69,12 +68,12 @@ int main()
     //清空缓冲数组
     memset(buffer, '\0', sizeof(buffer));
 
-    //printf("Process %d opening FIFO O_RDONLY\n", getpid());
+    printf("Process %d opening FIFO O_RDONLY\n", getpid());
     //以只读阻塞方式打开管道文件，注意与fifowrite.c文件中的FIFO同名
     pipe_fd = open(fifo_name, open_mode);
     //以只写方式创建保存数据的文件
     //data_fd = open("DataFormFIFO.txt", O_WRONLY|O_CREAT, 0644);
-    //printf("Process %d result %d\n",getpid(), pipe_fd);
+    printf("Process %d result %d\n",getpid(), pipe_fd);
 
     if(pipe_fd != -1)
     {
@@ -87,10 +86,6 @@ int main()
         }while(res > 0);*/
 
         bzero(old_throwID,sizeof(old_throwID));
-
-        //if(system("clear")==-1) printf("clear error\n");
-        printf("\033[2J");//清屏
-        showdetail();
 
         while(true)
         {
@@ -107,26 +102,12 @@ int main()
                     timeoutID=i1;
                     total_clients=i2;
                     isFresh=true;
-                    printf("\033[7;0H");//把光标定位在0列,6行
-                    printf("\033[K");
-                    printf("NO. %4d client is timeout. \n",timeoutID);
-                    printf("\033[4;0H");//把光标定位在0列,3行
-                    printf("\033[K");
-                    printf("Now there are %4d cliens in the satellite. \n",total_clients);
-                    printf("\033[0;0H");//把光标定位在0,0
                 }
                 else if(strcmp(cs1,"rejectdb")==0)
                 {
                     rejectdbID=i1;
                     total_clients=i2;
                     isFresh=true;
-                    printf("\033[9;0H");//把光标定位在0列,8行
-                    printf("\033[K");
-                    printf("Reject NO. %4d client, because his authentication failed. \n",rejectdbID);
-                    printf("\033[4;0H");//把光标定位在0列,3行
-                    printf("\033[K");
-                    printf("Now there are %4d cliens in the satellite. \n",total_clients);
-                    printf("\033[0;0H");//把光标定位在0,0
                 }
                 else if(strcmp(cs1,"accessdb")==0)
                 {
@@ -134,23 +115,12 @@ int main()
                     //ID=i1;
                     total_clients=i2;
                     isFresh=true;
-                    printf("\033[4;0H");//把光标定位在0列,3行
-                    printf("\033[K");
-                    printf("Now there are %4d cliens in the satellite. \n",total_clients);
-                    printf("\033[0;0H");//把光标定位在0,0
                 }
                 else if(strcmp(cs1,"rejecthdf")==0)
                 {
                     rejecthdfID=i1;
                     total_clients=i2;
                     isFresh=true;
-                    printf("\033[11;0H");//把光标定位在0列,10行
-                    printf("\033[K");
-                    printf("Reject NO. %4d client, because the bandwidth isn't enough. \n",rejecthdfID);
-                    printf("\033[4;0H");//把光标定位在0列,3行
-                    printf("\033[K");
-                    printf("Now there are %4d cliens in the satellite. \n",total_clients);
-                    printf("\033[0;0H");//把光标定位在0,0
                 }
                 else if(strcmp(cs1,"accesshdf")==0)
                 {
@@ -158,13 +128,6 @@ int main()
                     ID=i1;
                     band=i2;
                     isFresh=true;
-                    printf("\033[2;0H");//把光标定位在0列,1行
-                    printf("\033[K");
-                    printf("The coming client's id : %4d\n",ID);
-                    printf("\033[3;0H");//把光标定位在0列,2行
-                    printf("\033[K");
-                    printf("The bandwidth allocated to the client is  : %3d\n",band);
-                    printf("\033[0;0H");//把光标定位在0,0
                 }
                 else if(strcmp(cs1,"throw1")==0)
                 {
@@ -188,34 +151,15 @@ int main()
                     bzero(throwID2,sizeof(throwID2));
                     strcpy(throwID2,cs2);
                     isFresh=true;
-
-                    //if(system("clear")==-1) printf("clear error\n");
-                    printf("\033[2J");//清屏
-                    showdetail();
-
-                    /*char throwID[4096*2+1];
-                    bzero(throwID,sizeof(throwID));
-                    strcpy(throwID,throwID1);
-                    strcat(throwID,throwID2);
-                    printf("\033[13;0H");//把光标定位在0列,12行
-                    printf("\033[K");
-                    printf("Beacuse of the NO. %4d client coming, we need to throw out clients NO. %s \n",comeIDthrow,throwID);*/
                 }
                 else if(strcmp(cs1,"come")==0)
                 {
                     ID=i1;
                     band=i2;
                     isFresh=true;
-                    printf("\033[2;0H");//把光标定位在0列,1行
-                    printf("\033[K");
-                    printf("The coming client's id : %4d\n",ID);
-                    printf("\033[3;0H");//把光标定位在0列,2行
-                    printf("\033[K");
-                    printf("The bandwidth allocated to the client is  : %3d\n",band);
-                    printf("\033[0;0H");//把光标定位在0,0
                 }
             }
-            //if(isFresh==true) showdetail();
+            if(isFresh==true) showdetail();
         }
         close(pipe_fd);
         //close(data_fd);
