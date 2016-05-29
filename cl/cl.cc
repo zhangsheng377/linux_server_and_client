@@ -207,7 +207,7 @@ int main()
             }
             int possion =randomPossion(client_sec);
             count_client+=possion;
-            printf("possion=%d\n",possion);
+            //printf("possion=%d\n",possion);
             //int possion=2;
             for(int itemp=0; itemp<possion; itemp++)
             {
