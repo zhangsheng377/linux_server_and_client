@@ -123,8 +123,10 @@ int main(int argc, char *argv[])
                 struct sockaddr_in client_address;
                 socklen_t client_addrLength = sizeof(struct sockaddr_in);
 
+printf("before accept\n");
                 int clientfd = accept( listener, ( struct sockaddr* )&client_address, &client_addrLength );
                 //printf("client connection from: %s : % d(IP : port), socketfd = %d \n", inet_ntoa(client_address.sin_addr), ntohs(client_address.sin_port), clientfd);
+printf("accept end\n");
 
                 addfd(epfd, clientfd, true);
 

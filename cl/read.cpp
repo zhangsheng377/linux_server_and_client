@@ -45,6 +45,7 @@ int main()
                 printf("\033[2J");
                 printf("\033[%dA", (10)) ;
                 printf("%s\n",buffer);
+                usleep(10000);
             }
         }
         close(pipe_fd);

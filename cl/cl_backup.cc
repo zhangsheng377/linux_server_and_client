@@ -6,9 +6,6 @@
 #include <limits.h> //PIPE_BUF定义
 
 
-#define ratio_hdf 11
-#define ratio_bss 3
-
 
 const int CLIENTNUM=2501;//从1开始
 //vector<int> sockets(CLIENTNUM);
@@ -70,28 +67,16 @@ double expntl(double x)
     return(-x * log(z)); //z相当于1-x,而x相当于1/lamda。
 }
 
-void infoprint(int id, int hdf, int bss,double life_time)
+void infoprint(int id, int hdf, int bss)
 {
     if(0==hdf)
-{
-if(0==bss)
-        printf("USER ID : %d , handoff , Voice service , lifetime:%lf, connecting....\n",id,life_time);
+        printf("用户ID；%d , 业务类型为切换语音业务 , 请求接入....\n",id);
+    else if(0==bss)
+        printf("用户ID；%d , 新呼叫 , 业务类型为语音业务 , 请求接入....\n",id);
     else if(1==bss)
-        printf("USER ID : %d , handoff , Streaming media service , lifetime:%lf, connecting....\n",id,life_time);
+        printf("用户ID；%d , 新呼叫 , 业务类型为流媒体业务 , 请求接入....\n",id);
     else
-        printf("USER ID : %d , handoff , Data service , lifetime:%lf, connecting....\n",id,life_time);
-}
-
-    else
-    {
-    if(0==bss)
-        printf("USER ID : %d , new call , Voice service , lifetime:%lf, connecting....\n",id,life_time);
-    else if(1==bss)
-        printf("USER ID : %d , new call , Streaming media service, lifetime:%lf, connecting....\n",id,life_time);
-    else
-        printf("USER ID : %d , new call , Data service , lifetime:%lf, connecting....\n",id,life_time);
-    }
-
+        printf("用户ID；%d , 新呼叫 , 业务类型为数据业务 ,请求接入....\n",id);
 
 }
 
@@ -105,10 +90,10 @@ int main()
     memset(&serverAddr, 0, sizeof(serverAddr));
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_port = htons(SERVER_PORT);  ///服务器端口
-    serverAddr.sin_addr.s_addr = inet_addr("121.42.143.201");  ///服务器ip
+    //serverAddr.sin_addr.s_addr = inet_addr("121.42.143.201");  ///服务器ip
     //serverAddr.sin_addr.s_addr = inet_addr("192.168.0.103");
     //serverAddr.sin_addr.s_addr = inet_addr("192.168.1.102");
-    //serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
+    serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
     srand((unsigned) time(NULL)); //为了提高不重复的概率
     struct rlimit rt;//资源限制符
     //设置每个进程允许打开的最大文件数
@@ -347,21 +332,30 @@ int main()
                                 sendUser.id=ID;
                                 //n=520520;
                                 sendUser.pwd=GenKey(ID);
-                                n=rand()%ratio_hdf;
+                                n=rand()%10;
                                 if(n!=0)
                                     n=1;
                                 //	printf("n=%d\n",n);
                                 sendUser.hdf_type=n;
-                                //if(n==0)
-                                  //  sendUser.bss_type=n;
-                                //else
-                                sendUser.bss_type=rand()%ratio_bss;
+                                if(n==0)
+                                    sendUser.bss_type=n;
+                                else
+                                    sendUser.bss_type=rand()%3;
                                 sendUser.life_time=expntl(LIVETIME);
                                 sendUser.degree=-1;
                                 sendUser.sockfd=-1;
                                 sendUser.state=0;
+                                //sendUser.isalive=true;
+                                //printf("id=%d\n",sendUser.id);
+                                // printf("pwd=%d\n",sendUser.pwd);
+                                //printf("hdf_type=%d\n",sendUser.hdf_type);
+                                // printf("bss_type=%d\n",sendUser.bss_type);
+                                // printf("life_time=%lf\n",sendUser.life_time);
                                 map_socket_clients[map_ID_sockets[ID]]=sendUser;
                                 // 将信息发送给服务端
+                                //char client_info[BUF_SIZE];
+                                //bzero(client_info, sizeof(client_info));
+                                //memcpy(client_info,&sendUser,sizeof(CLIENT));
                                 strcat(send_message,order);
                                 //strcat(&send_message[ORDER_LEN],client_info);//zsd//只能压进第一个，但服务端就可以全部收到
                                 memcpy(&send_message[strlen(order)],&sendUser,sizeof(CLIENT));
@@ -369,6 +363,10 @@ int main()
                                 //strcat(&send_message[ORDER_LEN],sendUser.usr_pwd);
                                 send(map_ID_sockets[ID],send_message, sizeof(CLIENT)+ORDER_LEN, 0);
 
+                                //countnow++;
+                                //printf("send message1: %s,countnow=%d\n\n\n",send_message,countnow);
+                                //printf("ID: %d connect\n",ID);
+                                //printf(" client count now = %lu\n\n\n",map_socket_clients.size());
                             }
                             else if(strcmp(order,"-1")==0)//关闭当前socket
                             {
@@ -437,22 +435,19 @@ int main()
                                 {
                                     if(map_int_client_it->second.state==0)
                                     {
-                                        printf("USER ID%d This service is handled well !!!\n\n",map_int_client_it->second.id);
+                                        printf("用户ID%d 生存时间到 连接关闭 This client is timeout !!!\n\n",map_int_client_it->second.id);
                                     }
                                     else if(map_int_client_it->second.state==1)
                                     {
-infoprint(map_socket_clients[sock].id,map_socket_clients[sock].hdf_type,map_socket_clients[sock].bss_type,map_socket_clients[sock].life_time);
-                                        printf("USER ID%d bandwidth occupation,user client thrown out !!!\n\n",map_int_client_it->second.id);
+                                        printf("用户ID%d 被抢占带宽 连接关闭 This client has been thrown out !!!\n\n",map_int_client_it->second.id);
                                     }
                                     else if(map_int_client_it->second.state==2)
                                     {
-infoprint(map_socket_clients[sock].id,map_socket_clients[sock].hdf_type,map_socket_clients[sock].bss_type,map_socket_clients[sock].life_time);
-                                        printf("USER ID%d remaining bandwidth is not enough, connection closed!!!\n\n",map_int_client_it->second.id);
+                                        printf("用户ID%d 剩余带宽不足 连接被拒 This client has been reject !!!\n\n",map_int_client_it->second.id);
                                     }
                                     else if(map_int_client_it->second.state==3)
                                     {
-infoprint(map_socket_clients[sock].id,map_socket_clients[sock].hdf_type,map_socket_clients[sock].bss_type,map_socket_clients[sock].life_time);
-                                        printf("USER ID%d Incorrect username or password ,connection failed!!!\n\n",map_int_client_it->second.id);
+                                        printf("用户ID%d 验证不通过 连接被拒 This client has been reject !!!\n\n",map_int_client_it->second.id);
                                     }
 
                                     map_socket_clients.erase(map_int_client_it);
@@ -521,10 +516,10 @@ infoprint(map_socket_clients[sock].id,map_socket_clients[sock].hdf_type,map_sock
                             {
                                 if(map_socket_clients.find(sock)!=map_socket_clients.end())
                                 {
-                                    infoprint(map_socket_clients[sock].id,map_socket_clients[sock].hdf_type,map_socket_clients[sock].bss_type,map_socket_clients[sock].life_time);
-                                    printf("USER ID: %d connect success!!!\n\n\n",map_socket_clients[sock].id);
+                                    infoprint(map_socket_clients[sock].id,map_socket_clients[sock].hdf_type,map_socket_clients[sock].bss_type);
+                                    printf("用户ID: %d 接入成功connected\n\n\n",map_socket_clients[sock].id);
                                     bzero(buf_count,sizeof(buf_count));
-                                    sprintf(buf_count,"Poisson arrival rate = %d\nclient count now = %lu\n",MINCLIENTSEC,map_socket_clients.size());
+                                    sprintf(buf_count,"client count now = %lu\n",map_socket_clients.size());
                                     res=write(pipecntonly,buf_count,sizeof(buf_count));
                                     if(res==-1)
                                     {
