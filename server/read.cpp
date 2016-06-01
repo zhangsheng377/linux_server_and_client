@@ -175,6 +175,7 @@ int main()
                     //strcpy(throwID2,"");
                     bzero(throwID2,sizeof(throwID2));
                     isFresh=true;
+                    showdetail();
                 }
                 else if(strcmp(cs1,"throw2")==0)
                 {
@@ -190,7 +191,7 @@ int main()
                     isFresh=true;
 
                     //if(system("clear")==-1) printf("clear error\n");
-                    printf("\033[2J");//清屏
+                    //printf("\033[2J");//清屏
                     showdetail();
 
                     /*char throwID[4096*2+1];

@@ -1,6 +1,6 @@
 // ×ÜÌå³ÌÐò.cpp : ¶šÒå¿ØÖÆÌšÓŠÓÃ³ÌÐòµÄÈë¿Úµã¡£
 //
-#define DEBUGLESS0
+#define NDEBUGLESS0
 
 //#include "stdafx.h"
 #include <iostream>
@@ -1130,9 +1130,9 @@ void switchcaseout(int m)
     case 8:
     case 11:
     {
-#ifndef DEBUGLESS0
+#ifndef NDEBUGLESS0
         if(my_count[m]<=0)   break;
-#endif // DEBUGLESS0
+#endif // NDEBUGLESS0
         my_count[m]--;
         if((my_count[0]*BV+my_count[1]*BMmax+my_count[2]*BDmax+my_count[3]*BV+my_count[4]*BV+my_count[5]*BMmax+my_count[6]*BDmax+my_count[7]*BV+my_count[8]*BV+my_count[9]*BMmax+my_count[10]*BDmax+my_count[11]*BV)<=LBK)
         {
@@ -1208,9 +1208,9 @@ void switchcaseout(int m)
     }//case0,3,4,7,8,11
     case 1:
     {
-#ifndef DEBUGLESS0
+#ifndef NDEBUGLESS0
         if(my_count[m]<=0)   break;
-#endif // DEBUGLESS0
+#endif // NDEBUGLESS0
         my_count[m]--;
 
         if((my_count[0]*BV+my_count[1]*BMmax+my_count[2]*BDmax+my_count[3]*BV+my_count[4]*BV+my_count[5]*BMmax+my_count[6]*BDmax+my_count[7]*BV+my_count[8]*BV+my_count[9]*BMmax+my_count[10]*BDmax+my_count[11]*BV)<=LBK)
@@ -1287,9 +1287,9 @@ void switchcaseout(int m)
     }//case1
     case 2:
     {
-#ifndef DEBUGLESS0
+#ifndef NDEBUGLESS0
         if(my_count[m]<=0)   break;
-#endif // DEBUGLESS0
+#endif // NDEBUGLESS0
         my_count[m]--;
 
         if((my_count[0]*BV+my_count[1]*BMmax+my_count[2]*BDmax+my_count[3]*BV+my_count[4]*BV+my_count[5]*BMmax+my_count[6]*BDmax+my_count[7]*BV+my_count[8]*BV+my_count[9]*BMmax+my_count[10]*BDmax+my_count[11]*BV)<=LBK)
@@ -1366,9 +1366,9 @@ void switchcaseout(int m)
     }//case2
     case 5:
     {
-#ifndef DEBUGLESS0
+#ifndef NDEBUGLESS0
         if(my_count[m]<=0)   break;
-#endif // DEBUGLESS0
+#endif // NDEBUGLESS0
         my_count[m]--;
 
         if((my_count[0]*BV+my_count[1]*BMmax+my_count[2]*BDmax+my_count[3]*BV+my_count[4]*BV+my_count[5]*BMmax+my_count[6]*BDmax+my_count[7]*BV+my_count[8]*BV+my_count[9]*BMmax+my_count[10]*BDmax+my_count[11]*BV)<=LBK)
@@ -1445,9 +1445,9 @@ void switchcaseout(int m)
     }//case5
     case 6:
     {
-#ifndef DEBUGLESS0
+#ifndef NDEBUGLESS0
         if(my_count[m]<=0)   break;
-#endif // DEBUGLESS0
+#endif // NDEBUGLESS0
         my_count[m]--;
 
         if((my_count[0]*BV+my_count[1]*BMmax+my_count[2]*BDmax+my_count[3]*BV+my_count[4]*BV+my_count[5]*BMmax+my_count[6]*BDmax+my_count[7]*BV+my_count[8]*BV+my_count[9]*BMmax+my_count[10]*BDmax+my_count[11]*BV)<=LBK)
@@ -1524,9 +1524,9 @@ void switchcaseout(int m)
     }//case6
     case 9:
     {
-#ifndef DEBUGLESS0
+#ifndef NDEBUGLESS0
         if(my_count[m]<=0)   break;
-#endif // DEBUGLESS0
+#endif // NDEBUGLESS0
         my_count[m]--;
 
         if((my_count[0]*BV+my_count[1]*BMmax+my_count[2]*BDmax+my_count[3]*BV+my_count[4]*BV+my_count[5]*BMmax+my_count[6]*BDmax+my_count[7]*BV+my_count[8]*BV+my_count[9]*BMmax+my_count[10]*BDmax+my_count[11]*BV)<=LBK)
@@ -1603,9 +1603,9 @@ void switchcaseout(int m)
     }//case9
     case 10:
     {
-#ifndef DEBUGLESS0
+#ifndef NDEBUGLESS0
         if(my_count[m]<=0)   break;
-#endif // DEBUGLESS0
+#endif // NDEBUGLESS0
         my_count[m]--;
 
         if((my_count[0]*BV+my_count[1]*BMmax+my_count[2]*BDmax+my_count[3]*BV+my_count[4]*BV+my_count[5]*BMmax+my_count[6]*BDmax+my_count[7]*BV+my_count[8]*BV+my_count[9]*BMmax+my_count[10]*BDmax+my_count[11]*BV)<=LBK)
