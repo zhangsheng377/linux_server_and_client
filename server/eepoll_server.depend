@@ -35,7 +35,7 @@
 1463750985 source:/home/zsd/桌面/epoll/server/vertify.cpp
 	"vertify.h"
 
-1464078558 source:/home/zsd/桌面/linux_server_and_client/server/server.cpp
+1464864050 source:/home/zsd/桌面/linux_server_and_client/server/server.cpp
 	"utility.h"
 	<map>
 	"vertify.h"
@@ -43,7 +43,7 @@
 	<time.h>
 	<sys/timeb.h>
 
-1464078558 /home/zsd/桌面/linux_server_and_client/server/utility.h
+1464864050 /home/zsd/桌面/linux_server_and_client/server/utility.h
 	<iostream>
 	<sys/types.h>
 	<sys/socket.h>
@@ -62,8 +62,10 @@
 	<time.h>
 	<algorithm>
 	<math.h>
+	<limits.h>
+	<sys/stat.h>
 
-1464093141 /home/zsd/桌面/linux_server_and_client/server/vertify.h
+1464864050 /home/zsd/桌面/linux_server_and_client/server/vertify.h
 	"sqlite3.h"
 	<stdio.h>
 	<string>
@@ -71,10 +73,10 @@
 	<algorithm>
 	<iostream>
 
-1464078558 /home/zsd/桌面/linux_server_and_client/server/sqlite3.h
+1464864050 /home/zsd/桌面/linux_server_and_client/server/sqlite3.h
 	<stdarg.h>
 
-1464078558 /home/zsd/桌面/linux_server_and_client/server/zhangxiaofei.hpp
+1464863898 /home/zsd/桌面/linux_server_and_client/server/zhangxiaofei.hpp
 	<iostream>
 	"math.h"
 	<stdlib.h>

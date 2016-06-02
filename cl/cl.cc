@@ -13,8 +13,8 @@
 const int CLIENTNUM=2501;//从1开始
 //vector<int> sockets(CLIENTNUM);
 const int SLEEP_US=10000;
-const int CLIENTSEC=400;
-const int MINCLIENTSEC=100;
+const int CLIENTSEC=500;
+const int MINCLIENTSEC=150;
 const int LIVETIME=300;
 
 map<int,int> map_ID_sockets;//从1开始
@@ -105,10 +105,10 @@ int main()
     memset(&serverAddr, 0, sizeof(serverAddr));
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_port = htons(SERVER_PORT);  ///服务器端口
-    serverAddr.sin_addr.s_addr = inet_addr("121.42.143.201");  ///服务器ip
+    //serverAddr.sin_addr.s_addr = inet_addr("121.42.143.201");  ///服务器ip
     //serverAddr.sin_addr.s_addr = inet_addr("192.168.0.103");
     //serverAddr.sin_addr.s_addr = inet_addr("192.168.1.102");
-    //serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
+    serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
     srand((unsigned) time(NULL)); //为了提高不重复的概率
     struct rlimit rt;//资源限制符
     //设置每个进程允许打开的最大文件数

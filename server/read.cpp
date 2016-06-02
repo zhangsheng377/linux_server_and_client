@@ -28,16 +28,16 @@ void showdetail()
     printf("\033[2J");//清屏
     printf("\033[0;0H");//把光标定位在0,0
     printf("=================================== Refreshing area ================================== \n");
-    printf("The coming client's id : %4d\n",ID);
-    printf("The bandwidth allocated to the client is  : %3d\n",band);
-    printf("Now there are %4d cliens in the satellite. \n",total_clients);
+    printf("User ID : %4d connected\n",ID);
+    printf("The bandwidth allocated to the user is  : %3d\n",band);
+    printf("Now there are %4d users in the satellite. \n",total_clients);
     printf("\n");
     printf("=================================== Emergency area =================================== \n");
-    printf("NO. %4d client is timeout. \n",timeoutID);
+    printf("NO. %4d user's service is over. \n",timeoutID);
     printf("-------------------------------------------------------------------------------------- \n");
-    printf("Reject NO. %4d client, because his authentication failed. \n",rejectdbID);
+    printf("Reject NO. %4d user, because his password or username error. \n",rejectdbID);
     printf("-------------------------------------------------------------------------------------- \n");
-    printf("Reject NO. %4d client, because the bandwidth isn't enough. \n",rejecthdfID);
+    printf("Reject NO. %4d user, because the bandwidth isn't enough. \n",rejecthdfID);
     printf("-------------------------------------------------------------------------------------- \n");
     char throwID[4096*2+1];
     bzero(throwID,sizeof(throwID));
@@ -45,11 +45,11 @@ void showdetail()
     strcat(throwID,throwID2);
     if(comeIDthrow!=old_ComeIDthrow && strcmp(throwID,old_throwID)!=0)
     {
-        printf("Beacuse of the NO. %4d client coming, we need to throw out clients NO. %s \n",comeIDthrow,throwID);
+        printf("NO. %4d user occpies the bandwidth of users NO. %s \n",comeIDthrow,throwID);
         old_ComeIDthrow=comeIDthrow;
         strcpy(old_throwID,throwID);
     }
-    else printf("Beacuse of the NO. %4d client coming, we need to throw out clients NO. %s \n",old_ComeIDthrow,old_throwID);
+    else printf("NO. %4d user occpies the bandwidth of users NO. %s \n",old_ComeIDthrow,old_throwID);
     //printf("\n");
     printf("\033[0;0H");//把光标定位在0,0
     isFresh=false;
@@ -109,10 +109,10 @@ int main()
                     isFresh=true;
                     printf("\033[7;0H");//把光标定位在0列,6行
                     printf("\033[K");
-                    printf("NO. %4d client is timeout. \n",timeoutID);
+                    printf("NO. %4d user's service is over. \n",timeoutID);
                     printf("\033[4;0H");//把光标定位在0列,3行
                     printf("\033[K");
-                    printf("Now there are %4d cliens in the satellite. \n",total_clients);
+                    printf("Now there are %4d users in the satellite. \n",total_clients);
                     printf("\033[0;0H");//把光标定位在0,0
                 }
                 else if(strcmp(cs1,"rejectdb")==0)
@@ -122,10 +122,10 @@ int main()
                     isFresh=true;
                     printf("\033[9;0H");//把光标定位在0列,8行
                     printf("\033[K");
-                    printf("Reject NO. %4d client, because his authentication failed. \n",rejectdbID);
+                    printf("Reject NO. %4d user, because his password or username error. \n",rejectdbID);
                     printf("\033[4;0H");//把光标定位在0列,3行
                     printf("\033[K");
-                    printf("Now there are %4d cliens in the satellite. \n",total_clients);
+                    printf("Now there are %4d users in the satellite. \n",total_clients);
                     printf("\033[0;0H");//把光标定位在0,0
                 }
                 else if(strcmp(cs1,"accessdb")==0)
@@ -136,7 +136,7 @@ int main()
                     isFresh=true;
                     printf("\033[4;0H");//把光标定位在0列,3行
                     printf("\033[K");
-                    printf("Now there are %4d cliens in the satellite. \n",total_clients);
+                    printf("Now there are %4d users in the satellite. \n",total_clients);
                     printf("\033[0;0H");//把光标定位在0,0
                 }
                 else if(strcmp(cs1,"rejecthdf")==0)
@@ -146,10 +146,10 @@ int main()
                     isFresh=true;
                     printf("\033[11;0H");//把光标定位在0列,10行
                     printf("\033[K");
-                    printf("Reject NO. %4d client, because the bandwidth isn't enough. \n",rejecthdfID);
+                    printf("Reject NO. %4d user, because the bandwidth isn't enough. \n",rejecthdfID);
                     printf("\033[4;0H");//把光标定位在0列,3行
                     printf("\033[K");
-                    printf("Now there are %4d cliens in the satellite. \n",total_clients);
+                    printf("Now there are %4d users in the satellite. \n",total_clients);
                     printf("\033[0;0H");//把光标定位在0,0
                 }
                 else if(strcmp(cs1,"accesshdf")==0)
@@ -160,10 +160,10 @@ int main()
                     isFresh=true;
                     printf("\033[2;0H");//把光标定位在0列,1行
                     printf("\033[K");
-                    printf("The coming client's id : %4d\n",ID);
+                    printf("User ID : %4d connected\n",ID);
                     printf("\033[3;0H");//把光标定位在0列,2行
                     printf("\033[K");
-                    printf("The bandwidth allocated to the client is  : %3d\n",band);
+                    printf("The bandwidth allocated to the user is  : %3d\n",band);
                     printf("\033[0;0H");//把光标定位在0,0
                 }
                 else if(strcmp(cs1,"throw1")==0)
@@ -209,10 +209,10 @@ int main()
                     isFresh=true;
                     printf("\033[2;0H");//把光标定位在0列,1行
                     printf("\033[K");
-                    printf("The coming client's id : %4d\n",ID);
+                    printf("User ID : %4d connected\n",ID);
                     printf("\033[3;0H");//把光标定位在0列,2行
                     printf("\033[K");
-                    printf("The bandwidth allocated to the client is  : %3d\n",band);
+                    printf("The bandwidth allocated to the user is  : %3d\n",band);
                     printf("\033[0;0H");//把光标定位在0,0
                 }
             }

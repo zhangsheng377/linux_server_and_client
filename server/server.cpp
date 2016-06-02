@@ -488,7 +488,8 @@ printf("accept end\n");
 #endif // NDEBUG
                         client.degree=searchDegree(client.id);
                         switchcasein(makelevel(client.degree,client.hdf_type,client.bss_type));
-                        int band=returnmyband(searchDegree(client.id),returnband);
+                        //int band=returnmyband(searchDegree(client.id),returnband);
+                        int band=returnmyband(makelevel(client.degree,client.hdf_type,client.bss_type),returnband);
 #ifndef NDEBUG
                         for(int c_i=0; c_i<12; c_i++)
                         {

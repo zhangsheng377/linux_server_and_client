@@ -153,53 +153,7 @@ int GenKey(int x)
 }*/
 
 
-int returnmyband(int degree,int band[])
-{
-    switch (degree)
-    {
-    case 0:
-    case 3:
-    case 4:
-    case 7:
-    case 8:
-    case 11:
-    {
-        return 32;
-        break;
-    }
-    case 1:
-    {
-        return band[0];
-        break;
-    }
-    case 2:
-    {
-        return band[1];
-        break;
-    }
-    case 5:
-    {
-        return band[2];
-        break;
-    }
-    case 6:
-    {
-        return band[3];
-        break;
-    }
-    case 9:
-    {
-        return band[4];
-        break;
-    }
-    case 10:
-    {
-        return band[5];
-        break;
-    }
-    }
-    return 0;
-}
+
 
 #endif // UTILITY_H_INCLUDED
 
