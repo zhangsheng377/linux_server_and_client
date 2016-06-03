@@ -321,12 +321,12 @@ void Umaxjs1(int C)
         b4=bd1(n);
         b5=bm2(n);
         b6=bd2(n);
-		b7=bqm(n);
-        b8=bqd(n);
-        b9=bqm1(n);
-        b10=bqd1(n);
-        b11=bqm2(n);
-        b12=bqd2(n);
+		b7=bm(n);
+        b8=bd(n);
+        b9=bm1(n);
+        b10=bd1(n);
+        b11=bm2(n);
+        b12=bd2(n);
         b_total=my_count[1]*b1+my_count[2]*b2+my_count[5]*b3+my_count[6]*b4+my_count[9]*b5+my_count[10]*b6+my_count[12]*b7+my_count[13]*b8+my_count[14]*b9+my_count[15]*b10+my_count[16]*b11+my_count[17]*b12;
         if(b_total<=RB&&b1>=BMmin&&b1<=BMmax&&b3>=BMmin&&b3<=BMmax&&b5>=BMmin&&b5<=BMmax&&b7>=BMmin&&b7<=BMmax&&b9>=BMmin&&
   b9<=BMmax&&b11>=BMmin&&b11<=BMmax&&b2>=BDmin&&b2<=BDmax&&b4>=BDmin&&b4<=BDmax&&b6>=BDmin&&b6<=BDmax&&
@@ -339,12 +339,12 @@ void Umaxjs1(int C)
             U4=Ud1(b4);
             U5=Um2(b5);
             U6=Ud2(b6);
-	    U7=Uqm(b7);
-            U8=Uqd(b8);
-            U9=Uqm1(b9);
-            U10=Uqd1(b10);
-            U11=Uqm2(b11);
-            U12=Uqd2(b12);
+	    U7=Um(b7);
+            U8=Ud(b8);
+            U9=Um1(b9);
+            U10=Ud1(b10);
+            U11=Um2(b11);
+            U12=Ud2(b12);
             Uz=my_count[1]*U1+my_count[2]*U2+my_count[0]*Uv+my_count[5]*U3+my_count[6]*U4+my_count[4]*Uv1+my_count[9]*U5+my_count[10]*U6+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
 my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U11+my_count[17]*U12;
             if(Uz>temp)
@@ -416,12 +416,12 @@ my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U1
         b4=bd1(n);
         b5=bm2(n);
         b6=bd2(n);
-		b7=bqm(n);
-        b8=bqd(n);
-        b9=bqm1(n);
-        b10=bqd1(n);
-        b11=bqm2(n);
-        b12=bqd2(n);
+		b7=bm(n);
+        b8=bd(n);
+        b9=bm1(n);
+        b10=bd1(n);
+        b11=bm2(n);
+        b12=bd2(n);
         b_total=my_count[1]*b1+(my_count[2]-del)*b2+my_count[5]*b3+my_count[6]*b4+my_count[9]*b5+my_count[10]*b6+my_count[12]*b7+my_count[13]*b8+my_count[14]*b9+my_count[15]*b10+my_count[16]*b11+my_count[17]*b12;
         if(b_total<=RB&&b1>=BMmin&&b1<=BMmax&&b3>=BMmin&&b3<=BMmax&&b5>=BMmin&&b5<=BMmax&&b7>=BMmin&&b7<=BMmax&&b9>=BMmin&&b9<=BMmax&&b11>=BMmin&&b11<=BMmax&&
 			b2>=BDmin&&b2<=BDmax&&b4>=BDmin&&b4<=BDmax&&b6>=BDmin&&b6<=BDmax&&b8>=BDmin&&b8<=BDmax&&b10>=BDmin&&b10<=BDmax&&b12>=BDmin&&b12<=BDmax)
@@ -433,12 +433,12 @@ my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U1
             U4=Ud1(b4);
             U5=Um2(b5);
             U6=Ud2(b6);
-	    U7=Uqm(b7);
-            U8=Uqd(b8);
-            U9=Uqm1(b9);
-            U10=Uqd1(b10);
-            U11=Uqm2(b11);
-            U12=Uqd2(b12);
+	    U7=Um(b7);
+            U8=Ud(b8);
+            U9=Um1(b9);
+            U10=Ud1(b10);
+            U11=Um2(b11);
+            U12=Ud2(b12);
             Uz=my_count[1]*U1+(my_count[2]-del)*U2+my_count[0]*Uv+my_count[5]*U3+my_count[6]*U4+my_count[4]*Uv1+my_count[9]*U5+my_count[10]*U6+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
 				my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U11+my_count[17]*U12;
             if(Uz>temp)
@@ -513,12 +513,12 @@ my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U1
         b4=bd1(n);
         b5=bm2(n);
         b6=bd2(n);
-		b7=bqm(n);
-        b8=bqd(n);
-        b9=bqm1(n);
-        b10=bqd1(n);
-        b11=bqm2(n);
-        b12=bqd2(n);
+		b7=bm(n);
+        b8=bd(n);
+        b9=bm1(n);
+        b10=bd1(n);
+        b11=bm2(n);
+        b12=bd2(n);
         b_total=my_count[1]*b1+my_count[2]*b2+my_count[5]*b3+(my_count[6]-del)*b4+my_count[9]*b5+my_count[10]*b6+my_count[12]*b7+my_count[13]*b8+my_count[14]*b9+my_count[15]*b10+my_count[16]*b11+my_count[17]*b12;
         if(b_total<=RB&&b1>=BMmin&&b1<=BMmax&&b3>=BMmin&&b3<=BMmax&&b5>=BMmin&&b5<=BMmax&&b7>=BMmin&&b7<=BMmax&&b9>=BMmin&&b9<=BMmax&&b11>=BMmin&&b11<=BMmax&&
 			b4>=BDmin&&b4<=BDmax&&b6>=BDmin&&b6<=BDmax&&b8>=BDmin&&b8<=BDmax&&b10>=BDmin&&b10<=BDmax&&b12>=BDmin&&b12<=BDmax)
@@ -530,12 +530,12 @@ my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U1
             U4=Ud1(b4);
             U5=Um2(b5);
             U6=Ud2(b6);
-			U7=Uqm(b7);
-            U8=Uqd(b8);
-            U9=Uqm1(b9);
-            U10=Uqd1(b10);
-            U11=Uqm2(b11);
-            U12=Uqd2(b12);
+			U7=Um(b7);
+            U8=Ud(b8);
+            U9=Um1(b9);
+            U10=Ud1(b10);
+            U11=Um2(b11);
+            U12=Ud2(b12);
             Uz=my_count[1]*U1+my_count[2]*U2+my_count[0]*Uv+my_count[5]*U3+(my_count[6]-del)*U4+my_count[4]*Uv1+my_count[9]*U5+my_count[10]*U6+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
 				my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U11+my_count[17]*U12;
             if(Uz>temp)
@@ -609,12 +609,12 @@ my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U1
         b4=0;
         b5=bm2(n);
         b6=bd2(n);
-		b7=bqm(n);
-        b8=bqd(n);
-        b9=bqm1(n);
-        b10=bqd1(n);
-        b11=bqm2(n);
-        b12=bqd2(n);
+		b7=bm(n);
+        b8=bd(n);
+        b9=bm1(n);
+        b10=bd1(n);
+        b11=bm2(n);
+        b12=bd2(n);
         b_total=my_count[1]*b1+my_count[2]*b2+my_count[5]*b3+my_count[6]*b4+my_count[9]*b5+(my_count[10]-del)*b6+my_count[12]*b7+my_count[13]*b8+my_count[14]*b9+my_count[15]*b10+my_count[16]*b11+my_count[17]*b12;
         if(b_total<=RB&&b1>=BMmin&&b1<=BMmax&&b3>=BMmin&&b3<=BMmax&&b5>=BMmin&&b5<=BMmax&&b7>=BMmin&&b7<=BMmax&&b9>=BMmin&&b9<=BMmax&&b11>=BMmin&&b11<=BMmax&&
 			b6>=BDmin&&b6<=BDmax&&b8>=BDmin&&b8<=BDmax&&b10>=BDmin&&b10<=BDmax&&b12>=BDmin&&b12<=BDmax)
@@ -626,12 +626,12 @@ my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U1
             U4=0;
             U5=Um2(b5);
             U6=Ud2(b6);
-			U7=Uqm(b7);
-            U8=Uqd(b8);
-            U9=Uqm1(b9);
-            U10=Uqd1(b10);
-            U11=Uqm2(b11);
-            U12=Uqd2(b12);
+			U7=Um(b7);
+            U8=Ud(b8);
+            U9=Um1(b9);
+            U10=Ud1(b10);
+            U11=Um2(b11);
+            U12=Ud2(b12);
             Uz=my_count[1]*U1+my_count[2]*U2+my_count[0]*Uv+my_count[5]*U3+my_count[6]*U4+my_count[4]*Uv1+my_count[9]*U5+(my_count[10]-del)*U6+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
 				my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U11+my_count[17]*U12;
             if(Uz>temp)
@@ -705,12 +705,12 @@ my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U1
         b4=0;
         b5=bm2(n);
         b6=0;
-		b7=bqm(n);
-        b8=bqd(n);
-        b9=bqm1(n);
-        b10=bqd1(n);
-        b11=bqm2(n);
-        b12=bqd2(n);
+		b7=bm(n);
+        b8=bd(n);
+        b9=bm1(n);
+        b10=bd1(n);
+        b11=bm2(n);
+        b12=bd2(n);
         b_total=(my_count[1]-del)*b1+my_count[2]*b2+my_count[5]*b3+my_count[6]*b4+my_count[9]*b5+my_count[10]*b6+my_count[12]*b7+my_count[13]*b8+my_count[14]*b9+my_count[15]*b10+my_count[16]*b11+my_count[17]*b12;
         if(b_total<=RB&&b1>=BMmin&&b1<=BMmax&&b3>=BMmin&&b3<=BMmax&&b5>=BMmin&&b5<=BMmax&&b7>=BMmin&&b7<=BMmax&&b9>=BMmin&&b9<=BMmax&&b11>=BMmin&&b11<=BMmax&&
 			b8>=BDmin&&b8<=BDmax&&b10>=BDmin&&b10<=BDmax&&b12>=BDmin&&b12<=BDmax)
@@ -722,12 +722,12 @@ my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U1
             U4=0;
             U5=Um2(b5);
             U6=0;
-			U7=Uqm(b7);
-            U8=Uqd(b8);
-            U9=Uqm1(b9);
-            U10=Uqd1(b10);
-            U11=Uqm2(b11);
-            U12=Uqd2(b12);
+			U7=Um(b7);
+            U8=Ud(b8);
+            U9=Um1(b9);
+            U10=Ud1(b10);
+            U11=Um2(b11);
+            U12=Ud2(b12);
             Uz=(my_count[1]-del)*U1+my_count[2]*U2+my_count[0]*Uv+my_count[5]*U3+my_count[6]*U4+my_count[4]*Uv1+my_count[9]*U5+my_count[10]*U6+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
 				my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U11+my_count[17]*U12;
             if(Uz>temp)
@@ -801,12 +801,12 @@ my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U1
         b4=0;
         b5=bm2(n);
         b6=0;
-		b7=bqm(n);
-        b8=bqd(n);
-        b9=bqm1(n);
-        b10=bqd1(n);
-        b11=bqm2(n);
-        b12=bqd2(n);
+		b7=bm(n);
+        b8=bd(n);
+        b9=bm1(n);
+        b10=bd1(n);
+        b11=bm2(n);
+        b12=bd2(n);
         b_total=my_count[1]*b1+my_count[2]*b2+my_count[5]*b3+my_count[6]*b4+my_count[9]*b5+my_count[10]*b6+my_count[12]*b7+my_count[13]*b8+my_count[14]*b9+my_count[15]*b10+my_count[16]*b11+my_count[17]*b12;
         if(b_total<=RB&&b3>=BMmin&&b3<=BMmax&&b5>=BMmin&&b5<=BMmax&&b7>=BMmin&&b7<=BMmax&&b9>=BMmin&&b9<=BMmax&&b11>=BMmin&&b11<=BMmax&&
 			b8>=BDmin&&b8<=BDmax&&b10>=BDmin&&b10<=BDmax&&b12>=BDmin&&b12<=BDmax)
@@ -818,12 +818,12 @@ my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U1
             U4=0;
             U5=Um2(b5);
             U6=0;
-			U7=Uqm(b7);
-            U8=Uqd(b8);
-            U9=Uqm1(b9);
-            U10=Uqd1(b10);
-            U11=Uqm2(b11);
-            U12=Uqd2(b12);
+			U7=Um(b7);
+            U8=Ud(b8);
+            U9=Um1(b9);
+            U10=Ud1(b10);
+            U11=Um2(b11);
+            U12=Ud2(b12);
             Uz=my_count[1]*U1+my_count[2]*U2+my_count[0]*Uv+(my_count[5]-del)*U3+my_count[6]*U4+my_count[4]*Uv1+my_count[9]*U5+my_count[10]*U6+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
 				my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U11+my_count[17]*U12;
             if(Uz>temp)
@@ -897,12 +897,12 @@ my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U1
         b4=0;
         b5=bm2(n);
         b6=0;
-		b7=bqm(n);
-        b8=bqd(n);
-        b9=bqm1(n);
-        b10=bqd1(n);
-        b11=bqm2(n);
-        b12=bqd2(n);
+		b7=bm(n);
+        b8=bd(n);
+        b9=bm1(n);
+        b10=bd1(n);
+        b11=bm2(n);
+        b12=bd2(n);
         b_total=my_count[1]*b1+my_count[2]*b2+my_count[5]*b3+my_count[6]*b4+my_count[9]*b5+my_count[10]*b6+my_count[12]*b7+my_count[13]*b8+my_count[14]*b9+my_count[15]*b10+my_count[16]*b11+my_count[17]*b12;
         if(b_total<=RB&&b5>=BMmin&&b5<=BMmax&&b7>=BMmin&&b7<=BMmax&&b9>=BMmin&&b9<=BMmax&&b11>=BMmin&&b11<=BMmax&&
 			b8>=BDmin&&b8<=BDmax&&b10>=BDmin&&b10<=BDmax&&b12>=BDmin&&b12<=BDmax)
@@ -914,12 +914,12 @@ my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U1
             U4=0;
             U5=Um2(b5);
             U6=0;
-			U7=Uqm(b7);
-            U8=Uqd(b8);
-            U9=Uqm1(b9);
-            U10=Uqd1(b10);
-            U11=Uqm2(b11);
-            U12=Uqd2(b12);
+			U7=Um(b7);
+            U8=Ud(b8);
+            U9=Um1(b9);
+            U10=Ud1(b10);
+            U11=Um2(b11);
+            U12=Ud2(b12);
             Uz=my_count[1]*U1+my_count[2]*U2+my_count[0]*Uv+my_count[5]*U3+my_count[6]*U4+my_count[4]*Uv1+my_count[9]*U5+my_count[10]*U6+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
 				my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U11+my_count[17]*U12;
             if(Uz>temp)
@@ -1001,12 +1001,12 @@ void Umaxjs2(int C)
         b4=bd1(n);
         b5=bm2(n);
         b6=bd2(n);
-		b7=bqm(n);
-        b8=bqd(n);
-        b9=bqm1(n);
-        b10=bqd1(n);
-        b11=bqm2(n);
-        b12=bqd2(n);
+		b7=bm(n);
+        b8=bd(n);
+        b9=bm1(n);
+        b10=bd1(n);
+        b11=bm2(n);
+        b12=bd2(n);
         b_total=my_count[1]*b1+my_count[2]*b2+my_count[5]*b3+my_count[6]*b4+my_count[9]*b5+my_count[10]*b6+my_count[12]*b7+my_count[13]*b8+my_count[14]*b9+my_count[15]*b10+my_count[16]*b11+my_count[17]*b12;
         if(b_total<=RB&&b1>=BMmin&&b1<=BMmax&&b3>=BMmin&&b3<=BMmax&&b5>=BMmin&&b5<=BMmax&&b7>=BMmin&&b7<=BMmax&&b9>=BMmin&&b9<=BMmax&&b11>=BMmin&&b11<=BMmax&&
 			b2>=BDmin&&b2<=BDmax&&b4>=BDmin&&b4<=BDmax&&b6>=BDmin&&b6<=BDmax&&b8>=BDmin&&b8<=BDmax&&b10>=BDmin&&b10<=BDmax&&b12>=BDmin&&b12<=BDmax)
@@ -1018,12 +1018,12 @@ void Umaxjs2(int C)
             U4=Ud1(b4);
             U5=Um2(b5);
             U6=Ud2(b6);
-			U7=Uqm(b7);
-            U8=Uqd(b8);
-            U9=Uqm1(b9);
-            U10=Uqd1(b10);
-            U11=Uqm2(b11);
-            U12=Uqd2(b12);
+			U7=Um(b7);
+            U8=Ud(b8);
+            U9=Um1(b9);
+            U10=Ud1(b10);
+            U11=Um2(b11);
+            U12=Ud2(b12);
             Uz=my_count[1]*U1+my_count[2]*U2+my_count[0]*Uv+my_count[5]*U3+my_count[6]*U4+my_count[4]*Uv1+my_count[9]*U5+my_count[10]*U6+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
 				my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U11+my_count[17]*U12;
             if(Uz>temp)
@@ -1089,12 +1089,12 @@ void Umaxjs3(int C)//Ò»Œ¶Á÷ÃœÌå
         b4=bd1(n);
         b5=bm2(n);
         b6=bd2(n);
-		b7=bqm(n);
-        b8=bqd(n);
-        b9=bqm1(n);
-        b10=bqd1(n);
-        b11=bqm2(n);
-        b12=bqd2(n);
+		b7=bm(n);
+        b8=bd(n);
+        b9=bm1(n);
+        b10=bd1(n);
+        b11=bm2(n);
+        b12=bd2(n);
         b_total=my_count[1]*b1+my_count[2]*b2+my_count[5]*b3+my_count[6]*b4+my_count[9]*b5+my_count[10]*b6+my_count[12]*b7+my_count[13]*b8+my_count[14]*b9+my_count[15]*b10+my_count[16]*b11+my_count[17]*b12;
         if(b_total<=RB&&b1>=BMmin&&b1<=BMmax&&b3>=BMmin&&b3<=BMmax&&b5>=BMmin&&b5<=BMmax&&b7>=BMmin&&b7<=BMmax&&b9>=BMmin&&b9<=BMmax&&b11>=BMmin&&b11<=BMmax&&
 			b2>=BDmin&&b2<=BDmax&&b4>=BDmin&&b4<=BDmax&&b6>=BDmin&&b6<=BDmax&&b8>=BDmin&&b8<=BDmax&&b10>=BDmin&&b10<=BDmax&&b12>=BDmin&&b12<=BDmax)
@@ -1106,12 +1106,12 @@ void Umaxjs3(int C)//Ò»Œ¶Á÷ÃœÌå
             U4=Ud1(b4);
             U5=Um2(b5);
             U6=Ud2(b6);
-			U7=Uqm(b7);
-            U8=Uqd(b8);
-            U9=Uqm1(b9);
-            U10=Uqd1(b10);
-            U11=Uqm2(b11);
-            U12=Uqd2(b12);
+			U7=Um(b7);
+            U8=Ud(b8);
+            U9=Um1(b9);
+            U10=Ud1(b10);
+            U11=Um2(b11);
+            U12=Ud2(b12);
             Uz=my_count[1]*U1+my_count[2]*U2+my_count[0]*Uv+my_count[5]*U3+my_count[6]*U4+my_count[4]*Uv1+my_count[9]*U5+my_count[10]*U6+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
 				my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U11+my_count[17]*U12;
             if(Uz>temp)
@@ -1172,12 +1172,12 @@ void Umaxjs3(int C)//Ò»Œ¶Á÷ÃœÌå
         b4=bd1(n);
         b5=bm2(n);
         b6=bd2(n);
-		b7=bqm(n);
-        b8=bqd(n);
-        b9=bqm1(n);
-        b10=bqd1(n);
-        b11=bqm2(n);
-        b12=bqd2(n);
+		b7=bm(n);
+        b8=bd(n);
+        b9=bm1(n);
+        b10=bd1(n);
+        b11=bm2(n);
+        b12=bd2(n);
         b_total=my_count[1]*b1+(my_count[2]-del)*b2+my_count[5]*b3+my_count[6]*b4+my_count[9]*b5+my_count[10]*b6+my_count[12]*b7+my_count[13]*b8+my_count[14]*b9+my_count[15]*b10+my_count[16]*b11+my_count[17]*b12;
         if(b_total<=RB&&b1>=BMmin&&b1<=BMmax&&b3>=BMmin&&b3<=BMmax&&b5>=BMmin&&b5<=BMmax&&b7>=BMmin&&b7<=BMmax&&b9>=BMmin&&b9<=BMmax&&b11>=BMmin&&b11<=BMmax&&
 			b2>=BDmin&&b2<=BDmax&&b4>=BDmin&&b4<=BDmax&&b6>=BDmin&&b6<=BDmax&&b8>=BDmin&&b8<=BDmax&&b10>=BDmin&&b10<=BDmax&&b12>=BDmin&&b12<=BDmax)
@@ -1189,12 +1189,12 @@ void Umaxjs3(int C)//Ò»Œ¶Á÷ÃœÌå
             U4=Ud1(b4);
             U5=Um2(b5);
             U6=Ud2(b6);
-			U7=Uqm(b7);
-            U8=Uqd(b8);
-            U9=Uqm1(b9);
-            U10=Uqd1(b10);
-            U11=Uqm2(b11);
-            U12=Uqd2(b12);
+			U7=Um(b7);
+            U8=Ud(b8);
+            U9=Um1(b9);
+            U10=Ud1(b10);
+            U11=Um2(b11);
+            U12=Ud2(b12);
             Uz=my_count[1]*U1+(my_count[2]-del)*U2+my_count[0]*Uv+my_count[5]*U3+my_count[6]*U4+my_count[4]*Uv1+my_count[9]*U5+my_count[10]*U6+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
 				my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U11+my_count[17]*U12;
             if(Uz>temp)
@@ -1268,12 +1268,12 @@ void Umaxjs3(int C)//Ò»Œ¶Á÷ÃœÌå
         b4=bd1(n);
         b5=bm2(n);
         b6=bd2(n);
-		b7=bqm(n);
-        b8=bqd(n);
-        b9=bqm1(n);
-        b10=bqd1(n);
-        b11=bqm2(n);
-        b12=bqd2(n);
+		b7=bm(n);
+        b8=bd(n);
+        b9=bm1(n);
+        b10=bd1(n);
+        b11=bm2(n);
+        b12=bd2(n);
         b_total=(my_count[1]-del)*b1+my_count[2]*b2+my_count[5]*b3+my_count[6]*b4+my_count[9]*b5+my_count[10]*b6+my_count[12]*b7+my_count[13]*b8+my_count[14]*b9+my_count[15]*b10+my_count[16]*b11+my_count[17]*b12;
         if(b_total<=RB&&b1>=BMmin&&b1<=BMmax&&b3>=BMmin&&b3<=BMmax&&b5>=BMmin&&b5<=BMmax&&b7>=BMmin&&b7<=BMmax&&b9>=BMmin&&b9<=BMmax&&b11>=BMmin&&b11<=BMmax&&
 			b2>=BDmin&&b2<=BDmax&&b4>=BDmin&&b4<=BDmax&&b6>=BDmin&&b6<=BDmax&&b8>=BDmin&&b8<=BDmax&&b10>=BDmin&&b10<=BDmax&&b12>=BDmin&&b12<=BDmax)
@@ -1285,12 +1285,12 @@ void Umaxjs3(int C)//Ò»Œ¶Á÷ÃœÌå
             U4=Ud1(b4);
             U5=Um2(b5);
             U6=Ud2(b6);
-			U7=Uqm(b7);
-            U8=Uqd(b8);
-            U9=Uqm1(b9);
-            U10=Uqd1(b10);
-            U11=Uqm2(b11);
-            U12=Uqd2(b12);
+			U7=Um(b7);
+            U8=Ud(b8);
+            U9=Um1(b9);
+            U10=Ud1(b10);
+            U11=Um2(b11);
+            U12=Ud2(b12);
             Uz=(my_count[1]-del)*U1+my_count[2]*U2+my_count[0]*Uv+my_count[5]*U3+my_count[6]*U4+my_count[4]*Uv1+my_count[9]*U5+my_count[10]*U6+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
 				my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U11+my_count[17]*U12;
             if(Uz>temp)
@@ -1497,12 +1497,12 @@ void switchcaseout(int m)
         b4=bd1(n);
         b5=bm2(n);
         b6=bd2(n);
-		b7=bqm(n);
-        b8=bqd(n);
-        b9=bqm1(n);
-        b10=bqd1(n);
-        b11=bqm2(n);
-        b12=bqd2(n);
+		b7=bm(n);
+        b8=bd(n);
+        b9=bm1(n);
+        b10=bd1(n);
+        b11=bm2(n);
+        b12=bd2(n);
         b_total=my_count[1]*b1+my_count[2]*b2+my_count[5]*b3+my_count[6]*b4+my_count[9]*b5+my_count[10]*b6+my_count[12]*b7+my_count[13]*b8+my_count[14]*b9+my_count[15]*b10+my_count[16]*b11+my_count[17]*b12;
         if(b_total<=RB&&b1>=BMmin&&b1<=BMmax&&b3>=BMmin&&b3<=BMmax&&b5>=BMmin&&b5<=BMmax&&b7>=BMmin&&b7<=BMmax&&b9>=BMmin&&b9<=BMmax&&b11>=BMmin&&b11<=BMmax&&
 			b2>=BDmin&&b2<=BDmax&&b4>=BDmin&&b4<=BDmax&&b6>=BDmin&&b6<=BDmax&&b8>=BDmin&&b8<=BDmax&&b10>=BDmin&&b10<=BDmax&&b12>=BDmin&&b12<=BDmax)
@@ -1514,12 +1514,12 @@ void switchcaseout(int m)
             U4=Ud1(b4);
             U5=Um2(b5);
             U6=Ud2(b6);
-			U7=Uqm(b7);
-            U8=Uqd(b8);
-            U9=Uqm1(b9);
-            U10=Uqd1(b10);
-            U11=Uqm2(b11);
-            U12=Uqd2(b12);
+			U7=Um(b7);
+            U8=Ud(b8);
+            U9=Um1(b9);
+            U10=Ud1(b10);
+            U11=Um2(b11);
+            U12=Ud2(b12);
             Uz=my_count[1]*U1+my_count[2]*U2+my_count[0]*Uv+my_count[5]*U3+my_count[6]*U4+my_count[4]*Uv1+my_count[9]*U5+my_count[10]*U6+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
 				my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U11+my_count[17]*U12;
             if(Uz>temp)
@@ -1604,12 +1604,12 @@ void switchcaseout(int m)
         b4=bd1(n);
         b5=bm2(n);
         b6=bd2(n);
-		b7=bqm(n);
-        b8=bqd(n);
-        b9=bqm1(n);
-        b10=bqd1(n);
-        b11=bqm2(n);
-        b12=bqd2(n);
+		b7=bm(n);
+        b8=bd(n);
+        b9=bm1(n);
+        b10=bd1(n);
+        b11=bm2(n);
+        b12=bd2(n);
         b_total=my_count[1]*b1+my_count[2]*b2+my_count[5]*b3+my_count[6]*b4+my_count[9]*b5+my_count[10]*b6+my_count[12]*b7+my_count[13]*b8+my_count[14]*b9+my_count[15]*b10+my_count[16]*b11+my_count[17]*b12;
         if(b_total<=RB&&b1>=BMmin&&b1<=BMmax&&b3>=BMmin&&b3<=BMmax&&b5>=BMmin&&b5<=BMmax&&b7>=BMmin&&b7<=BMmax&&b9>=BMmin&&b9<=BMmax&&b11>=BMmin&&b11<=BMmax&&
 			b2>=BDmin&&b2<=BDmax&&b4>=BDmin&&b4<=BDmax&&b6>=BDmin&&b6<=BDmax&&b8>=BDmin&&b8<=BDmax&&b10>=BDmin&&b10<=BDmax&&b12>=BDmin&&b12<=BDmax)
@@ -1621,12 +1621,12 @@ void switchcaseout(int m)
             U4=Ud1(b4);
             U5=Um2(b5);
             U6=Ud2(b6);
-			U7=Uqm(b7);
-            U8=Uqd(b8);
-            U9=Uqm1(b9);
-            U10=Uqd1(b10);
-            U11=Uqm2(b11);
-            U12=Uqd2(b12);
+			U7=Um(b7);
+            U8=Ud(b8);
+            U9=Um1(b9);
+            U10=Ud1(b10);
+            U11=Um2(b11);
+            U12=Ud2(b12);
             Uz=my_count[1]*U1+my_count[2]*U2+my_count[0]*Uv+my_count[5]*U3+my_count[6]*U4+my_count[4]*Uv1+my_count[9]*U5+my_count[10]*U6+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
 				my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U11+my_count[17]*U12;
             if(Uz>temp)
@@ -1710,12 +1710,12 @@ void switchcaseout(int m)
         b4=bd1(n);
         b5=bm2(n);
         b6=bd2(n);
-		b7=bqm(n);
-        b8=bqd(n);
-        b9=bqm1(n);
-        b10=bqd1(n);
-        b11=bqm2(n);
-        b12=bqd2(n);
+		b7=bm(n);
+        b8=bd(n);
+        b9=bm1(n);
+        b10=bd1(n);
+        b11=bm2(n);
+        b12=bd2(n);
         b_total=my_count[1]*b1+my_count[2]*b2+my_count[5]*b3+my_count[6]*b4+my_count[9]*b5+my_count[10]*b6+my_count[12]*b7+my_count[13]*b8+my_count[14]*b9+my_count[15]*b10+my_count[16]*b11+my_count[17]*b12;
         if(b_total<=RB&&b1>=BMmin&&b1<=BMmax&&b3>=BMmin&&b3<=BMmax&&b5>=BMmin&&b5<=BMmax&&b7>=BMmin&&b7<=BMmax&&b9>=BMmin&&b9<=BMmax&&b11>=BMmin&&b11<=BMmax&&
 			b2>=BDmin&&b2<=BDmax&&b4>=BDmin&&b4<=BDmax&&b6>=BDmin&&b6<=BDmax&&b8>=BDmin&&b8<=BDmax&&b10>=BDmin&&b10<=BDmax&&b12>=BDmin&&b12<=BDmax)
@@ -1727,12 +1727,12 @@ void switchcaseout(int m)
             U4=Ud1(b4);
             U5=Um2(b5);
             U6=Ud2(b6);
-			U7=Uqm(b7);
-            U8=Uqd(b8);
-            U9=Uqm1(b9);
-            U10=Uqd1(b10);
-            U11=Uqm2(b11);
-            U12=Uqd2(b12);
+			U7=Um(b7);
+            U8=Ud(b8);
+            U9=Um1(b9);
+            U10=Ud1(b10);
+            U11=Um2(b11);
+            U12=Ud2(b12);
             Uz=my_count[1]*U1+my_count[2]*U2+my_count[0]*Uv+my_count[5]*U3+my_count[6]*U4+my_count[4]*Uv1+my_count[9]*U5+my_count[10]*U6+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
 				my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U11+my_count[17]*U12;
             if(Uz>temp)
@@ -1816,12 +1816,12 @@ void switchcaseout(int m)
         b4=bd1(n);
         b5=bm2(n);
         b6=bd2(n);
-		b7=bqm(n);
-        b8=bqd(n);
-        b9=bqm1(n);
-        b10=bqd1(n);
-        b11=bqm2(n);
-        b12=bqd2(n);
+		b7=bm(n);
+        b8=bd(n);
+        b9=bm1(n);
+        b10=bd1(n);
+        b11=bm2(n);
+        b12=bd2(n);
         b_total=my_count[1]*b1+my_count[2]*b2+my_count[5]*b3+my_count[6]*b4+my_count[9]*b5+my_count[10]*b6+my_count[12]*b7+my_count[13]*b8+my_count[14]*b9+my_count[15]*b10+my_count[16]*b11+my_count[17]*b12;
         if(b_total<=RB&&b1>=BMmin&&b1<=BMmax&&b3>=BMmin&&b3<=BMmax&&b5>=BMmin&&b5<=BMmax&&b7>=BMmin&&b7<=BMmax&&b9>=BMmin&&b9<=BMmax&&b11>=BMmin&&b11<=BMmax&&
 			b2>=BDmin&&b2<=BDmax&&b4>=BDmin&&b4<=BDmax&&b6>=BDmin&&b6<=BDmax&&b8>=BDmin&&b8<=BDmax&&b10>=BDmin&&b10<=BDmax&&b12>=BDmin&&b12<=BDmax)
@@ -1833,12 +1833,12 @@ void switchcaseout(int m)
             U4=Ud1(b4);
             U5=Um2(b5);
             U6=Ud2(b6);
-			U7=Uqm(b7);
-            U8=Uqd(b8);
-            U9=Uqm1(b9);
-            U10=Uqd1(b10);
-            U11=Uqm2(b11);
-            U12=Uqd2(b12);
+			U7=Um(b7);
+            U8=Ud(b8);
+            U9=Um1(b9);
+            U10=Ud1(b10);
+            U11=Um2(b11);
+            U12=Ud2(b12);
             Uz=my_count[1]*U1+my_count[2]*U2+my_count[0]*Uv+my_count[5]*U3+my_count[6]*U4+my_count[4]*Uv1+my_count[9]*U5+my_count[10]*U6+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
 				my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U11+my_count[17]*U12;
             if(Uz>temp)
@@ -1922,12 +1922,12 @@ void switchcaseout(int m)
         b4=bd1(n);
         b5=bm2(n);
         b6=bd2(n);
-		b7=bqm(n);
-        b8=bqd(n);
-        b9=bqm1(n);
-        b10=bqd1(n);
-        b11=bqm2(n);
-        b12=bqd2(n);
+		b7=bm(n);
+        b8=bd(n);
+        b9=bm1(n);
+        b10=bd1(n);
+        b11=bm2(n);
+        b12=bd2(n);
         b_total=my_count[1]*b1+my_count[2]*b2+my_count[5]*b3+my_count[6]*b4+my_count[9]*b5+my_count[10]*b6+my_count[12]*b7+my_count[13]*b8+my_count[14]*b9+my_count[15]*b10+my_count[16]*b11+my_count[17]*b12;
         if(b_total<=RB&&b1>=BMmin&&b1<=BMmax&&b3>=BMmin&&b3<=BMmax&&b5>=BMmin&&b5<=BMmax&&b7>=BMmin&&b7<=BMmax&&b9>=BMmin&&b9<=BMmax&&b11>=BMmin&&b11<=BMmax&&
 			b2>=BDmin&&b2<=BDmax&&b4>=BDmin&&b4<=BDmax&&b6>=BDmin&&b6<=BDmax&&b8>=BDmin&&b8<=BDmax&&b10>=BDmin&&b10<=BDmax&&b12>=BDmin&&b12<=BDmax)
@@ -1939,12 +1939,12 @@ void switchcaseout(int m)
             U4=Ud1(b4);
             U5=Um2(b5);
             U6=Ud2(b6);
-			U7=Uqm(b7);
-            U8=Uqd(b8);
-            U9=Uqm1(b9);
-            U10=Uqd1(b10);
-            U11=Uqm2(b11);
-            U12=Uqd2(b12);
+			U7=Um(b7);
+            U8=Ud(b8);
+            U9=Um1(b9);
+            U10=Ud1(b10);
+            U11=Um2(b11);
+            U12=Ud2(b12);
             Uz=my_count[1]*U1+my_count[2]*U2+my_count[0]*Uv+my_count[5]*U3+my_count[6]*U4+my_count[4]*Uv1+my_count[9]*U5+my_count[10]*U6+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
 				my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U11+my_count[17]*U12;
             if(Uz>temp)
@@ -2029,12 +2029,12 @@ void switchcaseout(int m)
         b4=bd1(n);
         b5=bm2(n);
         b6=bd2(n);
-		b7=bqm(n);
-        b8=bqd(n);
-        b9=bqm1(n);
-        b10=bqd1(n);
-        b11=bqm2(n);
-        b12=bqd2(n);
+		b7=bm(n);
+        b8=bd(n);
+        b9=bm1(n);
+        b10=bd1(n);
+        b11=bm2(n);
+        b12=bd2(n);
         b_total=my_count[1]*b1+my_count[2]*b2+my_count[5]*b3+my_count[6]*b4+my_count[9]*b5+my_count[10]*b6+my_count[12]*b7+my_count[13]*b8+my_count[14]*b9+my_count[15]*b10+my_count[16]*b11+my_count[17]*b12;
         if(b_total<=RB&&b1>=BMmin&&b1<=BMmax&&b3>=BMmin&&b3<=BMmax&&b5>=BMmin&&b5<=BMmax&&b7>=BMmin&&b7<=BMmax&&b9>=BMmin&&b9<=BMmax&&b11>=BMmin&&b11<=BMmax&&
 			b2>=BDmin&&b2<=BDmax&&b4>=BDmin&&b4<=BDmax&&b6>=BDmin&&b6<=BDmax&&b8>=BDmin&&b8<=BDmax&&b10>=BDmin&&b10<=BDmax&&b12>=BDmin&&b12<=BDmax)
@@ -2046,12 +2046,12 @@ void switchcaseout(int m)
             U4=Ud1(b4);
             U5=Um2(b5);
             U6=Ud2(b6);
-			U7=Uqm(b7);
-            U8=Uqd(b8);
-            U9=Uqm1(b9);
-            U10=Uqd1(b10);
-            U11=Uqm2(b11);
-            U12=Uqd2(b12);
+			U7=Um(b7);
+            U8=Ud(b8);
+            U9=Um1(b9);
+            U10=Ud1(b10);
+            U11=Um2(b11);
+            U12=Ud2(b12);
             Uz=my_count[1]*U1+my_count[2]*U2+my_count[0]*Uv+my_count[5]*U3+my_count[6]*U4+my_count[4]*Uv1+my_count[9]*U5+my_count[10]*U6+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
 				my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U11+my_count[17]*U12;
             if(Uz>temp)
@@ -2142,12 +2142,12 @@ void switchcaseout(int m)
         b4=bd1(n);
         b5=bm2(n);
         b6=bd2(n);
-		b7=bqm(n);
-        b8=bqd(n);
-        b9=bqm1(n);
-        b10=bqd1(n);
-        b11=bqm2(n);
-        b12=bqd2(n);
+		b7=bm(n);
+        b8=bd(n);
+        b9=bm1(n);
+        b10=bd1(n);
+        b11=bm2(n);
+        b12=bd2(n);
         b_total=my_count[1]*b1+my_count[2]*b2+my_count[5]*b3+my_count[6]*b4+my_count[9]*b5+my_count[10]*b6+my_count[12]*b7+my_count[13]*b8+my_count[14]*b9+my_count[15]*b10+my_count[16]*b11+my_count[17]*b12;
         if(b_total<=RB&&b1>=BMmin&&b1<=BMmax&&b3>=BMmin&&b3<=BMmax&&b5>=BMmin&&b5<=BMmax&&b7>=BMmin&&b7<=BMmax&&b9>=BMmin&&b9<=BMmax&&b11>=BMmin&&b11<=BMmax&&
 			b2>=BDmin&&b2<=BDmax&&b4>=BDmin&&b4<=BDmax&&b6>=BDmin&&b6<=BDmax&&b8>=BDmin&&b8<=BDmax&&b10>=BDmin&&b10<=BDmax&&b12>=BDmin&&b12<=BDmax)
@@ -2159,12 +2159,12 @@ void switchcaseout(int m)
             U4=Ud1(b4);
             U5=Um2(b5);
             U6=Ud2(b6);
-			U7=Uqm(b7);
-            U8=Uqd(b8);
-            U9=Uqm1(b9);
-            U10=Uqd1(b10);
-            U11=Uqm2(b11);
-            U12=Uqd2(b12);
+			U7=Um(b7);
+            U8=Ud(b8);
+            U9=Um1(b9);
+            U10=Ud1(b10);
+            U11=Um2(b11);
+            U12=Ud2(b12);
             Uz=my_count[1]*U1+my_count[2]*U2+my_count[0]*Uv+my_count[5]*U3+my_count[6]*U4+my_count[4]*Uv1+my_count[9]*U5+my_count[10]*U6+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
 				my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U11+my_count[17]*U12;
             if(Uz>temp)
@@ -2222,7 +2222,7 @@ void switchcaseout(int m)
 }
 void switchcasein(int m)
 {
-//printf("\nm = %d\n\n",m); 
+printf("\nm = %d\n\n",m); 
     switch(m)
     {
     case 0:
@@ -2429,12 +2429,12 @@ void switchcasein(int m)
         b4=bd1(n);
         b5=bm2(n);
         b6=bd2(n);
-		b7=bqm(n);
-        b8=bqd(n);
-        b9=bqm1(n);
-        b10=bqd1(n);
-        b11=bqm2(n);
-        b12=bqd2(n);
+		b7=bm(n);
+        b8=bd(n);
+        b9=bm1(n);
+        b10=bd1(n);
+        b11=bm2(n);
+        b12=bd2(n);
         b_total=my_count[1]*b1+my_count[2]*b2+my_count[5]*b3+my_count[6]*b4+my_count[9]*b5+my_count[10]*b6+my_count[12]*b7+my_count[13]*b8+my_count[14]*b9+my_count[15]*b10+my_count[16]*b11+my_count[17]*b12;
         if(b_total<=RB&&b1>=BMmin&&b1<=BMmax&&b3>=BMmin&&b3<=BMmax&&b5>=BMmin&&b5<=BMmax&&b7>=BMmin&&b7<=BMmax&&b9>=BMmin&&b9<=BMmax&&b11>=BMmin&&b11<=BMmax&&
 			b2>=BDmin&&b2<=BDmax&&b4>=BDmin&&b4<=BDmax&&b6>=BDmin&&b6<=BDmax&&b8>=BDmin&&b8<=BDmax&&b10>=BDmin&&b10<=BDmax&&b12>=BDmin&&b12<=BDmax)
@@ -2446,12 +2446,12 @@ void switchcasein(int m)
             U4=Ud1(b4);
             U5=Um2(b5);
             U6=Ud2(b6);
-			U7=Uqm(b7);
-            U8=Uqd(b8);
-            U9=Uqm1(b9);
-            U10=Uqd1(b10);
-            U11=Uqm2(b11);
-            U12=Uqd2(b12);
+			U7=Um(b7);
+            U8=Ud(b8);
+            U9=Um1(b9);
+            U10=Ud1(b10);
+            U11=Um2(b11);
+            U12=Ud2(b12);
             Uz=my_count[1]*U1+my_count[2]*U2+my_count[0]*Uv+my_count[5]*U3+my_count[6]*U4+my_count[4]*Uv1+my_count[9]*U5+my_count[10]*U6+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
 				my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U11+my_count[17]*U12;
             if(Uz>temp)
@@ -2517,12 +2517,12 @@ void switchcasein(int m)
         b4=bd1(n);
         b5=bm2(n);
         b6=bd2(n);
-		b7=bqm(n);
-        b8=bqd(n);
-        b9=bqm1(n);
-        b10=bqd1(n);
-        b11=bqm2(n);
-        b12=bqd2(n);
+		b7=bm(n);
+        b8=bd(n);
+        b9=bm1(n);
+        b10=bd1(n);
+        b11=bm2(n);
+        b12=bd2(n);
         b_total=my_count[1]*b1+(my_count[2]-del)*b2+my_count[5]*b3+my_count[6]*b4+my_count[9]*b5+my_count[10]*b6+my_count[12]*b7+my_count[13]*b8+my_count[14]*b9+my_count[15]*b10+my_count[16]*b11+my_count[17]*b12;
         if(b_total<=RB&&b1>=BMmin&&b1<=BMmax&&b3>=BMmin&&b3<=BMmax&&b5>=BMmin&&b5<=BMmax&&b7>=BMmin&&b7<=BMmax&&b9>=BMmin&&b9<=BMmax&&b11>=BMmin&&b11<=BMmax&&
 			b2>=BDmin&&b2<=BDmax&&b4>=BDmin&&b4<=BDmax&&b6>=BDmin&&b6<=BDmax&&b8>=BDmin&&b8<=BDmax&&b10>=BDmin&&b10<=BDmax&&b12>=BDmin&&b12<=BDmax)
@@ -2534,12 +2534,12 @@ void switchcasein(int m)
             U4=Ud1(b4);
             U5=Um2(b5);
             U6=Ud2(b6);
-			U7=Uqm(b7);
-            U8=Uqd(b8);
-            U9=Uqm1(b9);
-            U10=Uqd1(b10);
-            U11=Uqm2(b11);
-            U12=Uqd2(b12);
+			U7=Um(b7);
+            U8=Ud(b8);
+            U9=Um1(b9);
+            U10=Ud1(b10);
+            U11=Um2(b11);
+            U12=Ud2(b12);
             Uz=my_count[1]*U1+(my_count[2]-del)*U2+my_count[0]*Uv+my_count[5]*U3+my_count[6]*U4+my_count[4]*Uv1+my_count[9]*U5+my_count[10]*U6+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
 				my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U11+my_count[17]*U12;
             if(Uz>temp)
@@ -2697,12 +2697,12 @@ void switchcasein(int m)
         b4=bd1(n);
         b5=bm2(n);
         b6=bd2(n);
-		b7=bqm(n);
-        b8=bqd(n);
-        b9=bqm1(n);
-        b10=bqd1(n);
-        b11=bqm2(n);
-        b12=bqd2(n);
+		b7=bm(n);
+        b8=bd(n);
+        b9=bm1(n);
+        b10=bd1(n);
+        b11=bm2(n);
+        b12=bd2(n);
         b_total=my_count[1]*b1+my_count[2]*b2+my_count[5]*b3+my_count[6]*b4+my_count[9]*b5+my_count[10]*b6+my_count[12]*b7+my_count[13]*b8+my_count[14]*b9+my_count[15]*b10+my_count[16]*b11+my_count[17]*b12;
         if(b_total<=RB&&b1>=BMmin&&b1<=BMmax&&b3>=BMmin&&b3<=BMmax&&b5>=BMmin&&b5<=BMmax&&b7>=BMmin&&b7<=BMmax&&b9>=BMmin&&b9<=BMmax&&b11>=BMmin&&b11<=BMmax&&
 			b2>=BDmin&&b2<=BDmax&&b4>=BDmin&&b4<=BDmax&&b6>=BDmin&&b6<=BDmax&&b8>=BDmin&&b8<=BDmax&&b10>=BDmin&&b10<=BDmax&&b12>=BDmin&&b12<=BDmax)
@@ -2714,12 +2714,12 @@ void switchcasein(int m)
             U4=Ud1(b4);
             U5=Um2(b5);
             U6=Ud2(b6);
-			U7=Uqm(b7);
-            U8=Uqd(b8);
-            U9=Uqm1(b9);
-            U10=Uqd1(b10);
-            U11=Uqm2(b11);
-            U12=Uqd2(b12);
+			U7=Um(b7);
+            U8=Ud(b8);
+            U9=Um1(b9);
+            U10=Ud1(b10);
+            U11=Um2(b11);
+            U12=Ud2(b12);
             Uz=my_count[1]*U1+my_count[2]*U2+my_count[0]*Uv+my_count[5]*U3+my_count[6]*U4+my_count[4]*Uv1+my_count[9]*U5+my_count[10]*U6+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
 				my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U11+my_count[17]*U12;
             if(Uz>temp)
@@ -2783,12 +2783,12 @@ void switchcasein(int m)
         b4=bd1(n);
         b5=bm2(n);
         b6=bd2(n);
-		b7=bqm(n);
-        b8=bqd(n);
-        b9=bqm1(n);
-        b10=bqd1(n);
-        b11=bqm2(n);
-        b12=bqd2(n);
+		b7=bm(n);
+        b8=bd(n);
+        b9=bm1(n);
+        b10=bd1(n);
+        b11=bm2(n);
+        b12=bd2(n);
         b_total=my_count[1]*b1+(my_count[2]-del)*b2+my_count[5]*b3+my_count[6]*b4+my_count[9]*b5+my_count[10]*b6+my_count[12]*b7+my_count[13]*b8+my_count[14]*b9+my_count[15]*b10+my_count[16]*b11+my_count[17]*b12;
         if(b_total<=RB&&b1>=BMmin&&b1<=BMmax&&b3>=BMmin&&b3<=BMmax&&b5>=BMmin&&b5<=BMmax&&b7>=BMmin&&b7<=BMmax&&b9>=BMmin&&b9<=BMmax&&b11>=BMmin&&b11<=BMmax&&
 			b2>=BDmin&&b2<=BDmax&&b4>=BDmin&&b4<=BDmax&&b6>=BDmin&&b6<=BDmax&&b8>=BDmin&&b8<=BDmax&&b10>=BDmin&&b10<=BDmax&&b12>=BDmin&&b12<=BDmax)
@@ -2800,12 +2800,12 @@ void switchcasein(int m)
             U4=Ud1(b4);
             U5=Um2(b5);
             U6=Ud2(b6);
-			U7=Uqm(b7);
-            U8=Uqd(b8);
-            U9=Uqm1(b9);
-            U10=Uqd1(b10);
-            U11=Uqm2(b11);
-            U12=Uqd2(b12);
+			U7=Um(b7);
+            U8=Ud(b8);
+            U9=Um1(b9);
+            U10=Ud1(b10);
+            U11=Um2(b11);
+            U12=Ud2(b12);
             Uz=my_count[1]*U1+(my_count[2]-del)*U2+my_count[0]*Uv+my_count[5]*U3+my_count[6]*U4+my_count[4]*Uv1+my_count[9]*U5+my_count[10]*U6+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
 				my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U11+my_count[17]*U12;
             if(Uz>temp)
@@ -2878,12 +2878,12 @@ void switchcasein(int m)
         b4=bd1(n);
         b5=bm2(n);
         b6=bd2(n);
-		b7=bqm(n);
-        b8=bqd(n);
-        b9=bqm1(n);
-        b10=bqd1(n);
-        b11=bqm2(n);
-        b12=bqd2(n);
+		b7=bm(n);
+        b8=bd(n);
+        b9=bm1(n);
+        b10=bd1(n);
+        b11=bm2(n);
+        b12=bd2(n);
         b_total=my_count[1]*b1+my_count[2]*b2+my_count[5]*b3+(my_count[6]-del)*b4+my_count[9]*b5+my_count[10]*b6+my_count[12]*b7+my_count[13]*b8+my_count[14]*b9+my_count[15]*b10+my_count[16]*b11+my_count[17]*b12;
         if(b_total<=RB&&b1>=BMmin&&b1<=BMmax&&b3>=BMmin&&b3<=BMmax&&b5>=BMmin&&b5<=BMmax&&b7>=BMmin&&b7<=BMmax&&b9>=BMmin&&b9<=BMmax&&b11>=BMmin&&b11<=BMmax&&
 			b4>=BDmin&&b4<=BDmax&&b6>=BDmin&&b6<=BDmax&&b8>=BDmin&&b8<=BDmax&&b10>=BDmin&&b10<=BDmax&&b12>=BDmin&&b12<=BDmax)
@@ -2895,12 +2895,12 @@ void switchcasein(int m)
             U4=Ud1(b4);
             U5=Um2(b5);
             U6=Ud2(b6);
-			U7=Uqm(b7);
-            U8=Uqd(b8);
-            U9=Uqm1(b9);
-            U10=Uqd1(b10);
-            U11=Uqm2(b11);
-            U12=Uqd2(b12);
+			U7=Um(b7);
+            U8=Ud(b8);
+            U9=Um1(b9);
+            U10=Ud1(b10);
+            U11=Um2(b11);
+            U12=Ud2(b12);
             Uz=my_count[1]*U1+my_count[2]*U2+my_count[0]*Uv+my_count[5]*U3+(my_count[6]-del)*U4+my_count[4]*Uv1+my_count[9]*U5+my_count[10]*U6+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
 				my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U11+my_count[17]*U12;
             if(Uz>temp)
@@ -2973,12 +2973,12 @@ void switchcasein(int m)
         b4=0;
         b5=bm2(n);
         b6=bd2(n);
-		b7=bqm(n);
-        b8=bqd(n);
-        b9=bqm1(n);
-        b10=bqd1(n);
-        b11=bqm2(n);
-        b12=bqd2(n);
+		b7=bm(n);
+        b8=bd(n);
+        b9=bm1(n);
+        b10=bd1(n);
+        b11=bm2(n);
+        b12=bd2(n);
         b_total=(my_count[1]-del)*b1+my_count[2]*b2+my_count[5]*b3+my_count[6]*b4+my_count[9]*b5+my_count[10]*b6+my_count[12]*b7+my_count[13]*b8+my_count[14]*b9+my_count[15]*b10+my_count[16]*b11+my_count[17]*b12;
         if(b_total<=RB&&b1>=BMmin&&b1<=BMmax&&b3>=BMmin&&b3<=BMmax&&b5>=BMmin&&b5<=BMmax&&b7>=BMmin&&b7<=BMmax&&b9>=BMmin&&b9<=BMmax&&b11>=BMmin&&b11<=BMmax&&
 			b2>=BDmin&&b2<=BDmax&&b4>=BDmin&&b4<=BDmax&&b6>=BDmin&&b6<=BDmax&&b8>=BDmin&&b8<=BDmax&&b10>=BDmin&&b10<=BDmax&&b12>=BDmin&&b12<=BDmax)
@@ -2990,12 +2990,12 @@ void switchcasein(int m)
             U4=0;
             U5=Um2(b5);
             U6=Ud2(b6);
-			U7=Uqm(b7);
-            U8=Uqd(b8);
-            U9=Uqm1(b9);
-            U10=Uqd1(b10);
-            U11=Uqm2(b11);
-            U12=Uqd2(b12);
+			U7=Um(b7);
+            U8=Ud(b8);
+            U9=Um1(b9);
+            U10=Ud1(b10);
+            U11=Um2(b11);
+            U12=Ud2(b12);
             Uz=(my_count[1]-del)*U1+my_count[2]*U2+my_count[0]*Uv+my_count[5]*U3+my_count[6]*U4+my_count[4]*Uv1+my_count[9]*U5+my_count[10]*U6+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
 				my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U11+my_count[17]*U12;
             if(Uz>temp)
@@ -3068,12 +3068,12 @@ void switchcasein(int m)
         b4=0;
         b5=bm2(n);
         b6=bd2(n);
-		b7=bqm(n);
-        b8=bqd(n);
-        b9=bqm1(n);
-        b10=bqd1(n);
-        b11=bqm2(n);
-        b12=bqd2(n);
+		b7=bm(n);
+        b8=bd(n);
+        b9=bm1(n);
+        b10=bd1(n);
+        b11=bm2(n);
+        b12=bd2(n);
         b_total=my_count[1]*b1+my_count[2]*b2+(my_count[5]-del)*b3+my_count[6]*b4+my_count[9]*b5+my_count[10]*b6+my_count[12]*b7+my_count[13]*b8+my_count[14]*b9+my_count[15]*b10+my_count[16]*b11+my_count[17]*b12;
         if(b_total<=RB&&b3>=BMmin&&b3<=BMmax&&b5>=BMmin&&b5<=BMmax&&b7>=BMmin&&b7<=BMmax&&b9>=BMmin&&b9<=BMmax&&b11>=BMmin&&b11<=BMmax&&
 			b6>=BDmin&&b6<=BDmax&&b8>=BDmin&&b8<=BDmax&&b10>=BDmin&&b10<=BDmax&&b12>=BDmin&&b12<=BDmax)
@@ -3085,12 +3085,12 @@ void switchcasein(int m)
             U4=0;
             U5=Um2(b5);
             U6=Ud2(b6);
-			U7=Uqm(b7);
-            U8=Uqd(b8);
-            U9=Uqm1(b9);
-            U10=Uqd1(b10);
-            U11=Uqm2(b11);
-            U12=Uqd2(b12);
+			U7=Um(b7);
+            U8=Ud(b8);
+            U9=Um1(b9);
+            U10=Ud1(b10);
+            U11=Um2(b11);
+            U12=Ud2(b12);
             Uz=my_count[1]*U1+my_count[2]*U2+my_count[0]*Uv+(my_count[5]-del)*U3+my_count[6]*U4+my_count[4]*Uv1+my_count[9]*U5+my_count[10]*U6+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
 				my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U11+my_count[17]*U12;
             if(Uz>temp)
@@ -3195,12 +3195,12 @@ void switchcasein(int m)
         b4=bd1(n);
         b5=bm2(n);
         b6=bd2(n);
-		b7=bqm(n);
-        b8=bqd(n);
-        b9=bqm1(n);
-        b10=bqd1(n);
-        b11=bqm2(n);
-        b12=bqd2(n);
+		b7=bm(n);
+        b8=bd(n);
+        b9=bm1(n);
+        b10=bd1(n);
+        b11=bm2(n);
+        b12=bd2(n);
         b_total=my_count[1]*b1+my_count[2]*b2+my_count[5]*b3+my_count[6]*b4+my_count[9]*b5+my_count[10]*b6+my_count[12]*b7+my_count[13]*b8+my_count[14]*b9+my_count[15]*b10+my_count[16]*b11+my_count[17]*b12;
         if(b_total<=RB&&b1>=BMmin&&b1<=BMmax&&b3>=BMmin&&b3<=BMmax&&b5>=BMmin&&b5<=BMmax&&b7>=BMmin&&b7<=BMmax&&b9>=BMmin&&b9<=BMmax&&b11>=BMmin&&b11<=BMmax&&
 			b2>=BDmin&&b2<=BDmax&&b4>=BDmin&&b4<=BDmax&&b6>=BDmin&&b6<=BDmax&&b8>=BDmin&&b8<=BDmax&&b10>=BDmin&&b10<=BDmax&&b12>=BDmin&&b12<=BDmax)
@@ -3212,12 +3212,12 @@ void switchcasein(int m)
             U4=Ud1(b4);
             U5=Um2(b5);
             U6=Ud2(b6);
-			U7=Uqm(b7);
-            U8=Uqd(b8);
-            U9=Uqm1(b9);
-            U10=Uqd1(b10);
-            U11=Uqm2(b11);
-            U12=Uqd2(b12);
+			U7=Um(b7);
+            U8=Ud(b8);
+            U9=Um1(b9);
+            U10=Ud1(b10);
+            U11=Um2(b11);
+            U12=Ud2(b12);
             Uz=my_count[1]*U1+my_count[2]*U2+my_count[0]*Uv+my_count[5]*U3+my_count[6]*U4+my_count[4]*Uv1+my_count[9]*U5+my_count[10]*U6+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
 				my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U11+my_count[17]*U12;
             if(Uz>temp)
@@ -3280,12 +3280,12 @@ void switchcasein(int m)
         b4=bd1(n);
         b5=bm2(n);
         b6=bd2(n);
-		b7=bqm(n);
-        b8=bqd(n);
-        b9=bqm1(n);
-        b10=bqd1(n);
-        b11=bqm2(n);
-        b12=bqd2(n);
+		b7=bm(n);
+        b8=bd(n);
+        b9=bm1(n);
+        b10=bd1(n);
+        b11=bm2(n);
+        b12=bd2(n);
         b_total=my_count[1]*b1+(my_count[2]-del)*b2+my_count[5]*b3+my_count[6]*b4+my_count[9]*b5+my_count[10]*b6+my_count[12]*b7+my_count[13]*b8+my_count[14]*b9+my_count[15]*b10+my_count[16]*b11+my_count[17]*b12;
         if(b_total<=RB&&b1>=BMmin&&b1<=BMmax&&b3>=BMmin&&b3<=BMmax&&b5>=BMmin&&b5<=BMmax&&b7>=BMmin&&b7<=BMmax&&b9>=BMmin&&b9<=BMmax&&b11>=BMmin&&b11<=BMmax&&
 			b2>=BDmin&&b2<=BDmax&&b4>=BDmin&&b4<=BDmax&&b6>=BDmin&&b6<=BDmax&&b8>=BDmin&&b8<=BDmax&&b10>=BDmin&&b10<=BDmax&&b12>=BDmin&&b12<=BDmax)
@@ -3297,12 +3297,12 @@ void switchcasein(int m)
             U4=Ud1(b4);
             U5=Um2(b5);
             U6=Ud2(b6);
-			U7=Uqm(b7);
-            U8=Uqd(b8);
-            U9=Uqm1(b9);
-            U10=Uqd1(b10);
-            U11=Uqm2(b11);
-            U12=Uqd2(b12);
+			U7=Um(b7);
+            U8=Ud(b8);
+            U9=Um1(b9);
+            U10=Ud1(b10);
+            U11=Um2(b11);
+            U12=Ud2(b12);
             Uz=my_count[1]*U1+(my_count[2]-del)*U2+my_count[0]*Uv+my_count[5]*U3+my_count[6]*U4+my_count[4]*Uv1+my_count[9]*U5+my_count[10]*U6+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
 				my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U11+my_count[17]*U12;
             if(Uz>temp)
@@ -3375,12 +3375,12 @@ void switchcasein(int m)
         b4=bd1(n);
         b5=bm2(n);
         b6=bd2(n);
-		b7=bqm(n);
-        b8=bqd(n);
-        b9=bqm1(n);
-        b10=bqd1(n);
-        b11=bqm2(n);
-        b12=bqd2(n);
+		b7=bm(n);
+        b8=bd(n);
+        b9=bm1(n);
+        b10=bd1(n);
+        b11=bm2(n);
+        b12=bd2(n);
         b_total=my_count[1]*b1+my_count[2]*b2+my_count[5]*b3+(my_count[6]-del)*b4+my_count[9]*b5+my_count[10]*b6+my_count[12]*b7+my_count[13]*b8+my_count[14]*b9+my_count[15]*b10+my_count[16]*b11+my_count[17]*b12;
         if(b_total<=RB&&b1>=BMmin&&b1<=BMmax&&b3>=BMmin&&b3<=BMmax&&b5>=BMmin&&b5<=BMmax&&b7>=BMmin&&b7<=BMmax&&b9>=BMmin&&b9<=BMmax&&b11>=BMmin&&b11<=BMmax&&
 			b4>=BDmin&&b4<=BDmax&&b6>=BDmin&&b6<=BDmax&&b8>=BDmin&&b8<=BDmax&&b10>=BDmin&&b10<=BDmax&&b12>=BDmin&&b12<=BDmax)
@@ -3392,12 +3392,12 @@ void switchcasein(int m)
             U4=Ud1(b4);
             U5=Um2(b5);
             U6=Ud2(b6);
-			U7=Uqm(b7);
-            U8=Uqd(b8);
-            U9=Uqm1(b9);
-            U10=Uqd1(b10);
-            U11=Uqm2(b11);
-            U12=Uqd2(b12);
+			U7=Um(b7);
+            U8=Ud(b8);
+            U9=Um1(b9);
+            U10=Ud1(b10);
+            U11=Um2(b11);
+            U12=Ud2(b12);
             Uz=my_count[1]*U1+my_count[2]*U2+my_count[0]*Uv+my_count[5]*U3+(my_count[6]-del)*U4+my_count[4]*Uv1+my_count[9]*U5+my_count[10]*U6+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
 				my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U11+my_count[17]*U12;
             if(Uz>temp)
@@ -3608,12 +3608,12 @@ void switchcasein(int m)
         b4=bd1(n);
         b5=bm2(n);
         b6=bd2(n);
-		b7=bqm(n);
-        b8=bqd(n);
-        b9=bqm1(n);
-        b10=bqd1(n);
-        b11=bqm2(n);
-        b12=bqd2(n);
+		b7=bm(n);
+        b8=bd(n);
+        b9=bm1(n);
+        b10=bd1(n);
+        b11=bm2(n);
+        b12=bd2(n);
         b_total=my_count[1]*b1+my_count[2]*b2+my_count[5]*b3+my_count[6]*b4+my_count[9]*b5+my_count[10]*b6+my_count[12]*b7+my_count[13]*b8+my_count[14]*b9+my_count[15]*b10+my_count[16]*b11+my_count[17]*b12;
         if(b_total<=RB&&b1>=BMmin&&b1<=BMmax&&b3>=BMmin&&b3<=BMmax&&b5>=BMmin&&b5<=BMmax&&b7>=BMmin&&b7<=BMmax&&b9>=BMmin&&b9<=BMmax&&b11>=BMmin&&b11<=BMmax&&
 			b2>=BDmin&&b2<=BDmax&&b4>=BDmin&&b4<=BDmax&&b6>=BDmin&&b6<=BDmax&&b8>=BDmin&&b8<=BDmax&&b10>=BDmin&&b10<=BDmax&&b12>=BDmin&&b12<=BDmax)
@@ -3625,12 +3625,12 @@ void switchcasein(int m)
             U4=Ud1(b4);
             U5=Um2(b5);
             U6=Ud2(b6);
-			U7=Uqm(b7);
-            U8=Uqd(b8);
-            U9=Uqm1(b9);
-            U10=Uqd1(b10);
-            U11=Uqm2(b11);
-            U12=Uqd2(b12);
+			U7=Um(b7);
+            U8=Ud(b8);
+            U9=Um1(b9);
+            U10=Ud1(b10);
+            U11=Um2(b11);
+            U12=Ud2(b12);
             Uz=my_count[1]*U1+my_count[2]*U2+my_count[0]*Uv+my_count[5]*U3+my_count[6]*U4+my_count[4]*Uv1+my_count[9]*U5+my_count[10]*U6+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
 				my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U11+my_count[17]*U12;
             if(Uz>temp)
@@ -3696,12 +3696,12 @@ void switchcasein(int m)
         b4=bd1(n);
         b5=bm2(n);
         b6=bd2(n);
-		b7=bqm(n);
-        b8=bqd(n);
-        b9=bqm1(n);
-        b10=bqd1(n);
-        b11=bqm2(n);
-        b12=bqd2(n);
+		b7=bm(n);
+        b8=bd(n);
+        b9=bm1(n);
+        b10=bd1(n);
+        b11=bm2(n);
+        b12=bd2(n);
         b_total=my_count[1]*b1+(my_count[2]-del)*b2+my_count[5]*b3+my_count[6]*b4+my_count[9]*b5+my_count[10]*b6+my_count[12]*b7+my_count[13]*b8+my_count[14]*b9+my_count[15]*b10+my_count[16]*b11+my_count[17]*b12;
         if(b_total<=RB&&b1>=BMmin&&b1<=BMmax&&b3>=BMmin&&b3<=BMmax&&b5>=BMmin&&b5<=BMmax&&b7>=BMmin&&b7<=BMmax&&b9>=BMmin&&b9<=BMmax&&b11>=BMmin&&b11<=BMmax&&
 			b2>=BDmin&&b2<=BDmax&&b4>=BDmin&&b4<=BDmax&&b6>=BDmin&&b6<=BDmax&&b8>=BDmin&&b8<=BDmax&&b10>=BDmin&&b10<=BDmax&&b12>=BDmin&&b12<=BDmax)
@@ -3713,12 +3713,12 @@ void switchcasein(int m)
             U4=Ud1(b4);
             U5=Um2(b5);
             U6=Ud2(b6);
-			U7=Uqm(b7);
-            U8=Uqd(b8);
-            U9=Uqm1(b9);
-            U10=Uqd1(b10);
-            U11=Uqm2(b11);
-            U12=Uqd2(b12);
+			U7=Um(b7);
+            U8=Ud(b8);
+            U9=Um1(b9);
+            U10=Ud1(b10);
+            U11=Um2(b11);
+            U12=Ud2(b12);
             Uz=my_count[1]*U1+(my_count[2]-del)*U2+my_count[0]*Uv+my_count[5]*U3+my_count[6]*U4+my_count[4]*Uv1+my_count[9]*U5+my_count[10]*U6+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
 				my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U11+my_count[17]*U12;
             if(Uz>temp)
@@ -3820,12 +3820,12 @@ void switchcasein(int m)
         b4=bd1(n);
         b5=bm2(n);
         b6=bd2(n);
-		b7=bqm(n);
-        b8=bqd(n);
-        b9=bqm1(n);
-        b10=bqd1(n);
-        b11=bqm2(n);
-        b12=bqd2(n);
+		b7=bm(n);
+        b8=bd(n);
+        b9=bm1(n);
+        b10=bd1(n);
+        b11=bm2(n);
+        b12=bd2(n);
         b_total=my_count[1]*b1+my_count[2]*b2+my_count[5]*b3+my_count[6]*b4+my_count[9]*b5+my_count[10]*b6+my_count[12]*b7+my_count[13]*b8+my_count[14]*b9+my_count[15]*b10+my_count[16]*b11+my_count[17]*b12;
         if(b_total<=RB&&b1>=BMmin&&b1<=BMmax&&b3>=BMmin&&b3<=BMmax&&b5>=BMmin&&b5<=BMmax&&b7>=BMmin&&b7<=BMmax&&b9>=BMmin&&b9<=BMmax&&b11>=BMmin&&b11<=BMmax&&
 			b2>=BDmin&&b2<=BDmax&&b4>=BDmin&&b4<=BDmax&&b6>=BDmin&&b6<=BDmax&&b8>=BDmin&&b8<=BDmax&&b10>=BDmin&&b10<=BDmax&&b12>=BDmin&&b12<=BDmax)
@@ -3837,12 +3837,12 @@ void switchcasein(int m)
             U4=Ud1(b4);
             U5=Um2(b5);
             U6=Ud2(b6);
-			U7=Uqm(b7);
-            U8=Uqd(b8);
-            U9=Uqm1(b9);
-            U10=Uqd1(b10);
-            U11=Uqm2(b11);
-            U12=Uqd2(b12);
+			U7=Um(b7);
+            U8=Ud(b8);
+            U9=Um1(b9);
+            U10=Ud1(b10);
+            U11=Um2(b11);
+            U12=Ud2(b12);
             Uz=my_count[1]*U1+my_count[2]*U2+my_count[0]*Uv+my_count[5]*U3+my_count[6]*U4+my_count[4]*Uv1+my_count[9]*U5+my_count[10]*U6+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
 				my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U11+my_count[17]*U12;
             if(Uz>temp)
@@ -3906,12 +3906,12 @@ void switchcasein(int m)
         b4=bd1(n);
         b5=bm2(n);
         b6=bd2(n);
-		b7=bqm(n);
-        b8=bqd(n);
-        b9=bqm1(n);
-        b10=bqd1(n);
-        b11=bqm2(n);
-        b12=bqd2(n);
+		b7=bm(n);
+        b8=bd(n);
+        b9=bm1(n);
+        b10=bd1(n);
+        b11=bm2(n);
+        b12=bd2(n);
         b_total=my_count[1]*b1+(my_count[2]-del)*b2+my_count[5]*b3+my_count[6]*b4+my_count[9]*b5+my_count[10]*b6+my_count[12]*b7+my_count[13]*b8+my_count[14]*b9+my_count[15]*b10+my_count[16]*b11+my_count[17]*b12;
         if(b_total<=RB&&b1>=BMmin&&b1<=BMmax&&b3>=BMmin&&b3<=BMmax&&b5>=BMmin&&b5<=BMmax&&b7>=BMmin&&b7<=BMmax&&b9>=BMmin&&b9<=BMmax&&b11>=BMmin&&b11<=BMmax&&
 			b2>=BDmin&&b2<=BDmax&&b4>=BDmin&&b4<=BDmax&&b6>=BDmin&&b6<=BDmax&&b8>=BDmin&&b8<=BDmax&&b10>=BDmin&&b10<=BDmax&&b12>=BDmin&&b12<=BDmax)
@@ -3923,12 +3923,12 @@ void switchcasein(int m)
             U4=Ud1(b4);
             U5=Um2(b5);
             U6=Ud2(b6);
-			U7=Uqm(b7);
-            U8=Uqd(b8);
-            U9=Uqm1(b9);
-            U10=Uqd1(b10);
-            U11=Uqm2(b11);
-            U12=Uqd2(b12);
+			U7=Um(b7);
+            U8=Ud(b8);
+            U9=Um1(b9);
+            U10=Ud1(b10);
+            U11=Um2(b11);
+            U12=Ud2(b12);
             Uz=my_count[1]*U1+(my_count[2]-del)*U2+my_count[0]*Uv+my_count[5]*U3+my_count[6]*U4+my_count[4]*Uv1+my_count[9]*U5+my_count[10]*U6+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
 				my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U11+my_count[17]*U12;
             if(Uz>temp)
@@ -4001,12 +4001,12 @@ void switchcasein(int m)
         b4=bd1(n);
         b5=bm2(n);
         b6=bd2(n);
-		b7=bqm(n);
-        b8=bqd(n);
-        b9=bqm1(n);
-        b10=bqd1(n);
-        b11=bqm2(n);
-        b12=bqd2(n);
+		b7=bm(n);
+        b8=bd(n);
+        b9=bm1(n);
+        b10=bd1(n);
+        b11=bm2(n);
+        b12=bd2(n);
         b_total=my_count[1]*b1+my_count[2]*b2+my_count[5]*b3+(my_count[6]-del)*b4+my_count[9]*b5+my_count[10]*b6+my_count[12]*b7+my_count[13]*b8+my_count[14]*b9+my_count[15]*b10+my_count[16]*b11+my_count[17]*b12;
         if(b_total<=RB&&b1>=BMmin&&b1<=BMmax&&b3>=BMmin&&b3<=BMmax&&b5>=BMmin&&b5<=BMmax&&b7>=BMmin&&b7<=BMmax&&b9>=BMmin&&b9<=BMmax&&b11>=BMmin&&b11<=BMmax&&
 			b4>=BDmin&&b4<=BDmax&&b6>=BDmin&&b6<=BDmax&&b8>=BDmin&&b8<=BDmax&&b10>=BDmin&&b10<=BDmax&&b12>=BDmin&&b12<=BDmax)
@@ -4018,12 +4018,12 @@ void switchcasein(int m)
             U4=Ud1(b4);
             U5=Um2(b5);
             U6=Ud2(b6);
-			U7=Uqm(b7);
-            U8=Uqd(b8);
-            U9=Uqm1(b9);
-            U10=Uqd1(b10);
-            U11=Uqm2(b11);
-            U12=Uqd2(b12);
+			U7=Um(b7);
+            U8=Ud(b8);
+            U9=Um1(b9);
+            U10=Ud1(b10);
+            U11=Um2(b11);
+            U12=Ud2(b12);
             Uz=my_count[1]*U1+my_count[2]*U2+my_count[0]*Uv+my_count[5]*U3+(my_count[6]-del)*U4+my_count[4]*Uv1+my_count[9]*U5+my_count[10]*U6+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
 				my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U11+my_count[17]*U12;
             if(Uz>temp)
@@ -4096,12 +4096,12 @@ void switchcasein(int m)
         b4=0;
         b5=bm2(n);
         b6=bd2(n);
-		b7=bqm(n);
-        b8=bqd(n);
-        b9=bqm1(n);
-        b10=bqd1(n);
-        b11=bqm2(n);
-        b12=bqd2(n);
+		b7=bm(n);
+        b8=bd(n);
+        b9=bm1(n);
+        b10=bd1(n);
+        b11=bm2(n);
+        b12=bd2(n);
         b_total=(my_count[1]-del)*b1+my_count[2]*b2+my_count[5]*b3+my_count[6]*b4+my_count[9]*b5+my_count[10]*b6+my_count[12]*b7+my_count[13]*b8+my_count[14]*b9+my_count[15]*b10+my_count[16]*b11+my_count[17]*b12;
         if(b_total<=RB&&b1>=BMmin&&b1<=BMmax&&b3>=BMmin&&b3<=BMmax&&b5>=BMmin&&b5<=BMmax&&b7>=BMmin&&b7<=BMmax&&b9>=BMmin&&b9<=BMmax&&b11>=BMmin&&b11<=BMmax&&
 			b2>=BDmin&&b2<=BDmax&&b4>=BDmin&&b4<=BDmax&&b6>=BDmin&&b6<=BDmax&&b8>=BDmin&&b8<=BDmax&&b10>=BDmin&&b10<=BDmax&&b12>=BDmin&&b12<=BDmax)
@@ -4113,12 +4113,12 @@ void switchcasein(int m)
             U4=0;
             U5=Um2(b5);
             U6=Ud2(b6);
-			U7=Uqm(b7);
-            U8=Uqd(b8);
-            U9=Uqm1(b9);
-            U10=Uqd1(b10);
-            U11=Uqm2(b11);
-            U12=Uqd2(b12);
+			U7=Um(b7);
+            U8=Ud(b8);
+            U9=Um1(b9);
+            U10=Ud1(b10);
+            U11=Um2(b11);
+            U12=Ud2(b12);
             Uz=(my_count[1]-del)*U1+my_count[2]*U2+my_count[0]*Uv+my_count[5]*U3+my_count[6]*U4+my_count[4]*Uv1+my_count[9]*U5+my_count[10]*U6+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
 				my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U11+my_count[17]*U12;
             if(Uz>temp)
@@ -4191,12 +4191,12 @@ void switchcasein(int m)
         b4=0;
         b5=bm2(n);
         b6=bd2(n);
-		b7=bqm(n);
-        b8=bqd(n);
-        b9=bqm1(n);
-        b10=bqd1(n);
-        b11=bqm2(n);
-        b12=bqd2(n);
+		b7=bm(n);
+        b8=bd(n);
+        b9=bm1(n);
+        b10=bd1(n);
+        b11=bm2(n);
+        b12=bd2(n);
         b_total=my_count[1]*b1+my_count[2]*b2+(my_count[5]-del)*b3+my_count[6]*b4+my_count[9]*b5+my_count[10]*b6+my_count[12]*b7+my_count[13]*b8+my_count[14]*b9+my_count[15]*b10+my_count[16]*b11+my_count[17]*b12;
         if(b_total<=RB&&b3>=BMmin&&b3<=BMmax&&b5>=BMmin&&b5<=BMmax&&b7>=BMmin&&b7<=BMmax&&b9>=BMmin&&b9<=BMmax&&b11>=BMmin&&b11<=BMmax&&
 			b6>=BDmin&&b6<=BDmax&&b8>=BDmin&&b8<=BDmax&&b10>=BDmin&&b10<=BDmax&&b12>=BDmin&&b12<=BDmax)
@@ -4208,12 +4208,12 @@ void switchcasein(int m)
             U4=0;
             U5=Um2(b5);
             U6=Ud2(b6);
-			U7=Uqm(b7);
-            U8=Uqd(b8);
-            U9=Uqm1(b9);
-            U10=Uqd1(b10);
-            U11=Uqm2(b11);
-            U12=Uqd2(b12);
+			U7=Um(b7);
+            U8=Ud(b8);
+            U9=Um1(b9);
+            U10=Ud1(b10);
+            U11=Um2(b11);
+            U12=Ud2(b12);
             Uz=my_count[1]*U1+my_count[2]*U2+my_count[0]*Uv+(my_count[5]-del)*U3+my_count[6]*U4+my_count[4]*Uv1+my_count[9]*U5+my_count[10]*U6+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
 				my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U11+my_count[17]*U12;
             if(Uz>temp)
@@ -4318,12 +4318,12 @@ void switchcasein(int m)
         b4=bd1(n);
         b5=bm2(n);
         b6=bd2(n);
-		b7=bqm(n);
-        b8=bqd(n);
-        b9=bqm1(n);
-        b10=bqd1(n);
-        b11=bqm2(n);
-        b12=bqd2(n);
+		b7=bm(n);
+        b8=bd(n);
+        b9=bm1(n);
+        b10=bd1(n);
+        b11=bm2(n);
+        b12=bd2(n);
         b_total=my_count[1]*b1+my_count[2]*b2+my_count[5]*b3+my_count[6]*b4+my_count[9]*b5+my_count[10]*b6+my_count[12]*b7+my_count[13]*b8+my_count[14]*b9+my_count[15]*b10+my_count[16]*b11+my_count[17]*b12;
         if(b_total<=RB&&b1>=BMmin&&b1<=BMmax&&b3>=BMmin&&b3<=BMmax&&b5>=BMmin&&b5<=BMmax&&b7>=BMmin&&b7<=BMmax&&b9>=BMmin&&b9<=BMmax&&b11>=BMmin&&b11<=BMmax&&
 			b2>=BDmin&&b2<=BDmax&&b4>=BDmin&&b4<=BDmax&&b6>=BDmin&&b6<=BDmax&&b8>=BDmin&&b8<=BDmax&&b10>=BDmin&&b10<=BDmax&&b12>=BDmin&&b12<=BDmax)
@@ -4335,12 +4335,12 @@ void switchcasein(int m)
             U4=Ud1(b4);
             U5=Um2(b5);
             U6=Ud2(b6);
-			U7=Uqm(b7);
-            U8=Uqd(b8);
-            U9=Uqm1(b9);
-            U10=Uqd1(b10);
-            U11=Uqm2(b11);
-            U12=Uqd2(b12);
+			U7=Um(b7);
+            U8=Ud(b8);
+            U9=Um1(b9);
+            U10=Ud1(b10);
+            U11=Um2(b11);
+            U12=Ud2(b12);
             Uz=my_count[1]*U1+my_count[2]*U2+my_count[0]*Uv+my_count[5]*U3+my_count[6]*U4+my_count[4]*Uv1+my_count[9]*U5+my_count[10]*U6+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
 				my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U11+my_count[17]*U12;
             if(Uz>temp)
@@ -4403,12 +4403,12 @@ void switchcasein(int m)
         b4=bd1(n);
         b5=bm2(n);
         b6=bd2(n);
-		b7=bqm(n);
-        b8=bqd(n);
-        b9=bqm1(n);
-        b10=bqd1(n);
-        b11=bqm2(n);
-        b12=bqd2(n);
+		b7=bm(n);
+        b8=bd(n);
+        b9=bm1(n);
+        b10=bd1(n);
+        b11=bm2(n);
+        b12=bd2(n);
         b_total=my_count[1]*b1+(my_count[2]-del)*b2+my_count[5]*b3+my_count[6]*b4+my_count[9]*b5+my_count[10]*b6+my_count[12]*b7+my_count[13]*b8+my_count[14]*b9+my_count[15]*b10+my_count[16]*b11+my_count[17]*b12;
         if(b_total<=RB&&b1>=BMmin&&b1<=BMmax&&b3>=BMmin&&b3<=BMmax&&b5>=BMmin&&b5<=BMmax&&b7>=BMmin&&b7<=BMmax&&b9>=BMmin&&b9<=BMmax&&b11>=BMmin&&b11<=BMmax&&
 			b2>=BDmin&&b2<=BDmax&&b4>=BDmin&&b4<=BDmax&&b6>=BDmin&&b6<=BDmax&&b8>=BDmin&&b8<=BDmax&&b10>=BDmin&&b10<=BDmax&&b12>=BDmin&&b12<=BDmax)
@@ -4420,12 +4420,12 @@ void switchcasein(int m)
             U4=Ud1(b4);
             U5=Um2(b5);
             U6=Ud2(b6);
-			U7=Uqm(b7);
-            U8=Uqd(b8);
-            U9=Uqm1(b9);
-            U10=Uqd1(b10);
-            U11=Uqm2(b11);
-            U12=Uqd2(b12);
+			U7=Um(b7);
+            U8=Ud(b8);
+            U9=Um1(b9);
+            U10=Ud1(b10);
+            U11=Um2(b11);
+            U12=Ud2(b12);
             Uz=my_count[1]*U1+(my_count[2]-del)*U2+my_count[0]*Uv+my_count[5]*U3+my_count[6]*U4+my_count[4]*Uv1+my_count[9]*U5+my_count[10]*U6+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
 				my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U11+my_count[17]*U12;
             if(Uz>temp)
@@ -4498,12 +4498,12 @@ void switchcasein(int m)
         b4=bd1(n);
         b5=bm2(n);
         b6=bd2(n);
-		b7=bqm(n);
-        b8=bqd(n);
-        b9=bqm1(n);
-        b10=bqd1(n);
-        b11=bqm2(n);
-        b12=bqd2(n);
+		b7=bm(n);
+        b8=bd(n);
+        b9=bm1(n);
+        b10=bd1(n);
+        b11=bm2(n);
+        b12=bd2(n);
         b_total=my_count[1]*b1+my_count[2]*b2+my_count[5]*b3+(my_count[6]-del)*b4+my_count[9]*b5+my_count[10]*b6+my_count[12]*b7+my_count[13]*b8+my_count[14]*b9+my_count[15]*b10+my_count[16]*b11+my_count[17]*b12;
         if(b_total<=RB&&b1>=BMmin&&b1<=BMmax&&b3>=BMmin&&b3<=BMmax&&b5>=BMmin&&b5<=BMmax&&b7>=BMmin&&b7<=BMmax&&b9>=BMmin&&b9<=BMmax&&b11>=BMmin&&b11<=BMmax&&
 			b4>=BDmin&&b4<=BDmax&&b6>=BDmin&&b6<=BDmax&&b8>=BDmin&&b8<=BDmax&&b10>=BDmin&&b10<=BDmax&&b12>=BDmin&&b12<=BDmax)
@@ -4515,12 +4515,12 @@ void switchcasein(int m)
             U4=Ud1(b4);
             U5=Um2(b5);
             U6=Ud2(b6);
-			U7=Uqm(b7);
-            U8=Uqd(b8);
-            U9=Uqm1(b9);
-            U10=Uqd1(b10);
-            U11=Uqm2(b11);
-            U12=Uqd2(b12);
+			U7=Um(b7);
+            U8=Ud(b8);
+            U9=Um1(b9);
+            U10=Ud1(b10);
+            U11=Um2(b11);
+            U12=Ud2(b12);
             Uz=my_count[1]*U1+my_count[2]*U2+my_count[0]*Uv+my_count[5]*U3+(my_count[6]-del)*U4+my_count[4]*Uv1+my_count[9]*U5+my_count[10]*U6+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
 				my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U11+my_count[17]*U12;
             if(Uz>temp)

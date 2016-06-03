@@ -46,7 +46,7 @@ int main()
                 //printf("\033[%dA", (10)) ;
                 printf("\033[0;0H");//把光标定位在0,0
                 printf("%s\n",buffer);
-                usleep(10000);
+                usleep(1000000);
             }
         }
         close(pipe_fd);

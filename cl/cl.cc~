@@ -6,12 +6,15 @@
 #include <limits.h> //PIPE_BUF定义
 
 
+#define ratio_hdf 11
+#define ratio_bss 3
+
 
 const int CLIENTNUM=2501;//从1开始
 //vector<int> sockets(CLIENTNUM);
 const int SLEEP_US=10000;
-const int CLIENTSEC=200;
-const int MINCLIENTSEC=100;
+const int CLIENTSEC=500;
+const int MINCLIENTSEC=150;
 const int LIVETIME=300;
 
 map<int,int> map_ID_sockets;//从1开始
@@ -67,16 +70,28 @@ double expntl(double x)
     return(-x * log(z)); //z相当于1-x,而x相当于1/lamda。
 }
 
-void infoprint(int id, int hdf, int bss)
+void infoprint(int id, int hdf, int bss,double life_time)
 {
     if(0==hdf)
-        printf("用户ID；%d , 业务类型为切换语音业务 , 请求接入....\n",id);
-    else if(0==bss)
-        printf("用户ID；%d , 新呼叫 , 业务类型为语音业务 , 请求接入....\n",id);
+{
+if(0==bss)
+        printf("USER ID : %d , handoff , Voice service , lifetime:%lf, connecting....\n",id,life_time);
     else if(1==bss)
-        printf("用户ID；%d , 新呼叫 , 业务类型为流媒体业务 , 请求接入....\n",id);
+        printf("USER ID : %d , handoff , Streaming media service , lifetime:%lf, connecting....\n",id,life_time);
     else
-        printf("用户ID；%d , 新呼叫 , 业务类型为数据业务 ,请求接入....\n",id);
+        printf("USER ID : %d , handoff , Data service , lifetime:%lf, connecting....\n",id,life_time);
+}
+
+    else
+    {
+    if(0==bss)
+        printf("USER ID : %d , new call , Voice service , lifetime:%lf, connecting....\n",id,life_time);
+    else if(1==bss)
+        printf("USER ID : %d , new call , Streaming media service, lifetime:%lf, connecting....\n",id,life_time);
+    else
+        printf("USER ID : %d , new call , Data service , lifetime:%lf, connecting....\n",id,life_time);
+    }
+
 
 }
 
@@ -207,17 +222,21 @@ int main()
             }
             int possion =randomPossion(client_sec);
             count_client+=possion;
-            printf("possion=%d\n",possion);
+            //printf("possion=%d\n",possion);
             //int possion=2;
             for(int itemp=0; itemp<possion; itemp++)
             {
                 //printf("itemp = %d\n",itemp);
                 bzero(message,BUF_SIZE);
-                if(itemp !=possion-1){
-                sprintf(message,"%s %d %s","00",a[iNum]," \0");}
-                else{
-                sprintf(message,"%s %d %s","00",rand()%200+2000," \0");
-                iNum--;}
+                if(itemp !=possion-1)
+                {
+                    sprintf(message,"%s %d %s","00",a[iNum]," \0");
+                }
+                else
+                {
+                    sprintf(message,"%s %d %s","00",rand()%200+2000," \0");
+                    iNum--;
+                }
                 // 子进程将信息写入管道
                 if( write(pipe_fd[1], message, strlen(message)  ) < 0 )//zsd
                 {
@@ -328,30 +347,21 @@ int main()
                                 sendUser.id=ID;
                                 //n=520520;
                                 sendUser.pwd=GenKey(ID);
-                                n=rand()%10;
+                                n=rand()%ratio_hdf;
                                 if(n!=0)
                                     n=1;
                                 //	printf("n=%d\n",n);
                                 sendUser.hdf_type=n;
-                                if(n==0)
-                                    sendUser.bss_type=n;
-                                else
-                                    sendUser.bss_type=rand()%3;
+                                //if(n==0)
+                                  //  sendUser.bss_type=n;
+                                //else
+                                sendUser.bss_type=rand()%ratio_bss;
                                 sendUser.life_time=expntl(LIVETIME);
                                 sendUser.degree=-1;
                                 sendUser.sockfd=-1;
                                 sendUser.state=0;
-                                //sendUser.isalive=true;
-                                //printf("id=%d\n",sendUser.id);
-                                // printf("pwd=%d\n",sendUser.pwd);
-                                //printf("hdf_type=%d\n",sendUser.hdf_type);
-                                // printf("bss_type=%d\n",sendUser.bss_type);
-                                // printf("life_time=%lf\n",sendUser.life_time);
                                 map_socket_clients[map_ID_sockets[ID]]=sendUser;
                                 // 将信息发送给服务端
-                                //char client_info[BUF_SIZE];
-                                //bzero(client_info, sizeof(client_info));
-                                //memcpy(client_info,&sendUser,sizeof(CLIENT));
                                 strcat(send_message,order);
                                 //strcat(&send_message[ORDER_LEN],client_info);//zsd//只能压进第一个，但服务端就可以全部收到
                                 memcpy(&send_message[strlen(order)],&sendUser,sizeof(CLIENT));
@@ -359,10 +369,6 @@ int main()
                                 //strcat(&send_message[ORDER_LEN],sendUser.usr_pwd);
                                 send(map_ID_sockets[ID],send_message, sizeof(CLIENT)+ORDER_LEN, 0);
 
-                                //countnow++;
-                                //printf("send message1: %s,countnow=%d\n\n\n",send_message,countnow);
-                                //printf("ID: %d connect\n",ID);
-                                //printf(" client count now = %lu\n\n\n",map_socket_clients.size());
                             }
                             else if(strcmp(order,"-1")==0)//关闭当前socket
                             {
@@ -381,6 +387,14 @@ int main()
                                 map_ID_sockets.erase(map_int_int_it);
                                 map_socket_clients.erase(map_int_client_it);
                                 //printf("client count now = %lu\n\n\n",map_socket_clients.size());
+                                bzero(buf_count,sizeof(buf_count));
+                                sprintf(buf_count,"client count now = %lu\n",map_socket_clients.size());
+                                res=write(pipecntonly,buf_count,sizeof(buf_count));
+                                if(res==-1)
+                                {
+                                    fprintf(stderr, "Write error on pipe\n");
+                                    //exit(EXIT_FAILURE);
+                                }
                             }
                             else
                             {
@@ -423,19 +437,22 @@ int main()
                                 {
                                     if(map_int_client_it->second.state==0)
                                     {
-                                        printf("用户ID%d 生存时间到 连接关闭 This client is timeout !!!\n\n",map_int_client_it->second.id);
+                                        printf("USER ID%d This service is handled well !!!\n\n",map_int_client_it->second.id);
                                     }
                                     else if(map_int_client_it->second.state==1)
                                     {
-                                        printf("用户ID%d 被抢占带宽 连接关闭 This client has been thrown out !!!\n\n",map_int_client_it->second.id);
+infoprint(map_socket_clients[sock].id,map_socket_clients[sock].hdf_type,map_socket_clients[sock].bss_type,map_socket_clients[sock].life_time);
+                                        printf("USER ID%d bandwidth occupation,user client thrown out !!!\n\n",map_int_client_it->second.id);
                                     }
                                     else if(map_int_client_it->second.state==2)
                                     {
-                                        printf("用户ID%d 剩余带宽不足 连接被拒 This client has been reject !!!\n\n",map_int_client_it->second.id);
+infoprint(map_socket_clients[sock].id,map_socket_clients[sock].hdf_type,map_socket_clients[sock].bss_type,map_socket_clients[sock].life_time);
+                                        printf("USER ID%d remaining bandwidth is not enough, connection closed!!!\n\n",map_int_client_it->second.id);
                                     }
                                     else if(map_int_client_it->second.state==3)
                                     {
-                                        printf("用户ID%d 验证不通过 连接被拒 This client has been reject !!!\n\n",map_int_client_it->second.id);
+infoprint(map_socket_clients[sock].id,map_socket_clients[sock].hdf_type,map_socket_clients[sock].bss_type,map_socket_clients[sock].life_time);
+                                        printf("USER ID%d Incorrect username or password ,connection failed!!!\n\n",map_int_client_it->second.id);
                                     }
 
                                     map_socket_clients.erase(map_int_client_it);
@@ -457,6 +474,14 @@ int main()
                                 //printf("countnow=%d\n",countnow);
 
                                 //printf("client count now = %lu\n\n\n",map_socket_clients.size());
+                                bzero(buf_count,sizeof(buf_count));
+                                sprintf(buf_count,"client count now = %lu\n",map_socket_clients.size());
+                                res=write(pipecntonly,buf_count,sizeof(buf_count));
+                                if(res==-1)
+                                {
+                                    fprintf(stderr, "Write error on pipe\n");
+                                    //exit(EXIT_FAILURE);
+                                }
                             }
 
                         }
@@ -496,10 +521,10 @@ int main()
                             {
                                 if(map_socket_clients.find(sock)!=map_socket_clients.end())
                                 {
-infoprint(map_socket_clients[sock].id,map_socket_clients[sock].hdf_type,map_socket_clients[sock].bss_type);
-                                    printf("用户ID: %d 接入成功connected\n\n\n",map_socket_clients[sock].id);
+                                    infoprint(map_socket_clients[sock].id,map_socket_clients[sock].hdf_type,map_socket_clients[sock].bss_type,map_socket_clients[sock].life_time);
+                                    printf("USER ID: %d connect success!!!\n\n\n",map_socket_clients[sock].id);
                                     bzero(buf_count,sizeof(buf_count));
-                                    sprintf(buf_count,"client count now = %lu\n",map_socket_clients.size());
+                                    sprintf(buf_count,"Poisson arrival rate = %d\nclient count now = %lu\n",MINCLIENTSEC,map_socket_clients.size());
                                     res=write(pipecntonly,buf_count,sizeof(buf_count));
                                     if(res==-1)
                                     {

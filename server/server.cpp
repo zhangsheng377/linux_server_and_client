@@ -1,5 +1,6 @@
 #define NDEBUG
 #define NDEBUGMYCOUNT
+#define NDEBUGBAND
 
 #include "utility.h"
 #include<map>
@@ -123,10 +124,10 @@ int main(int argc, char *argv[])
                 struct sockaddr_in client_address;
                 socklen_t client_addrLength = sizeof(struct sockaddr_in);
 
-printf("before accept\n");
+//printf("before accept\n");
                 int clientfd = accept( listener, ( struct sockaddr* )&client_address, &client_addrLength );
                 //printf("client connection from: %s : % d(IP : port), socketfd = %d \n", inet_ntoa(client_address.sin_addr), ntohs(client_address.sin_port), clientfd);
-printf("accept end\n");
+//printf("accept end\n");
 
                 addfd(epfd, clientfd, true);
 
@@ -190,7 +191,7 @@ printf("accept end\n");
 #endif // NDEBUG
                     switchcaseout(makelevel(map_it->second.degree,map_it->second.hdf_type,map_it->second.bss_type));
 
-                    /*for(int c_i=0; c_i<12; c_i++)
+                    /*for(int c_i=0; c_i<18; c_i++)
                     {
                         printf("switchcaseout my_count[%d] = %d\n",c_i,my_count[c_i]);
                     }*/
@@ -217,7 +218,7 @@ printf("accept end\n");
 
                     clients_map.erase(map_it);
                     map<int,CLIENT>::iterator map_int_CLIENT_itt;
-                    for(int c_i=0; c_i<12; c_i++)
+                    for(int c_i=0; c_i<18; c_i++)
                     {
                         my_count[c_i]=0;
                     }
@@ -327,7 +328,7 @@ printf("accept end\n");
 #endif // NDEBUG
                         switchcaseout(makelevel(map_it->second.degree,map_it->second.hdf_type,map_it->second.bss_type));
 
-                        /*for(int c_i=0; c_i<12; c_i++)
+                        /*for(int c_i=0; c_i<18; c_i++)
                         {
                             printf("switchcaseout my_count[%d] = %d\n",c_i,my_count[c_i]);
                         }*/
@@ -354,7 +355,7 @@ printf("accept end\n");
                         clients_map.erase(map_it);
 
                         map<int,CLIENT>::iterator map_int_CLIENT_itt;
-                        for(int c_i=0; c_i<12; c_i++)
+                        for(int c_i=0; c_i<18; c_i++)
                         {
                             my_count[c_i]=0;
                         }
@@ -489,9 +490,19 @@ printf("accept end\n");
                         client.degree=searchDegree(client.id);
                         switchcasein(makelevel(client.degree,client.hdf_type,client.bss_type));
                         //int band=returnmyband(searchDegree(client.id),returnband);
+#ifndef NDEBUGBAND
+                        for(int b_i=0;b_i<6;++b_i)
+                        {
+                        	printf("switchcasein band[%d] = %d\n",b_i,returnband[b_i]);
+                        }
+                        for(int b_i=12;b_i<18;++b_i)
+                        {
+                        	printf("switchcasein band[%d] = %d\n",b_i,returnband[b_i]);
+                        }
+#endif // NDEBUGBAND
                         int band=returnmyband(makelevel(client.degree,client.hdf_type,client.bss_type),returnband);
 #ifndef NDEBUG
-                        for(int c_i=0; c_i<12; c_i++)
+                        for(int c_i=0; c_i<18; c_i++)
                         {
                             printf("switchcasein my_count[%d] = %d\n",c_i,my_count[c_i]);
                         }
@@ -533,7 +544,7 @@ printf("accept end\n");
                             printf("band_media_level 2 : %d\n",returnband[4]);
                             printf("band_ data_level 2 : %d\n",returnband[5]);*/
 #ifndef NDEBUGMYCOUNT
-                            for(int c_i=0; c_i<12; c_i++)
+                            for(int c_i=0; c_i<18; c_i++)
                             {
                                 printf("switchcasein my_count[%d] = %d\n",c_i,my_count[c_i]);
                             }
@@ -554,7 +565,7 @@ printf("accept end\n");
                                 if(ret_len1==-1) printf("write error on fifo3\n");
 
                                 map<int,CLIENT>::iterator map_int_CLIENT_itt;
-                                for(int c_i=0; c_i<12; c_i++)
+                                for(int c_i=0; c_i<18; c_i++)
                                 {
                                     my_count[c_i]=0;
                                 }
@@ -604,7 +615,7 @@ printf("accept end\n");
 #endif // NDEBUG
                                             //switchcaseout(makelevel(map_int_CLIENT_it->second.degree,map_int_CLIENT_it->second.hdf_type,map_int_CLIENT_it->second.bss_type));
 #ifndef NDEBUGMYCOUNT
-                                            for(int c_i=0; c_i<12; c_i++)
+                                            for(int c_i=0; c_i<18; c_i++)
                                             {
                                                 printf("switchcasein my_count[%d] = %d\n",c_i,my_count[c_i]);
                                             }
@@ -649,7 +660,7 @@ printf("accept end\n");
                                             //map<int,CLIENT>::iterator map_int_CLIENT_itt=--map_int_CLIENT_it;
                                             clients_map.erase(map_int_CLIENT_it);
                                             /*map<int,CLIENT>::iterator map_int_CLIENT_itt;
-                                            for(int c_i=0; c_i<12; c_i++)
+                                            for(int c_i=0; c_i<18; c_i++)
                                             {
                                                 my_count[c_i]=0;
                                             }
@@ -705,7 +716,7 @@ printf("accept end\n");
 
                                             clients_map.erase(map_int_CLIENT_it);
                                             /*map<int,CLIENT>::iterator map_int_CLIENT_itt;
-                                            for(int c_i=0; c_i<12; c_i++)
+                                            for(int c_i=0; c_i<18; c_i++)
                                             {
                                                 my_count[c_i]=0;
                                             }
@@ -744,7 +755,7 @@ printf("accept end\n");
 
                         clients_map[sockfd]=client;
                         map<int,CLIENT>::iterator map_int_CLIENT_itt;
-                        for(int c_i=0; c_i<12; c_i++)
+                        for(int c_i=0; c_i<18; c_i++)
                         {
                             my_count[c_i]=0;
                         }
@@ -863,7 +874,7 @@ printf("accept end\n");
                             //returnmyband(searchDegree(map_it->second.id),returnband);
                             clients_map.erase(map_it);
                             map<int,CLIENT>::iterator map_int_CLIENT_itt;
-                            for(int c_i=0; c_i<12; c_i++)
+                            for(int c_i=0; c_i<18; c_i++)
                             {
                                 my_count[c_i]=0;
                             }

@@ -388,7 +388,8 @@ int main()
                                 map_socket_clients.erase(map_int_client_it);
                                 //printf("client count now = %lu\n\n\n",map_socket_clients.size());
                                 bzero(buf_count,sizeof(buf_count));
-                                sprintf(buf_count,"client count now = %lu\n",map_socket_clients.size());
+                                //sprintf(buf_count,"client count now = %lu\n",map_socket_clients.size());
+                                sprintf(buf_count,"Poisson arrival rate = %d\nclient count now = %lu\n",MINCLIENTSEC,map_socket_clients.size());
                                 res=write(pipecntonly,buf_count,sizeof(buf_count));
                                 if(res==-1)
                                 {
@@ -457,7 +458,8 @@ infoprint(map_socket_clients[sock].id,map_socket_clients[sock].hdf_type,map_sock
 
                                     map_socket_clients.erase(map_int_client_it);
                                     bzero(buf_count,sizeof(buf_count));
-                                    sprintf(buf_count,"client count now = %lu\n",map_socket_clients.size());
+                                    //sprintf(buf_count,"client count now = %lu\n",map_socket_clients.size());
+                                    sprintf(buf_count,"Poisson arrival rate = %d\nclient count now = %lu\n",MINCLIENTSEC,map_socket_clients.size());
                                     res=write(pipecntonly,buf_count,sizeof(buf_count));
                                     if(res==-1)
                                     {
@@ -475,7 +477,8 @@ infoprint(map_socket_clients[sock].id,map_socket_clients[sock].hdf_type,map_sock
 
                                 //printf("client count now = %lu\n\n\n",map_socket_clients.size());
                                 bzero(buf_count,sizeof(buf_count));
-                                sprintf(buf_count,"client count now = %lu\n",map_socket_clients.size());
+                                //sprintf(buf_count,"client count now = %lu\n",map_socket_clients.size());
+                                sprintf(buf_count,"Poisson arrival rate = %d\nclient count now = %lu\n",MINCLIENTSEC,map_socket_clients.size());
                                 res=write(pipecntonly,buf_count,sizeof(buf_count));
                                 if(res==-1)
                                 {
