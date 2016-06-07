@@ -32,7 +32,7 @@ void showdetail()
     printf("=================================== Refreshing area ================================== \n");
     //printf("User ID : %4d connected\n",ID);
     //printf("The bandwidth allocated to the user is  : %3d\n",band);
-    printf("The QoS is  : %4d\n",qos);
+    printf("The QoS is  : %6.2d\n",qos);
     printf("Now there are %4d users in the satellite. \n",total_clients);
     printf("\n");
     printf("=================================== Emergency area =================================== \n");
@@ -224,7 +224,7 @@ int main()
                     isFresh=true;
                     printf("\033[3;0H");//把光标定位在0列,2行
                     printf("\033[K");
-                    printf("The QoS is  : %4d\n",qos);
+                    printf("The QoS is  : %6.2d\n",qos);
                     printf("\033[0;0H");//把光标定位在0,0
                 }
             }

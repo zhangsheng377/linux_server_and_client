@@ -14,7 +14,7 @@ const int CLIENTNUM=2501;//从1开始
 //vector<int> sockets(CLIENTNUM);
 const int SLEEP_US=10000;
 const int CLIENTSEC=500;
-const int MINCLIENTSEC=150;
+const int MINCLIENTSEC=50;
 const int LIVETIME=300;
 
 map<int,int> map_ID_sockets;//从1开始
@@ -75,11 +75,11 @@ void infoprint(int id, int hdf, int bss,double life_time)
     if(0==hdf)
 {
 if(0==bss)
-        printf("USER ID : %d , handoff , Voice service , lifetime:%lf, connecting....\n",id,life_time);
+        printf("USER ID : %d , handover call , Voice service , lifetime:%lf, connecting....\n",id,life_time);
     else if(1==bss)
-        printf("USER ID : %d , handoff , Streaming media service , lifetime:%lf, connecting....\n",id,life_time);
+        printf("USER ID : %d , handover call , Streaming media service , lifetime:%lf, connecting....\n",id,life_time);
     else
-        printf("USER ID : %d , handoff , Data service , lifetime:%lf, connecting....\n",id,life_time);
+        printf("USER ID : %d , handover call , Data service , lifetime:%lf, connecting....\n",id,life_time);
 }
 
     else
@@ -438,12 +438,12 @@ int main()
                                 {
                                     if(map_int_client_it->second.state==0)
                                     {
-                                        printf("USER ID%d This service is handled well !!!\n\n",map_int_client_it->second.id);
+                                        printf("USER ID%d This service's duration is end !!!\n\n",map_int_client_it->second.id);
                                     }
                                     else if(map_int_client_it->second.state==1)
                                     {
 infoprint(map_socket_clients[sock].id,map_socket_clients[sock].hdf_type,map_socket_clients[sock].bss_type,map_socket_clients[sock].life_time);
-                                        printf("USER ID%d bandwidth occupation,user client thrown out !!!\n\n",map_int_client_it->second.id);
+                                        printf("USER ID%d bandwidth occupation,user  thrown out !!!\n\n",map_int_client_it->second.id);
                                     }
                                     else if(map_int_client_it->second.state==2)
                                     {

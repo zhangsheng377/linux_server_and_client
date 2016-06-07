@@ -407,7 +407,7 @@ my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U1
         mark=0;
         returnband[6]=mark;
         for(del=1; del<=my_count[2]; del++)
-        {   
+        {
             for(n=jingdu; n<mk; n=n+jingdu)
             {
                b1=bm(n);
@@ -504,7 +504,7 @@ my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U1
             mark=0;
             returnband[6]=mark;
             for(del=1; del<=my_count[6]; del++)
-            {    
+            {
                 for(n=jingdu; n<mk; n=n+jingdu)
                 {
                     b1=bm(n);
@@ -600,7 +600,7 @@ my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U1
                 mark=0;
                 returnband[6]=mark;
                 for(del=1; del<=my_count[10]; del++)
-                {   
+                {
                     for(n=jingdu; n<mk; n=n+jingdu)
                     {
                          b1=bm(n);
@@ -696,7 +696,7 @@ my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U1
                     mark=0;
                     returnband[6]=mark;
                     for(del=1; del<=my_count[1]; del++)
-                    {   
+                    {
                         for(n=jingdu; n<mk; n=n+jingdu)
                         {
                              b1=bm(n);
@@ -783,7 +783,7 @@ my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U1
 //return returnband;
                     }
                     else
-                    {   
+                    {
                         returnband[9]=1;
                         returnband[10]=my_count[1];
                         my_count[1]=0;
@@ -792,7 +792,7 @@ my_count[12]*U7+my_count[13]*U8+my_count[14]*U9+my_count[15]*U10+my_count[16]*U1
                         mark=0;
                         returnband[6]=mark;
                         for(del=1; del<=my_count[5]; del++)
-                        {   
+                        {
                             for(n=jingdu; n<mk; n=n+jingdu)
                             {
                                b1=0;
@@ -2222,7 +2222,7 @@ void switchcaseout(int m)
 }
 void switchcasein(int m)
 {
-//printf("\nm = %d\n\n",m); 
+//printf("\nm = %d\n\n",m);
     switch(m)
     {
     case 0:
@@ -2244,6 +2244,8 @@ void switchcasein(int m)
             returnband[16]=128;
             returnband[17]=128;
             returnband[6]=1;
+           Umax=my_count[1]*2+my_count[2]*1+my_count[0]*Uv+my_count[5]*4+my_count[6]*2+my_count[4]*Uv1+my_count[9]*6+my_count[10]*3+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
+				my_count[12]*4+my_count[13]*2+my_count[14]*8+my_count[15]*4+my_count[16]*12+my_count[17]*6;
             //cout<<"**********普通语音业务个数为"<<my_count[0]<<endl;
         }
         else if(Lb>=0&&Lb<BV)
@@ -2272,6 +2274,8 @@ void switchcasein(int m)
             returnband[16]=128;
             returnband[17]=128;
             returnband[6]=1;
+            Umax=my_count[1]*2+my_count[2]*1+my_count[0]*Uv+my_count[5]*4+my_count[6]*2+my_count[4]*Uv1+my_count[9]*6+my_count[10]*3+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
+				my_count[12]*4+my_count[13]*2+my_count[14]*8+my_count[15]*4+my_count[16]*12+my_count[17]*6;
             //cout<<"**********普通流媒体业务个数为"<<my_count[1]<<endl;
         }
         else if(Lb>=0&&Lb<BMmax)
@@ -2300,6 +2304,8 @@ void switchcasein(int m)
             returnband[16]=128;
             returnband[17]=128;
             returnband[6]=1;
+            Umax=my_count[1]*2+my_count[2]*1+my_count[0]*Uv+my_count[5]*4+my_count[6]*2+my_count[4]*Uv1+my_count[9]*6+my_count[10]*3+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
+				my_count[12]*4+my_count[13]*2+my_count[14]*8+my_count[15]*4+my_count[16]*12+my_count[17]*6;
             //cout<<"**********普通数据业务个数为"<<my_count[2]<<endl;
         }
         else if(Lb>=0&&Lb<BDmax)
@@ -2328,6 +2334,8 @@ void switchcasein(int m)
             returnband[16]=128;
             returnband[17]=128;
             returnband[6]=1;
+            Umax=my_count[1]*2+my_count[2]*1+my_count[0]*Uv+my_count[5]*4+my_count[6]*2+my_count[4]*Uv1+my_count[9]*6+my_count[10]*3+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
+				my_count[12]*4+my_count[13]*2+my_count[14]*8+my_count[15]*4+my_count[16]*12+my_count[17]*6;
             //cout<<"**********普通切换语音业务个数为"<<my_count[3]<<endl;
         }
         else if(Lb>=0&&Lb<BV)
@@ -2356,6 +2364,8 @@ void switchcasein(int m)
             returnband[16]=128;
             returnband[17]=128;
             returnband[6]=1;
+            Umax=my_count[1]*2+my_count[2]*1+my_count[0]*Uv+my_count[5]*4+my_count[6]*2+my_count[4]*Uv1+my_count[9]*6+my_count[10]*3+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
+				my_count[12]*4+my_count[13]*2+my_count[14]*8+my_count[15]*4+my_count[16]*12+my_count[17]*6;
             //cout<<"**********一级语音业务个数为"<<my_count[4]<<endl;
         }
         else if(Lb>=0&&Lb<BV)
@@ -2384,6 +2394,8 @@ void switchcasein(int m)
             returnband[16]=128;
             returnband[17]=128;
             returnband[6]=1;
+            Umax=my_count[1]*2+my_count[2]*1+my_count[0]*Uv+my_count[5]*4+my_count[6]*2+my_count[4]*Uv1+my_count[9]*6+my_count[10]*3+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
+				my_count[12]*4+my_count[13]*2+my_count[14]*8+my_count[15]*4+my_count[16]*12+my_count[17]*6;
             //cout<<"**********一级流媒体业务个数为"<<my_count[5]<<endl;
         }
         else if(Lb>=0&&Lb<BMmax)
@@ -2413,6 +2425,8 @@ void switchcasein(int m)
             returnband[16]=128;
             returnband[17]=128;
             returnband[6]=1;
+            Umax=my_count[1]*2+my_count[2]*1+my_count[0]*Uv+my_count[5]*4+my_count[6]*2+my_count[4]*Uv1+my_count[9]*6+my_count[10]*3+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
+				my_count[12]*4+my_count[13]*2+my_count[14]*8+my_count[15]*4+my_count[16]*12+my_count[17]*6;
             //cout<<"**********一级数据业务个数为"<<my_count[6]<<endl;
         }
         else if(Lb>=0&&Lb<BDmax)
@@ -2626,6 +2640,8 @@ void switchcasein(int m)
             returnband[16]=128;
             returnband[17]=128;
             returnband[6]=1;
+            Umax=my_count[1]*2+my_count[2]*1+my_count[0]*Uv+my_count[5]*4+my_count[6]*2+my_count[4]*Uv1+my_count[9]*6+my_count[10]*3+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
+				my_count[12]*4+my_count[13]*2+my_count[14]*8+my_count[15]*4+my_count[16]*12+my_count[17]*6;
             //cout<<"**********一级切换语音业务个数为"<<my_count[7]<<endl;
         }
         else if(Lb>=0&&Lb<BV)
@@ -2653,6 +2669,8 @@ void switchcasein(int m)
             returnband[16]=128;
             returnband[17]=128;
             returnband[6]=1;
+            Umax=my_count[1]*2+my_count[2]*1+my_count[0]*Uv+my_count[5]*4+my_count[6]*2+my_count[4]*Uv1+my_count[9]*6+my_count[10]*3+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
+				my_count[12]*4+my_count[13]*2+my_count[14]*8+my_count[15]*4+my_count[16]*12+my_count[17]*6;
             //cout<<"**********二级语音业务个数为"<<my_count[8]<<endl;
         }
         else if(Lb>=0&&Lb<BV)
@@ -2681,6 +2699,8 @@ void switchcasein(int m)
             returnband[16]=128;
             returnband[17]=128;
             returnband[6]=1;
+            Umax=my_count[1]*2+my_count[2]*1+my_count[0]*Uv+my_count[5]*4+my_count[6]*2+my_count[4]*Uv1+my_count[9]*6+my_count[10]*3+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
+				my_count[12]*4+my_count[13]*2+my_count[14]*8+my_count[15]*4+my_count[16]*12+my_count[17]*6;
             //cout<<"**********二级流媒体业务个数为"<<my_count[9]<<endl;
         }
         else if(Lb>=0&&Lb<BMmax)
@@ -3179,6 +3199,8 @@ void switchcasein(int m)
             returnband[16]=128;
             returnband[17]=128;
             returnband[6]=1;
+            Umax=my_count[1]*2+my_count[2]*1+my_count[0]*Uv+my_count[5]*4+my_count[6]*2+my_count[4]*Uv1+my_count[9]*6+my_count[10]*3+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
+				my_count[12]*4+my_count[13]*2+my_count[14]*8+my_count[15]*4+my_count[16]*12+my_count[17]*6;
             //cout<<"**********二级数据业务个数为"<<my_count[10]<<endl;
         }
         else if(Lb>=0&&Lb<BDmax)
@@ -3482,6 +3504,8 @@ void switchcasein(int m)
             returnband[16]=128;
             returnband[17]=128;
             returnband[6]=1;
+            Umax=my_count[1]*2+my_count[2]*1+my_count[0]*Uv+my_count[5]*4+my_count[6]*2+my_count[4]*Uv1+my_count[9]*6+my_count[10]*3+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
+				my_count[12]*4+my_count[13]*2+my_count[14]*8+my_count[15]*4+my_count[16]*12+my_count[17]*6;
             //cout<<"**********二级切换语音业务个数为"<<my_count[11]<<endl;
         }
         else if(Lb>=0&&Lb<BV)
@@ -3536,6 +3560,8 @@ void switchcasein(int m)
             returnband[16]=128;
             returnband[17]=128;
             returnband[6]=1;
+            Umax=my_count[1]*2+my_count[2]*1+my_count[0]*Uv+my_count[5]*4+my_count[6]*2+my_count[4]*Uv1+my_count[9]*6+my_count[10]*3+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
+				my_count[12]*4+my_count[13]*2+my_count[14]*8+my_count[15]*4+my_count[16]*12+my_count[17]*6;
             //cout<<"**********普通数据业务个数为"<<my_count[2]<<endl;
         }
         else if(Lb>=0&&Lb<BDmax)
@@ -3563,6 +3589,8 @@ void switchcasein(int m)
             returnband[16]=128;
             returnband[17]=128;
             returnband[6]=1;
+            Umax=my_count[1]*2+my_count[2]*1+my_count[0]*Uv+my_count[5]*4+my_count[6]*2+my_count[4]*Uv1+my_count[9]*6+my_count[10]*3+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
+				my_count[12]*4+my_count[13]*2+my_count[14]*8+my_count[15]*4+my_count[16]*12+my_count[17]*6;
             //cout<<"**********一级流媒体业务个数为"<<my_count[5]<<endl;
         }
         else if(Lb>=0&&Lb<BMmax)
@@ -3592,6 +3620,8 @@ void switchcasein(int m)
             returnband[16]=128;
             returnband[17]=128;
             returnband[6]=1;
+            Umax=my_count[1]*2+my_count[2]*1+my_count[0]*Uv+my_count[5]*4+my_count[6]*2+my_count[4]*Uv1+my_count[9]*6+my_count[10]*3+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
+				my_count[12]*4+my_count[13]*2+my_count[14]*8+my_count[15]*4+my_count[16]*12+my_count[17]*6;
             //cout<<"**********一级数据业务个数为"<<my_count[6]<<endl;
         }
         else if(Lb>=0&&Lb<BDmax)
@@ -3804,6 +3834,8 @@ void switchcasein(int m)
             returnband[16]=128;
             returnband[17]=128;
             returnband[6]=1;
+            Umax=my_count[1]*2+my_count[2]*1+my_count[0]*Uv+my_count[5]*4+my_count[6]*2+my_count[4]*Uv1+my_count[9]*6+my_count[10]*3+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
+				my_count[12]*4+my_count[13]*2+my_count[14]*8+my_count[15]*4+my_count[16]*12+my_count[17]*6;
             //cout<<"**********二级流媒体业务个数为"<<my_count[9]<<endl;
         }
         else if(Lb>=0&&Lb<BMmax)
@@ -4302,6 +4334,8 @@ void switchcasein(int m)
             returnband[16]=128;
             returnband[17]=128;
             returnband[6]=1;
+            Umax=my_count[1]*2+my_count[2]*1+my_count[0]*Uv+my_count[5]*4+my_count[6]*2+my_count[4]*Uv1+my_count[9]*6+my_count[10]*3+my_count[8]*Uv2+my_count[3]*Uv+my_count[7]*Uv1+my_count[11]*Uv2+
+				my_count[12]*4+my_count[13]*2+my_count[14]*8+my_count[15]*4+my_count[16]*12+my_count[17]*6;
             //cout<<"**********二级数据业务个数为"<<my_count[10]<<endl;
         }
         else if(Lb>=0&&Lb<BDmax)
