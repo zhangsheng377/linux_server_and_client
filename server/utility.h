@@ -52,7 +52,8 @@ struct CLIENT
     int bss_type;//业务类型
     double life_time;
     int degree;
-    int sockfd;
+    //int sockfd;
+    struct sockaddr_in client_address;
     int state;//0是timeout，1是被踢
 };
 

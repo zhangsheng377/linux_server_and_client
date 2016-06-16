@@ -107,8 +107,8 @@ int main()
     serverAddr.sin_port = htons(SERVER_PORT);  ///服务器端口
     //serverAddr.sin_addr.s_addr = inet_addr("121.42.143.201");  ///服务器ip
     //serverAddr.sin_addr.s_addr = inet_addr("192.168.0.103");
-    //serverAddr.sin_addr.s_addr = inet_addr("192.168.1.102");
-    serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
+    serverAddr.sin_addr.s_addr = inet_addr("192.168.1.102");
+    //serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
     srand((unsigned) time(NULL)); //为了提高不重复的概率
     struct rlimit rt;//资源限制符
     //设置每个进程允许打开的最大文件数
