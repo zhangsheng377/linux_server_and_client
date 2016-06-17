@@ -10,7 +10,7 @@
 #define ratio_bss 3
 
 
-const int CLIENTNUM=2501;//从1开始
+const int CLIENTNUM=2301;//从1开始
 //vector<int> sockets(CLIENTNUM);
 const int SLEEP_US=10000;
 const int CLIENTSEC=500;
@@ -228,7 +228,7 @@ int main()
             {
                 //printf("itemp = %d\n",itemp);
                 bzero(message,BUF_SIZE);
-                if(itemp !=possion-1)
+               /* if(itemp !=possion-1)
                 {
                     sprintf(message,"%s %d %s","00",a[iNum]," \0");
                 }
@@ -236,7 +236,8 @@ int main()
                 {
                     sprintf(message,"%s %d %s","00",rand()%200+2000," \0");
                     iNum--;
-                }
+                }*/
+                sprintf(message,"%s %d %s","00",a[iNum]," \0");
                 // 子进程将信息写入管道
                 if( write(pipe_fd[1], message, strlen(message)  ) < 0 )//zsd
                 {

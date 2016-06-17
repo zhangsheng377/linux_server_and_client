@@ -22,6 +22,8 @@ int old_ComeIDthrow=0;
 char old_throwID[4096*2+1];
 bool isFresh=false;
 int qos=0;
+int total_reject=0;
+int total_access=0;
 
 void showdetail()
 {
@@ -34,9 +36,11 @@ void showdetail()
     //printf("The bandwidth allocated to the user is  : %3d\n",band);
     printf("The QoS is  : %4d\n",qos);
     printf("Now there are %4d users in the satellite. \n",total_clients);
-    printf("\n");
+    //printf("\n");
     printf("=================================== Emergency area =================================== \n");
     printf("NO. %4d user's service is over. \n",timeoutID);
+    printf("-------------------------------------------------------------------------------------- \n");
+    printf("The total access is %4d. The total rejection is %4d. \n",total_access,total_reject);
     printf("-------------------------------------------------------------------------------------- \n");
     printf("Reject NO. %4d user, because his password or username error. \n",rejectdbID);
     printf("-------------------------------------------------------------------------------------- \n");
@@ -110,7 +114,7 @@ int main()
                     timeoutID=i1;
                     total_clients=i2;
                     isFresh=true;
-                    printf("\033[7;0H");//把光标定位在0列,6行
+                    printf("\033[6;0H");//把光标定位在0列,5行
                     printf("\033[K");
                     printf("NO. %4d user's service is over. \n",timeoutID);
                     printf("\033[4;0H");//把光标定位在0列,3行
@@ -123,7 +127,10 @@ int main()
                     rejectdbID=i1;
                     total_clients=i2;
                     isFresh=true;
-                    printf("\033[9;0H");//把光标定位在0列,8行
+                    printf("\033[8;0H");//把光标定位在0列,7行
+                    printf("\033[K");
+                    printf("The total access is %4d. The total rejection is %4d. \n",total_access,++total_reject);
+                    printf("\033[10;0H");//把光标定位在0列,9行
                     printf("\033[K");
                     printf("Reject NO. %4d user, because his password or username error. \n",rejectdbID);
                     printf("\033[4;0H");//把光标定位在0列,3行
@@ -147,7 +154,10 @@ int main()
                     rejecthdfID=i1;
                     total_clients=i2;
                     isFresh=true;
-                    printf("\033[11;0H");//把光标定位在0列,10行
+                    printf("\033[8;0H");//把光标定位在0列,7行
+                    printf("\033[K");
+                    printf("The total access is %4d. The total rejection is %4d. \n",total_access,++total_reject);
+                    printf("\033[12;0H");//把光标定位在0列,11行
                     printf("\033[K");
                     printf("Reject NO. %4d user, because the bandwidth isn't enough. \n",rejecthdfID);
                     printf("\033[4;0H");//把光标定位在0列,3行
@@ -210,6 +220,9 @@ int main()
                     ID=i1;
                     band=i2;
                     isFresh=true;
+                    printf("\033[8;0H");//把光标定位在0列,7行
+                    printf("\033[K");
+                    printf("The total access is %4d. The total rejection is %4d. \n",++total_access,total_reject);
                     /*printf("\033[2;0H");//把光标定位在0列,1行
                     printf("\033[K");
                     printf("User ID : %4d connected\n",ID);
