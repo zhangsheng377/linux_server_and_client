@@ -7,7 +7,7 @@
 #define ratio_hdf 11
 #define ratio_bss 3
 
-const int CLIENTNUM=2501;//从1开始
+const int CLIENTNUM=2301;//从1开始
 const int SLEEP_US=10000;
 const int CLIENTSEC=500;
 const int MINCLIENTSEC=5;
