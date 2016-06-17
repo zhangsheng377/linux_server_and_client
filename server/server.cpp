@@ -114,13 +114,26 @@ int main(int argc, char *argv[])
                 socklen_t client_addrLength = sizeof(struct sockaddr_in);
 
                 int recvfrom_len=recvfrom(listener,buf,BUF_SIZE,0,(struct sockaddr*)&client_address,&client_addrLength);
+
                 //if(recvfrom_len==-1)
                 if(recvfrom_len<=0)
                 {
-                    perror("Receive Data Failed:");
-                    //return 1;
+                    printf("recvfrom errno = %d\n",errno);
+                    perror("Receive Data Failed: ");
                     continue;
                 }
+
+                /*cout<<"client_address.sin_addr = "<<inet_ntoa(client_address.sin_addr)<<endl;
+                cout<<"client_address.sin_port = "<<client_address.sin_port<<endl;
+                ret_len=sendto(listener,buf,strlen(buf),0,(struct sockaddr*)&client_address,sizeof(client_address));
+                printf("ret of sendto = %d\n",ret_len);
+                if(ret_len<=0)
+                {
+                    printf("sendto errno = %d\n",errno);
+                    perror("Send Data Failed: ");
+                    continue;
+                }*/
+
                 if(buf[0]=='\0'){
                     continue;
                 }
@@ -153,7 +166,7 @@ int main(int argc, char *argv[])
                         char message_send[BUF_SIZE];
                         bzero(message_send, BUF_SIZE);
                         sprintf(message_send, "-5");
-                        sendto(listener,message_send,BUF_SIZE,0,(struct sockaddr*)&client_address,sizeof(client_address));
+                        sendto(listener,message_send,strlen(message_send),0,(struct sockaddr*)&client_address,sizeof(client_address));
 
                         continue;
                     }
@@ -183,7 +196,7 @@ int main(int argc, char *argv[])
                         char message_send[BUF_SIZE];
                         bzero(message_send, BUF_SIZE);
                         sprintf(message_send, "-4");
-                        sendto(listener,message_send,BUF_SIZE,0,(struct sockaddr*)&client_address,sizeof(client_address));
+                        sendto(listener,message_send,strlen(message_send),0,(struct sockaddr*)&client_address,sizeof(client_address));
 
                         bzero(buffer,sizeof(buffer));
                         sprintf(buffer,"rejecthdf %d %d %s",client.id, (int)map_id_clients.size(),"");
@@ -234,7 +247,7 @@ int main(int argc, char *argv[])
                                         char message_send[BUF_SIZE];
                                         bzero(message_send, BUF_SIZE);
                                         sprintf(message_send, "-3");
-                                        sendto(listener,message_send,BUF_SIZE,0,(struct sockaddr*)&(map_int_CLIENT_it->second.client_address),sizeof((map_int_CLIENT_it->second.client_address)));
+                                        sendto(listener,message_send,strlen(message_send),0,(struct sockaddr*)&(map_int_CLIENT_it->second.client_address),sizeof((map_int_CLIENT_it->second.client_address)));
                                         printf("throw out the USER ID = %d\n",map_int_CLIENT_it->second.id);
 
                                         char temp_cs[10];
@@ -275,7 +288,7 @@ int main(int argc, char *argv[])
                                         char message_send[BUF_SIZE];
                                         bzero(message_send, BUF_SIZE);
                                         sprintf(message_send, "-3");
-                                        sendto(listener,message_send,BUF_SIZE,0,(struct sockaddr*)&(map_int_CLIENT_it->second.client_address),sizeof((map_int_CLIENT_it->second.client_address)));
+                                        sendto(listener,message_send,strlen(message_send),0,(struct sockaddr*)&(map_int_CLIENT_it->second.client_address),sizeof((map_int_CLIENT_it->second.client_address)));
                                         printf("throw out USER ID = %d\n",map_int_CLIENT_it->second.id);
 
                                         char temp_cs[10];
@@ -312,7 +325,7 @@ int main(int argc, char *argv[])
                     char message_send_tmp[BUF_SIZE];
                     bzero(message_send_tmp, BUF_SIZE);
                     sprintf(message_send_tmp, "02");
-                    sendto(listener,message_send_tmp,BUF_SIZE,0,(struct sockaddr*)&client_address,sizeof(client_address));
+                    sendto(listener,message_send_tmp,strlen(message_send_tmp),0,(struct sockaddr*)&client_address,sizeof(client_address));
 
                     printf("USER ID = %d connected.\n", client.id);
                     printf("User level is %d\n",client.degree);
@@ -359,7 +372,7 @@ int main(int argc, char *argv[])
 
                     if(map_id_clients.find(client.id)!=map_id_clients.end())
                     {
-                        sendto(listener,message_send,BUF_SIZE,0,(struct sockaddr*)&(client.client_address),sizeof(client.client_address));
+                        sendto(listener,message_send,strlen(message_send),0,(struct sockaddr*)&(client.client_address),sizeof(client.client_address));
                     }
                 }//end strcmp 00
                 else if(strcmp(order,"-1")==0)//此socket退出
@@ -399,13 +412,13 @@ int main(int argc, char *argv[])
                         char message_send[BUF_SIZE];
                         bzero(message_send, BUF_SIZE);
                         sprintf(message_send, "Server received User ID=%d 's message.\n",client.id);
-                        sendto(listener,message_send,BUF_SIZE,0,(struct sockaddr*)&(client.client_address),sizeof(client.client_address));
+                        sendto(listener,message_send,strlen(message_send),0,(struct sockaddr*)&(client.client_address),sizeof(client.client_address));
                     }
                     else{
                         char message_send[BUF_SIZE];
                         bzero(message_send, BUF_SIZE);
                         sprintf(message_send, "Server says: Please send the user's info first.\n");
-                        sendto(listener,message_send,BUF_SIZE,0,(struct sockaddr*)&(client.client_address),sizeof(client.client_address));
+                        sendto(listener,message_send,strlen(message_send),0,(struct sockaddr*)&(client.client_address),sizeof(client.client_address));
                     }
                 }
             }
@@ -428,7 +441,7 @@ int main(int argc, char *argv[])
                 char message_send[BUF_SIZE];
                 bzero(message_send, BUF_SIZE);
                 sprintf(message_send, "-2");
-                sendto(listener,message_send,BUF_SIZE,0,(struct sockaddr*)&(map_id_clients[id].client_address),sizeof(map_id_clients[id].client_address));
+                sendto(listener,message_send,strlen(message_send),0,(struct sockaddr*)&(map_id_clients[id].client_address),sizeof(map_id_clients[id].client_address));
 
                 map<int,CLIENT>::iterator map_int_client_it;
                 map_int_client_it=map_id_clients.find(id);

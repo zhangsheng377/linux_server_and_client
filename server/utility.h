@@ -64,7 +64,8 @@ struct CLIENT
 // server ip
 #define SERVER_IP "127.0.0.1"
 // server port
-#define SERVER_PORT 8888
+//#define SERVER_PORT 8888
+const int SERVER_PORT=8888;
 //epoll size
 #define EPOLL_SIZE 99999
 //message buffer size
