@@ -14,8 +14,9 @@ const int CLIENTNUM=2301;//从1开始
 //vector<int> sockets(CLIENTNUM);
 const int SLEEP_US=10000;
 const int CLIENTSEC=500;
-const int MINCLIENTSEC=50;
-const int LIVETIME=300;
+const int MINCLIENTSEC=5;
+const int LIVETIME=600;
+const int TARGETCLIENTSEC=1200;
 
 map<int,int> map_ID_sockets;//从1开始
 map<int,CLIENT> map_socket_clients;
@@ -217,7 +218,7 @@ int main()
 
             if(count_client>1000)
             {
-                client_sec=CLIENTSEC-count_client/(2000/(CLIENTSEC-MINCLIENTSEC));
+                client_sec=CLIENTSEC-count_client/(TARGETCLIENTSEC/(CLIENTSEC-MINCLIENTSEC));
                 if(client_sec<MINCLIENTSEC) client_sec=MINCLIENTSEC;
             }
             int possion =randomPossion(client_sec);
