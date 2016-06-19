@@ -55,6 +55,7 @@ struct CLIENT
     //int sockfd;
     struct sockaddr_in client_address;
     int state;//0是timeout，1是被踢
+    bool isalive;
 };
 
 // clients_list save all the clients's socket

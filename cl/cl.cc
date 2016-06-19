@@ -13,6 +13,7 @@ const int CLIENTSEC=500;
 const int MINCLIENTSEC=5;
 const int LIVETIME=600;
 const int TARGETCLIENTSEC=1200;
+const int SENDDATANUM=5;
 
 map<int,int> map_ID_sockets;//从1开始
 map<int,CLIENT> map_socket_clients;
@@ -86,6 +87,7 @@ void infoprint(int id, int hdf, int bss,double life_time)
 }
 
 void closesocketevent(int sock,int res,int pipecntonly,int epfd);
+void SendData(struct sockaddr_in targetAddr);
 
 int main()
 {
@@ -97,7 +99,15 @@ int main()
     //serverAddr.sin_addr.s_addr = inet_addr("121.42.143.201");  ///服务器ip
     //serverAddr.sin_addr.s_addr = inet_addr("192.168.0.103");
     //serverAddr.sin_addr.s_addr = inet_addr("192.168.1.102");
-    serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
+    //serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
+    serverAddr.sin_addr.s_addr = inet_addr("192.168.43.172");
+
+    struct sockaddr_in targetAddr;
+	memset(&targetAddr, 0, sizeof(targetAddr));
+	targetAddr.sin_family = PF_INET;
+	targetAddr.sin_port = htons(9999);  //目标端口
+	targetAddr.sin_addr.s_addr = inet_addr("192.168.43.77");   //目标地址
+
     srand((unsigned) time(NULL)); //为了提高不重复的概率
     struct rlimit rt;//资源限制符
     //设置每个进程允许打开的最大文件数
@@ -192,6 +202,17 @@ int main()
             int s=1000*1000-possion*SLEEP_US;
             if(s<0) s=0;
             if(s>0) usleep(s);
+
+            for(int s_i=0;s_i<SENDDATANUM;++s_i){
+            	bzero(message,BUF_SIZE);
+            	sprintf(message,"%s %d %s","01",0," \0");
+            	if( write(pipe_fd[1], message, strlen(message)  ) < 0 )//zsd
+                {
+                    perror("fork error");
+                    return -1;
+                }
+                usleep(SLEEP_US);
+            }
         }
     }
     else   //pid > 0 父进程
@@ -282,8 +303,9 @@ int main()
                                 sendUser.bss_type=rand()%ratio_bss;
                                 sendUser.life_time=expntl(LIVETIME);
                                 sendUser.degree=-1;
-                                sendUser.sockfd=-1;
+                                //sendUser.client_address=NULL;
                                 sendUser.state=0;
+                                sendUser.isalive=false;
                                 map_socket_clients[map_ID_sockets[ID]]=sendUser;
 
                                 // 将信息发送给服务端
@@ -322,15 +344,16 @@ int main()
                                     fprintf(stderr, "Write error on pipe\n");
                                 }
                             }
-                            else
+                            else if(strcmp(order,"01")==0)//发送数据
                             {
-                                char send_message[BUF_SIZE];
+                                /*char send_message[BUF_SIZE];
                                 bzero(send_message, BUF_SIZE);
                                 strcat(send_message,order);
                                 strcat(&send_message[ORDER_LEN],msg);
                                 strcat(send_message,"");
                                 sendto(map_ID_sockets[ID],send_message,strlen(send_message),0,(struct sockaddr*)&serverAddr,sizeof(serverAddr));
-                                printf("send message3: %s\n",send_message);
+                                printf("send message3: %s\n",send_message);*/
+                                SendData(targetAddr);
                             }
 
                         }
@@ -394,6 +417,7 @@ int main()
                             {
                                 if(map_socket_clients.find(sock)!=map_socket_clients.end())
                                 {
+                                	map_socket_clients[sock].isalive=true;
                                     infoprint(map_socket_clients[sock].id,map_socket_clients[sock].hdf_type,map_socket_clients[sock].bss_type,map_socket_clients[sock].life_time);
                                     printf("USER ID: %d connect success!!!\n\n\n",map_socket_clients[sock].id);
                                     bzero(buf_count,sizeof(buf_count));
@@ -494,5 +518,22 @@ void closesocketevent(int sock,int res,int pipecntonly,int epfd)
     }
 }
 
-
+void SendData(struct sockaddr_in targetAddr){
+	int i=rand()%map_socket_clients.size();
+	map<int,CLIENT>::iterator map_int_client_it;
+    map_int_client_it=map_socket_clients.begin();
+    for(int j=0;j<i;++j) map_int_client_it++;
+	int socket=map_int_client_it->first;
+	if(map_int_client_it->second.isalive==false) {}
+	else{
+		char send_message[BUF_SIZE];
+        bzero(send_message, BUF_SIZE);
+        strcat(send_message,"User id = ");
+        char tmp[BUF_SIZE];bzero(tmp,BUF_SIZE);
+        sprintf(tmp,"%d",map_int_client_it->second.id);
+        strcat(send_message,tmp);
+        strcat(send_message," says : hello");
+        sendto(socket,send_message,strlen(send_message),0,(struct sockaddr*)&targetAddr,sizeof(targetAddr));
+	}
+}
 

@@ -73,9 +73,10 @@ struct CLIENT
     int bss_type; //业务类型
     double life_time;
     int degree;
-    int sockfd;
+    //int sockfd;
+    struct sockaddr_in client_address;
     int state;//0是timeout，1是带宽被踢，2是带宽被拒，3是数据库被拒
-    //bool isalive;
+    bool isalive;
 };
 
 
