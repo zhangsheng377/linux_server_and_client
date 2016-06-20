@@ -12,10 +12,12 @@ const int SLEEP_US=10000;
 const int CLIENTSEC=500;
 const int MINCLIENTSEC=5;
 const int LIVETIME=600;
-const int TARGETCLIENTSEC=1200;
+const int TARGETCLIENTSEC=1500;
 
 map<int,int> map_ID_sockets;//从1开始
 map<int,CLIENT> map_socket_clients;
+
+bool isChangeShowClientSec=true;
 
 //hash函数生成密钥
 unsigned int JSHash(char* str)
@@ -89,6 +91,8 @@ void closesocketevent(int sock,int res,int pipecntonly,int epfd);
 
 int main()
 {
+    isChangeShowClientSec=true;
+
     ///定义sockaddr_in
     struct sockaddr_in serverAddr;
     memset(&serverAddr, 0, sizeof(serverAddr));
@@ -96,8 +100,8 @@ int main()
     serverAddr.sin_port = htons(SERVER_PORT);  ///服务器端口
     //serverAddr.sin_addr.s_addr = inet_addr("121.42.143.201");  ///服务器ip
     //serverAddr.sin_addr.s_addr = inet_addr("192.168.0.103");
-    //serverAddr.sin_addr.s_addr = inet_addr("192.168.1.102");
-    serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
+    serverAddr.sin_addr.s_addr = inet_addr("192.168.1.103");
+    //serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
     srand((unsigned) time(NULL)); //为了提高不重复的概率
     struct rlimit rt;//资源限制符
     //设置每个进程允许打开的最大文件数
@@ -315,7 +319,18 @@ int main()
 
                                 bzero(buf_count,sizeof(buf_count));
 
-                                sprintf(buf_count,"Poisson arrival rate = %d\nclient count now = %lu\n",MINCLIENTSEC,map_socket_clients.size());
+                                if(isChangeShowClientSec==true)
+                                {
+                                    if(map_socket_clients.size()>TARGETCLIENTSEC-400)
+                                    {
+                                        sprintf(buf_count,"Poisson arrival rate = %d\nclient count now = %lu\n",MINCLIENTSEC,map_socket_clients.size());
+                                        isChangeShowClientSec=false;
+                                    }
+                                    else
+                                        sprintf(buf_count,"Poisson arrival rate = %d\nclient count now = %lu\n",CLIENTSEC-100,map_socket_clients.size());
+                                }
+                                else
+                                    sprintf(buf_count,"Poisson arrival rate = %d\nclient count now = %lu\n",MINCLIENTSEC,map_socket_clients.size());
                                 res=write(pipecntonly,buf_count,sizeof(buf_count));
                                 if(res==-1)
                                 {
@@ -397,7 +412,18 @@ int main()
                                     infoprint(map_socket_clients[sock].id,map_socket_clients[sock].hdf_type,map_socket_clients[sock].bss_type,map_socket_clients[sock].life_time);
                                     printf("USER ID: %d connect success!!!\n\n\n",map_socket_clients[sock].id);
                                     bzero(buf_count,sizeof(buf_count));
-                                    sprintf(buf_count,"Poisson arrival rate = %d\nclient count now = %lu\n",MINCLIENTSEC,map_socket_clients.size());
+                                    if(isChangeShowClientSec==true)
+                                    {
+                                        if(map_socket_clients.size()>TARGETCLIENTSEC-400)
+                                        {
+                                            sprintf(buf_count,"Poisson arrival rate = %d\nclient count now = %lu\n",MINCLIENTSEC,map_socket_clients.size());
+                                            isChangeShowClientSec=false;
+                                        }
+                                        else
+                                            sprintf(buf_count,"Poisson arrival rate = %d\nclient count now = %lu\n",CLIENTSEC-100,map_socket_clients.size());
+                                    }
+                                    else
+                                        sprintf(buf_count,"Poisson arrival rate = %d\nclient count now = %lu\n",MINCLIENTSEC,map_socket_clients.size());
                                     res=write(pipecntonly,buf_count,sizeof(buf_count));
                                     if(res==-1)
                                     {
@@ -472,7 +498,18 @@ void closesocketevent(int sock,int res,int pipecntonly,int epfd)
             map_socket_clients.erase(map_int_client_it);
 
             bzero(buf_count,sizeof(buf_count));
-            sprintf(buf_count,"Poisson arrival rate = %d\nclient count now = %lu\n",MINCLIENTSEC,map_socket_clients.size());
+            if(isChangeShowClientSec==true)
+            {
+                if(map_socket_clients.size()>TARGETCLIENTSEC-400)
+                {
+                    sprintf(buf_count,"Poisson arrival rate = %d\nclient count now = %lu\n",MINCLIENTSEC,map_socket_clients.size());
+                    isChangeShowClientSec=false;
+                }
+                else
+                    sprintf(buf_count,"Poisson arrival rate = %d\nclient count now = %lu\n",CLIENTSEC-100,map_socket_clients.size());
+            }
+            else
+                sprintf(buf_count,"Poisson arrival rate = %d\nclient count now = %lu\n",MINCLIENTSEC,map_socket_clients.size());
             res=write(pipecntonly,buf_count,sizeof(buf_count));
             if(res==-1)
             {
@@ -485,7 +522,18 @@ void closesocketevent(int sock,int res,int pipecntonly,int epfd)
 
         bzero(buf_count,sizeof(buf_count));
 
-        sprintf(buf_count,"Poisson arrival rate = %d\nclient count now = %lu\n",MINCLIENTSEC,map_socket_clients.size());
+        if(isChangeShowClientSec==true)
+        {
+            if(map_socket_clients.size()>TARGETCLIENTSEC-400)
+            {
+                sprintf(buf_count,"Poisson arrival rate = %d\nclient count now = %lu\n",MINCLIENTSEC,map_socket_clients.size());
+                isChangeShowClientSec=false;
+            }
+            else
+                sprintf(buf_count,"Poisson arrival rate = %d\nclient count now = %lu\n",CLIENTSEC-100,map_socket_clients.size());
+        }
+        else
+            sprintf(buf_count,"Poisson arrival rate = %d\nclient count now = %lu\n",MINCLIENTSEC,map_socket_clients.size());
         res=write(pipecntonly,buf_count,sizeof(buf_count));
         if(res==-1)
         {
