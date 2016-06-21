@@ -3,6 +3,9 @@
 #include <sys/types.h>//mkfifo
 #include <sys/stat.h>//mkfifo
 #include <limits.h> //PIPE_BUF定义
+#include <sys/timerfd.h>
+#include <sys/time.h>
+#include <time.h>
 
 #define ratio_hdf 11
 #define ratio_bss 3
@@ -17,6 +20,7 @@ const int SENDDATANUM=5;
 
 map<int,int> map_ID_sockets;//从1开始
 map<int,CLIENT> map_socket_clients;
+map<int,int> map_timerfd_IDs;//从1开始
 
 //hash函数生成密钥
 unsigned int JSHash(char* str)
@@ -99,7 +103,8 @@ int main()
     serverAddr.sin_port = htons(SERVER_PORT);  ///服务器端口
     //serverAddr.sin_addr.s_addr = inet_addr("121.42.143.201");  ///服务器ip
     //serverAddr.sin_addr.s_addr = inet_addr("192.168.0.103");
-    serverAddr.sin_addr.s_addr = inet_addr("192.168.1.103");
+    //serverAddr.sin_addr.s_addr = inet_addr("192.168.1.103");
+    serverAddr.sin_addr.s_addr = inet_addr("192.168.1.107");
     //serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
     //serverAddr.sin_addr.s_addr = inet_addr("192.168.43.172");
 
@@ -319,6 +324,29 @@ int main()
                                 strcat(send_message,"");
 
                                 sendto(map_ID_sockets[ID],send_message,sizeof(CLIENT)+ORDER_LEN+sizeof(""),0,(struct sockaddr*)&serverAddr,sizeof(serverAddr));
+
+                                //system("bash vlctest.sh > output.txt 2>&1 &");
+
+                                /*struct timespec now;
+                                if(clock_gettime(CLOCK_REALTIME,&now)==-1)
+                                {
+                                    printf("clock_gettime error.\n");
+                                    return -1;
+                                }
+                                struct itimerspec new_value;
+                                new_value.it_value.tv_sec=now.tv_sec+(int)sendUser.life_time;
+                                new_value.it_value.tv_nsec=(sendUser.life_time-(int)sendUser.life_time*1.0)*1000000000;
+                                new_value.it_interval.tv_sec=0;
+                                new_value.it_interval.tv_nsec=0;
+                                int timerfd=timerfd_create(CLOCK_REALTIME,0);
+                                while(timerfd==-1)
+                                {
+                                    timerfd=timerfd_create(CLOCK_REALTIME,0);
+                                }
+                                map_timerfd_IDs[timerfd]=sendUser.id;
+                                addfd(epfd, timerfd, true);
+                                timerfd_settime(timerfd,TFD_TIMER_ABSTIME,&new_value,NULL);*/
+
                             }
                             else if(strcmp(order,"-1")==0)//关闭当前socket
                             {
@@ -348,8 +376,9 @@ int main()
                                 {
                                     fprintf(stderr, "Write error on pipe\n");
                                 }
-
+                                system("bash vlcstop.sh > output.txt 2>&1 &");
                                 MakeNewClient(serverAddr,epfd);
+
                             }
                             else if(strcmp(order,"01")==0)//发送数据
                             {
@@ -364,8 +393,28 @@ int main()
                             }
                         }
                     }
-                    else//从服务器接收的
+                    else if(map_timerfd_IDs.find(events[i].data.fd)!=map_timerfd_IDs.end())
                     {
+                        //printf("timerfd!\n");
+                        int timerfd=events[i].data.fd;
+                        int id=map_timerfd_IDs[timerfd];
+                        int sock=map_ID_sockets[id];
+                        close(timerfd);
+                        delfd(epfd, timerfd, true);
+                        map_timerfd_IDs.erase(map_timerfd_IDs.find(events[i].data.fd));
+                        if(map_socket_clients.find(sock)!=map_socket_clients.end())
+                        {
+                            //printf("The client id = %d is timeout !!!\n",map_socket_clients[sock].id);
+                            closesocketevent(sock,res,pipecntonly,epfd);
+                            //printf("timeout and start vlcstop\n");
+                            system("bash vlcstop.sh > output.txt 2>&1 &");
+                            //printf("timeout and over vlcstop\n");
+                            MakeNewClient(serverAddr,epfd);
+                        }
+
+                    }
+                    else//从服务器接收的
+                    {/*
                         //服务端发来消息
                         int sock=events[i].data.fd;
 
@@ -377,8 +426,6 @@ int main()
                         // ret= 0 服务端将该socket关闭
                         if(ret <= 0)
                         {
-                            /*perror("Receive Data Failed:");
-                            continue;*/
                             closesocketevent(sock,res,pipecntonly,epfd);
                             MakeNewClient(serverAddr,epfd);
                         }
@@ -392,9 +439,13 @@ int main()
                             {
                                 if(map_socket_clients.find(sock)!=map_socket_clients.end())
                                 {
-                                    printf("The client id = %d is timeout !!!\n",map_socket_clients[sock].id);
+                                    printf("The user id = %d is timeout !!!\n",map_socket_clients[sock].id);
                                     closesocketevent(sock,res,pipecntonly,epfd);
+                                    //printf("timeout and start vlcstop\n");
+                                    system("bash vlcstop.sh > output.txt 2>&1 &");
+                                    //printf("timeout and over vlcstop\n");
                                     MakeNewClient(serverAddr,epfd);
+
                                 }
                             }
                             else if(strcmp(message,"-3")==0)//throw out for band
@@ -403,7 +454,9 @@ int main()
                                 {
                                     map_socket_clients[sock].state=1;
                                     closesocketevent(sock,res,pipecntonly,epfd);
+                                    system("bash vlcstop.sh > output.txt 2>&1 &");
                                     MakeNewClient(serverAddr,epfd);
+
                                 }
                             }
                             else if(strcmp(message,"-4")==0)//reject for band
@@ -412,7 +465,9 @@ int main()
                                 {
                                     map_socket_clients[sock].state=2;
                                     closesocketevent(sock,res,pipecntonly,epfd);
+                                    system("bash vlcstop.sh > output.txt 2>&1 &");
                                     MakeNewClient(serverAddr,epfd);
+
                                 }
                             }
                             else if(strcmp(message,"-5")==0)//reject for db
@@ -421,7 +476,9 @@ int main()
                                 {
                                     map_socket_clients[sock].state=3;
                                     closesocketevent(sock,res,pipecntonly,epfd);
+                                    system("bash vlcstop.sh > output.txt 2>&1 &");
                                     MakeNewClient(serverAddr,epfd);
+
                                 }
                             }
                             else  if(strcmp(message,"02")==0)//come in
@@ -438,9 +495,11 @@ int main()
                                     {
                                         fprintf(stderr, "Write error on pipe\n");
                                     }
+                                    //system("bash vlctest.sh > output.txt 2>&1 &");
                                 }
                             }
                         }
+                        */
                     }
                 }//for
             }//while
@@ -486,22 +545,22 @@ void closesocketevent(int sock,int res,int pipecntonly,int epfd)
         {
             if(map_int_client_it->second.state==0)
             {
-                printf("USER ID%d This service's duration is end !!!\n\n",map_int_client_it->second.id);
+                printf("USER ID : %d This service's duration is end !!!\n\n",map_int_client_it->second.id);
             }
             else if(map_int_client_it->second.state==1)
             {
                 infoprint(map_socket_clients[sock].id,map_socket_clients[sock].hdf_type,map_socket_clients[sock].bss_type,map_socket_clients[sock].life_time);
-                printf("USER ID%d bandwidth occupation,user  thrown out !!!\n\n",map_int_client_it->second.id);
+                printf("USER ID : %d bandwidth occupation,user  thrown out !!!\n\n",map_int_client_it->second.id);
             }
             else if(map_int_client_it->second.state==2)
             {
                 infoprint(map_socket_clients[sock].id,map_socket_clients[sock].hdf_type,map_socket_clients[sock].bss_type,map_socket_clients[sock].life_time);
-                printf("USER ID%d remaining bandwidth is not enough, connection closed!!!\n\n",map_int_client_it->second.id);
+                printf("USER ID : %d remaining bandwidth is not enough, connection closed!!!\n\n",map_int_client_it->second.id);
             }
             else if(map_int_client_it->second.state==3)
             {
                 infoprint(map_socket_clients[sock].id,map_socket_clients[sock].hdf_type,map_socket_clients[sock].bss_type,map_socket_clients[sock].life_time);
-                printf("USER ID%d Incorrect username or password ,connection failed!!!\n\n",map_int_client_it->second.id);
+                printf("USER ID : %d Incorrect username or password ,connection failed!!!\n\n",map_int_client_it->second.id);
             }
 
             map_socket_clients.erase(map_int_client_it);
@@ -609,4 +668,26 @@ void MakeNewClient(struct sockaddr_in serverAddr,int epfd)
     strcat(send_message,"");
 
     sendto(map_ID_sockets[ID],send_message,sizeof(CLIENT)+ORDER_LEN+sizeof(""),0,(struct sockaddr*)&serverAddr,sizeof(serverAddr));
+
+    system("bash vlctest.sh > output.txt 2>&1 &");
+
+    struct timespec now;
+    if(clock_gettime(CLOCK_REALTIME,&now)==-1)
+    {
+        printf("clock_gettime error.\n");
+        //return -1;
+    }
+    struct itimerspec new_value;
+    new_value.it_value.tv_sec=now.tv_sec+(int)sendUser.life_time;
+    new_value.it_value.tv_nsec=(sendUser.life_time-(int)sendUser.life_time*1.0)*1000000000;
+    new_value.it_interval.tv_sec=0;
+    new_value.it_interval.tv_nsec=0;
+    int timerfd=timerfd_create(CLOCK_REALTIME,0);
+    while(timerfd==-1)
+    {
+        timerfd=timerfd_create(CLOCK_REALTIME,0);
+    }
+    map_timerfd_IDs[timerfd]=sendUser.id;
+    addfd(epfd, timerfd, true);
+    timerfd_settime(timerfd,TFD_TIMER_ABSTIME,&new_value,NULL);
 }

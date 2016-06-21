@@ -219,6 +219,7 @@ int main()
                 {
                     ID=i1;
                     band=i2;
+                    sscanf(cs2,"%d",&total_clients);
                     isFresh=true;
                     printf("\033[8;0H");//把光标定位在0列,7行
                     printf("\033[K");
@@ -228,16 +229,23 @@ int main()
                     printf("User ID : %4d connected\n",ID);
                     printf("\033[3;0H");//把光标定位在0列,2行
                     printf("\033[K");
-                    printf("The bandwidth allocated to the user is  : %3d\n",band);
-                    printf("\033[0;0H");//把光标定位在0,0*/
+                    printf("The bandwidth allocated to the user is  : %3d\n",band);*/
+                    printf("\033[4;0H");//把光标定位在0列,3行
+                    printf("\033[K");
+                    printf("Now there are %4d users in the satellite. \n",total_clients);
+                    printf("\033[0;0H");//把光标定位在0,0
                 }
                 else if(strcmp(cs1,"qos")==0)
                 {
                     qos=i1;
+                    total_clients=i2;
                     isFresh=true;
                     printf("\033[3;0H");//把光标定位在0列,2行
                     printf("\033[K");
                     printf("The QoS is  : %4d\n",qos);
+                    printf("\033[4;0H");//把光标定位在0列,3行
+                    printf("\033[K");
+                    printf("Now there are %4d users in the satellite. \n",total_clients);
                     printf("\033[0;0H");//把光标定位在0,0
                 }
             }

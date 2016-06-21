@@ -333,13 +333,16 @@ int main(int argc, char *argv[])
                     printf("Now there are %d users in the satellite.\n\n", (int)map_id_clients.size());
 
                     bzero(buffer,sizeof(buffer));
-                    sprintf(buffer,"come %d %d %s",client.id, band,"");
+                    char clientnumtmp[BUF_SIZE];
+                    bzero(clientnumtmp,sizeof(clientnumtmp));
+                    sprintf(clientnumtmp,"%d",(int)map_id_clients.size());
+                    sprintf(buffer,"come %d %d %s",client.id, band,clientnumtmp);
                     //向FIFO文件写数据
                     ret_len=write(pipe_fd, buffer, sizeof(buffer));
                     if(ret_len==-1) printf("write error on fifo7\n");
 
                     bzero(buffer,sizeof(buffer));
-                    sprintf(buffer,"qos %d %d %s",(int)Umax, 0,"");
+                    sprintf(buffer,"qos %d %d %s",(int)Umax, (int)map_id_clients.size(),"");
                     //向FIFO文件写数据
                     ret_len=write(pipe_fd, buffer, sizeof(buffer));
                     if(ret_len==-1) printf("write error on fifo0\n");

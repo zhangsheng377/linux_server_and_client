@@ -1,0 +1,10 @@
+vlcstop.sh: 行 4: [[-z: 未找到命令
+vlc pid:
+5819 5820 5854 5855 5857
+5819
+vlcstop.sh: 行 13: [0: 未找到命令
+kill task failed
+5820
+vlcstop.sh: 行 13: [0: 未找到命令
+kill task failed
+5854
