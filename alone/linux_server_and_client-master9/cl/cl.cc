@@ -104,7 +104,7 @@ int main()
     //serverAddr.sin_addr.s_addr = inet_addr("121.42.143.201");  ///服务器ip
     //serverAddr.sin_addr.s_addr = inet_addr("192.168.0.103");
     //serverAddr.sin_addr.s_addr = inet_addr("192.168.1.103");
-    serverAddr.sin_addr.s_addr = inet_addr("192.168.1.107");
+    serverAddr.sin_addr.s_addr = inet_addr("192.168.1.102");
     //serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
     //serverAddr.sin_addr.s_addr = inet_addr("192.168.43.172");
 
@@ -669,7 +669,8 @@ void MakeNewClient(struct sockaddr_in serverAddr,int epfd)
 
     sendto(map_ID_sockets[ID],send_message,sizeof(CLIENT)+ORDER_LEN+sizeof(""),0,(struct sockaddr*)&serverAddr,sizeof(serverAddr));
 
-    system("bash vlctest.sh > output.txt 2>&1 &");
+    //system("bash vlctest.sh > output.txt 2>&1 &");
+    system("bash vlctest.sh &");
 
     struct timespec now;
     if(clock_gettime(CLOCK_REALTIME,&now)==-1)

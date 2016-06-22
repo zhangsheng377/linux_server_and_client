@@ -12,6 +12,8 @@ map<int ,CLIENT> map_id_clients;
 //map<int,int> map_timerfd_sockets;
 map<int,int> map_timerfd_ids;
 
+in_addr_t CLIENTADDR1;
+
 int main(int argc, char *argv[])
 {
     //服务器IP + port
@@ -20,6 +22,8 @@ int main(int argc, char *argv[])
     serverAddr.sin_port = htons(SERVER_PORT);
     //serverAddr.sin_addr.s_addr = inet_addr(SERVER_IP);
     serverAddr.sin_addr.s_addr = htonl(INADDR_ANY);
+
+    CLIENTADDR1=inet_addr("192.168.1.110");//客户端1的ip
 
     struct rlimit rt;//资源限制符
     //设置每个进程允许打开的最大文件数
@@ -134,7 +138,8 @@ int main(int argc, char *argv[])
                     continue;
                 }*/
 
-                if(buf[0]=='\0'){
+                if(buf[0]=='\0')
+                {
                     continue;
                 }
 
@@ -377,6 +382,15 @@ int main(int argc, char *argv[])
                     {
                         sendto(listener,message_send,strlen(message_send),0,(struct sockaddr*)&(client.client_address),sizeof(client.client_address));
                     }
+
+                    if(client.client_address.sin_addr.s_addr==CLIENTADDR1)
+                    {
+                        printf("open1\n");
+                    }
+                    else
+                    {
+                        printf("open2\n");
+                    }
                 }//end strcmp 00
                 else if(strcmp(order,"-1")==0)//此socket退出
                 {
@@ -410,14 +424,16 @@ int main(int argc, char *argv[])
                     map<int,CLIENT>::iterator map_int_client_it;
                     map_int_client_it=map_id_clients.find(client.id);
 
-                    if(map_int_client_it!=map_id_clients.end()){
+                    if(map_int_client_it!=map_id_clients.end())
+                    {
                         printf("USER ID = %d says: %s\n", client.id,message);
                         char message_send[BUF_SIZE];
                         bzero(message_send, BUF_SIZE);
                         sprintf(message_send, "Server received User ID=%d 's message.\n",client.id);
                         sendto(listener,message_send,strlen(message_send),0,(struct sockaddr*)&(client.client_address),sizeof(client.client_address));
                     }
-                    else{
+                    else
+                    {
                         char message_send[BUF_SIZE];
                         bzero(message_send, BUF_SIZE);
                         sprintf(message_send, "Server says: Please send the user's info first.\n");
@@ -445,6 +461,15 @@ int main(int argc, char *argv[])
                 bzero(message_send, BUF_SIZE);
                 sprintf(message_send, "-2");
                 sendto(listener,message_send,strlen(message_send),0,(struct sockaddr*)&(map_id_clients[id].client_address),sizeof(map_id_clients[id].client_address));
+
+                if(map_id_clients[id].client_address.sin_addr.s_addr==CLIENTADDR1)
+                {
+                    printf("close1\n");
+                }
+                else
+                {
+                    printf("close2\n");
+                }
 
                 map<int,CLIENT>::iterator map_int_client_it;
                 map_int_client_it=map_id_clients.find(id);
