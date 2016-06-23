@@ -409,6 +409,7 @@ int main()
                             //printf("timeout and start vlcstop\n");
                             system("bash vlcstop.sh > output.txt 2>&1 &");
                             //printf("timeout and over vlcstop\n");
+                            usleep(100000);
                             MakeNewClient(serverAddr,epfd);
                         }
 

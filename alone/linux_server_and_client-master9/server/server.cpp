@@ -6,6 +6,7 @@
 #include <map>
 #include "vertify.h"
 #include "zhangxiaofei.hpp"
+#include "SerialWrite.hpp"
 
 //map<int ,CLIENT> clients_map;
 map<int ,CLIENT> map_id_clients;
@@ -13,6 +14,8 @@ map<int ,CLIENT> map_id_clients;
 map<int,int> map_timerfd_ids;
 
 in_addr_t CLIENTADDR1;
+int serialfd;
+int nread;
 
 int main(int argc, char *argv[])
 {
@@ -93,6 +96,18 @@ int main(int argc, char *argv[])
     //以只写非阻塞方式打开FIFO文件，以只读方式打开数据文件
     pipe_fd = open(fifo_name, open_mode);
     printf("Process %d result %d\n", getpid(), pipe_fd);
+
+
+    if((serialfd=open_port(serialfd,24))<0)
+    {
+        perror("open_port error");
+        return 1;
+    }
+    if((set_opt(serialfd,115200,8,'N',1))<0)
+    {
+        perror("set_opt error");
+        return 1;
+    }
 
     //主循环
     while(1)
@@ -386,10 +401,18 @@ int main(int argc, char *argv[])
                     if(client.client_address.sin_addr.s_addr==CLIENTADDR1)
                     {
                         printf("open1\n");
+                        char command[1024]="insmod ./nand/pci9030_dual_sig8.ko\n";
+                        nread=write(serialfd,command,strlen(command));
+                        char command1[1024]="./nand/app_dual9 1 1 0001c050 00000001\n";
+                        nread=write(serialfd,command1,strlen(command1));
                     }
                     else
                     {
                         printf("open2\n");
+                        char command[1024]="insmod ./nand/pci9030_dual_sig8.ko\n";
+                        nread=write(serialfd,command,strlen(command));
+                        char command1[1024]="./nand/app_dual9 1 1 0001c054 00000001\n";
+                        nread=write(serialfd,command1,strlen(command1));
                     }
                 }//end strcmp 00
                 else if(strcmp(order,"-1")==0)//此socket退出
@@ -465,10 +488,18 @@ int main(int argc, char *argv[])
                 if(map_id_clients[id].client_address.sin_addr.s_addr==CLIENTADDR1)
                 {
                     printf("close1\n");
+                    char command[1024]="insmod ./nand/pci9030_dual_sig8.ko\n";
+                    nread=write(serialfd,command,strlen(command));
+                    char command1[1024]="./nand/app_dual9 1 1 0001c050 00000000\n";
+                    nread=write(serialfd,command1,strlen(command1));
                 }
                 else
                 {
                     printf("close2\n");
+                    char command[1024]="insmod ./nand/pci9030_dual_sig8.ko\n";
+                    nread=write(serialfd,command,strlen(command));
+                    char command1[1024]="./nand/app_dual9 1 1 0001c054 00000000\n";
+                    nread=write(serialfd,command1,strlen(command1));
                 }
 
                 map<int,CLIENT>::iterator map_int_client_it;

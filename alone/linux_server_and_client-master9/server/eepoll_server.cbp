@@ -35,6 +35,7 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="SerialWrite.hpp" />
 		<Unit filename="server.cpp" />
 		<Unit filename="sqlite3.a" />
 		<Unit filename="utility.h" />
