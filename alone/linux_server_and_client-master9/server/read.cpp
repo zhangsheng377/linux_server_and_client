@@ -244,8 +244,8 @@ int main()
                     printf("\033[K");
                     printf("The QoS is  : %4d\n",qos);
                     printf("\033[4;0H");//把光标定位在0列,3行
-                    printf("\033[K");
-                    printf("Now there are %4d users in the satellite. \n",total_clients);
+                    /*printf("\033[K");
+                    printf("Now there are %4d users in the satellite. \n",total_clients);*/
                     printf("\033[0;0H");//把光标定位在0,0
                 }
             }
