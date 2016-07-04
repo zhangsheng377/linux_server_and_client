@@ -190,7 +190,7 @@ int main(int argc, char *argv[])
 
                     if(returnband[6]==0)//接入不成功
                     {
-                        printf("================ switchcasein = false ================\n" );
+                        printf("================ Radio Resource Management = false ================\n" );
                         printf("Reject USER ID= %d .\n\n",client.id);
 
                         char message_send[BUF_SIZE];
@@ -227,7 +227,7 @@ int main(int argc, char *argv[])
                         ret_len=write(pipe_fd, buffer, sizeof(buffer));
                         if(ret_len==-1) printf("write error on fifo0\n");
 
-                        printf("================ switchcasein = true ================\n" );
+                        printf("================ Radio Resource Management = true ================\n" );
 
                         if(returnband[8]>0)//需要踢人
                         {
